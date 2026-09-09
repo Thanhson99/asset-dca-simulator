@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Mô phỏng đầu tư định kỳ</title>
+    <link rel="stylesheet" href="assets/styles/main.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-copy">
+        <p class="header-kicker">Asset DCA Simulator</p>
+        <h1 class="header-title">
+          <span>Mô phỏng chiến lược</span>
+          <span class="header-title__accent">mua định kỳ</span>
+        </h1>
+        <p class="header-lede">
+          Kiểm tra biến động danh mục khi mua đều mỗi tháng, dựa trên dữ liệu giá thực tế.
+        </p>
+      </div>
+    </header>
+
+    <main class="page-shell">
+      <section class="control-panel" aria-label="Bộ lọc biểu đồ">
+        <label>
+          <span>Mã</span>
+          <input
+            id="symbol-input"
+            class="symbol-combobox"
+            type="search"
+            value="FPT"
+            list="stock-symbol-list"
+            placeholder="Tìm mã"
+            autocomplete="off"
+          />
+          <datalist id="stock-symbol-list"></datalist>
+        </label>
+        <label>
+          <span>Từ ngày</span>
+          <input id="from-input" class="date-input" type="text" value="2026-01-01" readonly />
+        </label>
+        <label>
+          <span>Đến ngày</span>
+          <input id="to-input" class="date-input" type="text" value="2026-09-09" readonly />
+        </label>
+        <label>
+          <span>Thời gian chạy (s)</span>
+          <input id="duration-input" type="number" value="10" min="1" max="60" step="1" />
+        </label>
+        <label>
+          <span>Chế độ</span>
+          <select id="mode-input">
+            <option value="price">Chỉ xem giá</option>
+            <option value="dca" selected>Đầu tư hằng tháng</option>
+          </select>
+        </label>
+        <label>
+          <span>Số tiền/tháng</span>
+          <input id="monthly-amount-input" type="text" value="1.000.000" inputmode="numeric" autocomplete="off" />
+        </label>
+        <label>
+          <span>Cách mua</span>
+          <select id="buy-strategy-input">
+            <option value="fixed_day">Ngày cố định</option>
+            <option value="first_trading_day">Đầu tháng</option>
+            <option value="last_trading_day">Cuối tháng</option>
+            <option value="average_first_5">Chia 5 ngày đầu</option>
+            <option value="monthly_average">Giá trung bình tháng</option>
+            <option value="monthly_low">Giá thấp nhất tháng</option>
+          </select>
+        </label>
+        <button id="play-button" type="button">Xem biểu đồ</button>
+      </section>
+
+      <section class="chart-theme-panel" aria-label="Tông màu biểu đồ">
+        <div class="chart-theme-panel__heading">
+          <span>Tông màu biểu đồ</span>
+        </div>
+        <label class="theme-switch">
+          <input id="chart-theme-input" type="checkbox" />
+          <span class="theme-switch__track">
+            <span>Sáng</span>
+            <span>Tối</span>
+          </span>
+        </label>
+      </section>
+
+      <details class="advanced-chart-options">
+        <summary>Tùy chỉnh nâng cao</summary>
+        <div class="style-panel" aria-label="Chỉnh màu biểu đồ">
+          <div class="style-panel__heading">
+            <span>Chỉnh màu biểu đồ</span>
+          </div>
+          <label>
+            <span>FPT</span>
+            <input id="line-color-input" type="color" value="#459ef2" />
+          </label>
+          <label>
+            <span>Đầu tư</span>
+            <input id="investment-color-input" type="color" value="#e042ff" />
+          </label>
+          <label>
+            <span>Chữ</span>
+            <input id="text-color-input" type="color" value="#000000" />
+          </label>
+          <label>
+            <span>Nền</span>
+            <input id="chart-bg-color-input" type="color" value="#fffefa" />
+          </label>
+          <label>
+            <span>Đỉnh</span>
+            <input id="high-color-input" type="color" value="#f13b3b" />
+          </label>
+          <label>
+            <span>Đáy</span>
+            <input id="low-color-input" type="color" value="#f13b3b" />
+          </label>
+        </div>
+
+        <div class="chart-options-panel" aria-label="Đường hiển thị trên biểu đồ">
+          <div class="chart-options-panel__heading">
+            <span>Hiển thị trên biểu đồ</span>
+          </div>
+          <label class="toggle-control">
+            <input id="value-line-input" type="checkbox" checked />
+            <span>Giá FPT</span>
+          </label>
+          <label class="toggle-control">
+            <input id="invested-line-input" type="checkbox" checked />
+            <span>Giá trị đầu tư</span>
+          </label>
+          <label class="toggle-control">
+            <input id="line-glow-input" type="checkbox" />
+            <span>Làm nổi đường</span>
+          </label>
+        </div>
+      </details>
+
+      <section id="simulation-summary" class="simulation-summary" aria-label="Tổng kết đầu tư"></section>
+
+      <section class="chart-section">
+        <div class="section-heading">
+          <div>
+            <p id="chart-eyebrow" class="eyebrow">DCA simulator</p>
+            <h2 id="chart-title">Biểu đồ mô phỏng FPT</h2>
+          </div>
+          <span id="chart-status" class="source-label">Đang tải</span>
+        </div>
+
+        <div class="chart-frame">
+          <button id="fullscreen-button" class="chart-icon-button" type="button" aria-label="Bật tắt toàn màn hình" title="Toàn màn hình">
+            ⛶
+          </button>
+          <div id="chart-loading" class="chart-loading" hidden>
+            <span></span>
+            <strong>Đang tải dữ liệu</strong>
+          </div>
+          <div id="chart-tooltip" class="chart-tooltip" hidden></div>
+          <canvas id="price-chart" width="1200" height="460" aria-label="Biểu đồ giá FPT và giá trị đầu tư"></canvas>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>
+        <span>Lưu ý</span>
+        <strong>Chỉ dùng để mô phỏng, không phải khuyến nghị đầu tư.</strong>
+      </p>
+    </footer>
+
+    <script type="module" src="assets/scripts/main.js"></script>
+  </body>
+</html>

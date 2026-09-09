@@ -1,0 +1,21 @@
+.metric {
+  min-height: 108px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  padding: 16px;
+  box-shadow: var(--shadow);
+}
+
+.metric-label {
+  display: block;
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.metric strong {
+  display: block;
+  margin-top: 14px;
+  font-size: 1.35rem;
+  line-height: 1.15;
+}
