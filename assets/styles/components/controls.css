@@ -473,7 +473,7 @@
 }
 
 .control-panel button {
-  align-self: end;
+  align-self: start;
   min-width: 92px;
   min-height: 42px;
   border: 0;
@@ -508,6 +508,10 @@
 @media (max-width: 560px) {
   .control-panel {
     grid-template-columns: 1fr;
+  }
+
+  .control-panel button {
+    margin-top: 0;
   }
 
   .simulation-summary {
