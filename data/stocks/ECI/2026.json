@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "assetId": "ECI",
+  "assetType": "stock",
+  "market": "VN",
+  "currency": "VND",
+  "year": 2026,
+  "source": "kbs-public-poc",
+  "generatedAt": "2026-09-10T01:42:00.976Z",
+  "rows": [
+    {
+      "date": "2026-03-27",
+      "open": 9500,
+      "high": 10000,
+      "low": 9400,
+      "close": 9400,
+      "volume": 13100,
+      "value": 130320000
+    },
+    {
+      "date": "2026-06-26",
+      "open": 8500,
+      "high": 9200,
+      "low": 8500,
+      "close": 9200,
+      "volume": 300,
+      "value": 2620000
+    }
+  ]
+}

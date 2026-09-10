@@ -1,0 +1,189 @@
+{
+  "version": 1,
+  "assetId": "DBT",
+  "assetType": "stock",
+  "market": "VN",
+  "currency": "VND",
+  "year": 2015,
+  "source": "kbs-public-poc",
+  "generatedAt": "2026-09-10T01:37:19.793Z",
+  "rows": [
+    {
+      "date": "2015-11-26",
+      "open": 6758,
+      "high": 6826,
+      "low": 6467,
+      "close": 6467,
+      "volume": 12500,
+      "value": null
+    },
+    {
+      "date": "2015-11-27",
+      "open": 6615,
+      "high": 6615,
+      "low": 6611,
+      "close": 6611,
+      "volume": 1000,
+      "value": null,
+      "flags": [
+        "ohlc_range_repaired"
+      ]
+    },
+    {
+      "date": "2015-11-30",
+      "open": 6830,
+      "high": 6830,
+      "low": 6826,
+      "close": 6826,
+      "volume": 100,
+      "value": null,
+      "flags": [
+        "ohlc_range_repaired"
+      ]
+    },
+    {
+      "date": "2015-12-02",
+      "open": 6291,
+      "high": 6826,
+      "low": 6180,
+      "close": 6288,
+      "volume": 5600,
+      "value": null
+    },
+    {
+      "date": "2015-12-04",
+      "open": 6758,
+      "high": 6758,
+      "low": 6755,
+      "close": 6755,
+      "volume": 100,
+      "value": null,
+      "flags": [
+        "ohlc_range_repaired"
+      ]
+    },
+    {
+      "date": "2015-12-09",
+      "open": 6291,
+      "high": 6719,
+      "low": 6288,
+      "close": 6719,
+      "volume": 200,
+      "value": null
+    },
+    {
+      "date": "2015-12-14",
+      "open": 6147,
+      "high": 6288,
+      "low": 6144,
+      "close": 6288,
+      "volume": 1100,
+      "value": null
+    },
+    {
+      "date": "2015-12-15",
+      "open": 6542,
+      "high": 6542,
+      "low": 5856,
+      "close": 6431,
+      "volume": 1200,
+      "value": null,
+      "flags": [
+        "ohlc_range_repaired"
+      ]
+    },
+    {
+      "date": "2015-12-16",
+      "open": 6255,
+      "high": 6255,
+      "low": 6252,
+      "close": 6252,
+      "volume": 200,
+      "value": null,
+      "flags": [
+        "ohlc_range_repaired"
+      ]
+    },
+    {
+      "date": "2015-12-17",
+      "open": 6399,
+      "high": 6399,
+      "low": 6395,
+      "close": 6395,
+      "volume": 100,
+      "value": null,
+      "flags": [
+        "ohlc_range_repaired"
+      ]
+    },
+    {
+      "date": "2015-12-21",
+      "open": 5859,
+      "high": 5859,
+      "low": 5856,
+      "close": 5856,
+      "volume": 200,
+      "value": null,
+      "flags": [
+        "ohlc_range_repaired"
+      ]
+    },
+    {
+      "date": "2015-12-22",
+      "open": 6290,
+      "high": 6431,
+      "low": 6288,
+      "close": 6431,
+      "volume": 2600,
+      "value": null
+    },
+    {
+      "date": "2015-12-23",
+      "open": 6435,
+      "high": 6826,
+      "low": 5964,
+      "close": 6467,
+      "volume": 12200,
+      "value": null
+    },
+    {
+      "date": "2015-12-24",
+      "open": 5932,
+      "high": 6395,
+      "low": 5820,
+      "close": 6395,
+      "volume": 1300,
+      "value": null
+    },
+    {
+      "date": "2015-12-25",
+      "open": 5860,
+      "high": 6611,
+      "low": 5785,
+      "close": 6611,
+      "volume": 900,
+      "value": null
+    },
+    {
+      "date": "2015-12-29",
+      "open": 6866,
+      "high": 6866,
+      "low": 6862,
+      "close": 6862,
+      "volume": 100,
+      "value": null,
+      "flags": [
+        "ohlc_range_repaired"
+      ]
+    },
+    {
+      "date": "2015-12-31",
+      "open": 6291,
+      "high": 7365,
+      "low": 6288,
+      "close": 7365,
+      "volume": 20900,
+      "value": null
+    }
+  ]
+}

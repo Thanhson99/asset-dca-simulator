@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "assetId": "NVL",
+  "assetType": "stock",
+  "market": "VN",
+  "currency": "VND",
+  "year": 2016,
+  "source": "kbs-public-poc",
+  "generatedAt": "2026-09-10T01:39:11.848Z",
+  "rows": [
+    {
+      "date": "2016-12-28",
+      "open": 23863,
+      "high": 23863,
+      "low": 23863,
+      "close": 23863,
+      "volume": 7232660,
+      "value": null
+    },
+    {
+      "date": "2016-12-29",
+      "open": 24062,
+      "high": 24499,
+      "low": 23028,
+      "close": 23903,
+      "volume": 3217540,
+      "value": null
+    },
+    {
+      "date": "2016-12-30",
+      "open": 23863,
+      "high": 23903,
+      "low": 23226,
+      "close": 23903,
+      "volume": 2391160,
+      "value": null
+    }
+  ]
+}

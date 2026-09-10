@@ -8,18 +8,6 @@ mkdir "%ROOT_DIR%\assets\scripts\charts" 2>nul
 mkdir "%ROOT_DIR%\assets\scripts\data" 2>nul
 mkdir "%ROOT_DIR%\assets\scripts\ui" 2>nul
 mkdir "%ROOT_DIR%\assets\styles\components" 2>nul
-mkdir "%ROOT_DIR%\apps\web\public" 2>nul
-mkdir "%ROOT_DIR%\apps\web\src\components" 2>nul
-mkdir "%ROOT_DIR%\apps\web\src\charts" 2>nul
-mkdir "%ROOT_DIR%\apps\web\src\config" 2>nul
-mkdir "%ROOT_DIR%\apps\web\src\loaders" 2>nul
-mkdir "%ROOT_DIR%\apps\web\src\models" 2>nul
-mkdir "%ROOT_DIR%\apps\web\src\services" 2>nul
-mkdir "%ROOT_DIR%\apps\web\src\simulation" 2>nul
-mkdir "%ROOT_DIR%\apps\web\src\stores" 2>nul
-mkdir "%ROOT_DIR%\apps\web\src\types" 2>nul
-mkdir "%ROOT_DIR%\apps\web\src\utils" 2>nul
-mkdir "%ROOT_DIR%\apps\web\tests" 2>nul
 mkdir "%ROOT_DIR%\collector\bin" 2>nul
 mkdir "%ROOT_DIR%\collector\config" 2>nul
 mkdir "%ROOT_DIR%\collector\src\commands" 2>nul
@@ -40,7 +28,6 @@ mkdir "%ROOT_DIR%\data\stocks" 2>nul
 mkdir "%ROOT_DIR%\data\gold" 2>nul
 mkdir "%ROOT_DIR%\data\corporate-actions" 2>nul
 mkdir "%ROOT_DIR%\data\exports" 2>nul
-mkdir "%ROOT_DIR%\schemas" 2>nul
 mkdir "%ROOT_DIR%\scripts" 2>nul
 mkdir "%ROOT_DIR%\docs" 2>nul
 

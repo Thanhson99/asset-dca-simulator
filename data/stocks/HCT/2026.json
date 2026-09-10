@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "assetId": "HCT",
+  "assetType": "stock",
+  "market": "VN",
+  "currency": "VND",
+  "year": 2026,
+  "source": "kbs-public-poc",
+  "generatedAt": "2026-09-10T01:42:11.062Z",
+  "rows": [
+    {
+      "date": "2026-01-20",
+      "open": 10000,
+      "high": 10000,
+      "low": 10000,
+      "close": 10000,
+      "volume": 100,
+      "value": 1000000
+    },
+    {
+      "date": "2026-03-30",
+      "open": 10600,
+      "high": 10600,
+      "low": 10600,
+      "close": 10600,
+      "volume": 100,
+      "value": 1060000
+    }
+  ]
+}

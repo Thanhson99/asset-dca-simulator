@@ -39,8 +39,45 @@ export async function loadStockRange({ symbol, fromDate, toDate }) {
  * @returns {Promise<object[]>}
  */
 async function loadYearFiles(symbol, fromDate, toDate) {
-  const yearFiles = yearsBetween(fromDate, toDate).map((year) => loadStockYearIfExists(symbol, year));
+  const requestedYears = yearsBetween(fromDate, toDate);
+  const availableYears = await loadAvailableYears(symbol);
+  const years = availableYears.length > 0 ? requestedYears.filter((year) => availableYears.includes(year)) : requestedYears;
+  const yearFiles = years.map((year) => loadStockYearIfExists(symbol, year));
   return (await Promise.all(yearFiles)).filter(Boolean);
+}
+
+let stockIndexPromise = null;
+
+/**
+ * Read available local data years from the stock manifest when present.
+ *
+ * @param {string} symbol
+ * @returns {Promise<number[]>}
+ */
+async function loadAvailableYears(symbol) {
+  stockIndexPromise = stockIndexPromise || fetchStockIndex();
+  const index = await stockIndexPromise;
+  const asset = index.assets.find((item) => item.symbol === symbol);
+  return Array.isArray(asset?.years) ? asset.years : [];
+}
+
+/**
+ * Fetch the frontend stock manifest.
+ *
+ * @returns {Promise<object>}
+ */
+async function fetchStockIndex() {
+  try {
+    const response = await fetch("data/stocks/index.json");
+    if (!response.ok) {
+      return { assets: [] };
+    }
+
+    const data = await response.json();
+    return { assets: Array.isArray(data.assets) ? data.assets : [] };
+  } catch {
+    return { assets: [] };
+  }
 }
 
 /**

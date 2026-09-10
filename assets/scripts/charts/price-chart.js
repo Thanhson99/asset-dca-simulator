@@ -74,7 +74,29 @@ export function animateClosePriceChart(canvas, rows, options) {
  */
 export function drawStaticClosePriceChart(canvas, rows, theme = DEFAULT_CHART_THEME, options = {}) {
   const context = canvas.getContext("2d");
+  if (rows.length === 0) {
+    drawEmptyChart(context, canvas, theme);
+    return;
+  }
+
   drawChart(context, createChartState(canvas, rows, { ...options, theme }), rows, options.hoverIndex);
+}
+
+/**
+ * Draw a neutral canvas state before a dataset is selected.
+ *
+ * @param {CanvasRenderingContext2D} context
+ * @param {HTMLCanvasElement} canvas
+ * @param {object} theme
+ */
+function drawEmptyChart(context, canvas, theme) {
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  context.fillStyle = theme.background;
+  context.fillRect(0, 0, canvas.width, canvas.height);
+  context.fillStyle = theme.muted;
+  context.font = "600 18px system-ui";
+  context.textAlign = "center";
+  context.fillText("Chọn mã cổ phiếu và khoảng ngày để xem biểu đồ", canvas.width / 2, canvas.height / 2);
 }
 
 /**
@@ -442,12 +464,20 @@ function createPriceMarker(point, type) {
  * @param {number} index
  */
 function drawLatestLabels(context, state, row, index) {
-  if (state.showPrice) {
-    drawLatestPoint(context, pointForPrice(state, row, index), `${formatVnd(row.close)} VNĐ`, state.theme.price);
+  const pricePoint = state.showPrice ? pointForPrice(state, row, index) : null;
+  const investmentPoint = state.showInvestment ? pointForInvestment(state, row, index) : null;
+  const labelsAreClose = pricePoint && investmentPoint && Math.abs(pricePoint.y - investmentPoint.y) < 34;
+
+  if (pricePoint) {
+    drawLatestPoint(context, pricePoint, `${formatVnd(row.close)} VNĐ`, state.theme.price, {
+      labelOffsetY: labelsAreClose ? -18 : 7,
+    });
   }
 
-  if (state.showInvestment) {
-    drawLatestPoint(context, pointForInvestment(state, row, index), `${formatCompactVnd(row.investmentValue)} VNĐ`, state.theme.investment);
+  if (investmentPoint) {
+    drawLatestPoint(context, investmentPoint, `${formatCompactVnd(row.investmentValue)} VNĐ`, state.theme.investment, {
+      labelOffsetY: labelsAreClose ? 24 : 7,
+    });
   }
 }
 
@@ -458,8 +488,9 @@ function drawLatestLabels(context, state, row, index) {
  * @param {{x: number, y: number}} point
  * @param {string} label
  * @param {string} color
+ * @param {object} options
  */
-function drawLatestPoint(context, point, label, color) {
+function drawLatestPoint(context, point, label, color, options = {}) {
   context.fillStyle = color;
   context.beginPath();
   context.arc(point.x, point.y, 7, 0, Math.PI * 2);
@@ -467,7 +498,8 @@ function drawLatestPoint(context, point, label, color) {
 
   context.font = "700 20px system-ui";
   context.textAlign = "left";
-  context.fillText(label, point.x + 12, point.y + 7);
+  const labelY = clamp(point.y + (options.labelOffsetY ?? 7), 24, context.canvas.height - 24);
+  context.fillText(label, point.x + 12, labelY);
 }
 
 /**

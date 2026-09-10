@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "assetId": "CKV",
+  "assetType": "stock",
+  "market": "VN",
+  "currency": "VND",
+  "year": 2015,
+  "source": "kbs-public-poc",
+  "generatedAt": "2026-09-10T01:41:38.720Z",
+  "rows": [
+    {
+      "date": "2015-10-08",
+      "open": 7679,
+      "high": 8480,
+      "low": 7679,
+      "close": 8480,
+      "volume": 800,
+      "value": null,
+      "flags": [
+        "ohlc_range_repaired"
+      ]
+    },
+    {
+      "date": "2015-12-01",
+      "open": 7679,
+      "high": 8480,
+      "low": 7679,
+      "close": 8480,
+      "volume": 3100,
+      "value": null,
+      "flags": [
+        "ohlc_range_repaired"
+      ]
+    },
+    {
+      "date": "2015-12-18",
+      "open": 8533,
+      "high": 8533,
+      "low": 8533,
+      "close": 8533,
+      "volume": 200,
+      "value": null
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "version": 1,
+  "assetId": "ALT",
+  "assetType": "stock",
+  "market": "VN",
+  "currency": "VND",
+  "year": 2015,
+  "source": "kbs-public-poc",
+  "generatedAt": "2026-09-10T01:41:14.275Z",
+  "rows": [
+    {
+      "date": "2015-12-01",
+      "open": 5999,
+      "high": 6413,
+      "low": 5999,
+      "close": 6413,
+      "volume": 9800,
+      "value": null,
+      "flags": [
+        "ohlc_range_repaired"
+      ]
+    },
+    {
+      "date": "2015-12-02",
+      "open": 6558,
+      "high": 6952,
+      "low": 6558,
+      "close": 6952,
+      "volume": 100,
+      "value": null,
+      "flags": [
+        "ohlc_range_repaired"
+      ]
+    },
+    {
+      "date": "2015-12-03",
+      "open": 7117,
+      "high": 7544,
+      "low": 7117,
+      "close": 7544,
+      "volume": 100,
+      "value": null,
+      "flags": [
+        "ohlc_range_repaired"
+      ]
+    },
+    {
+      "date": "2015-12-04",
+      "open": 7626,
+      "high": 8083,
+      "low": 7626,
+      "close": 8083,
+      "volume": 100,
+      "value": null,
+      "flags": [
+        "ohlc_range_repaired"
+      ]
+    },
+    {
+      "date": "2015-12-07",
+      "open": 8236,
+      "high": 8730,
+      "low": 8236,
+      "close": 8730,
+      "volume": 100,
+      "value": null,
+      "flags": [
+        "ohlc_range_repaired"
+      ]
+    },
+    {
+      "date": "2015-12-14",
+      "open": 7874,
+      "high": 7874,
+      "low": 7874,
+      "close": 7874,
+      "volume": 2000,
+      "value": null
+    }
+  ]
+}

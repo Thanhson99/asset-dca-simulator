@@ -1,0 +1,84 @@
+{
+  "version": 1,
+  "assetId": "ECI",
+  "assetType": "stock",
+  "market": "VN",
+  "currency": "VND",
+  "year": 2015,
+  "source": "kbs-public-poc",
+  "generatedAt": "2026-09-10T01:42:00.969Z",
+  "rows": [
+    {
+      "date": "2015-10-06",
+      "open": 7052,
+      "high": 7806,
+      "low": 7052,
+      "close": 7806,
+      "volume": 100,
+      "value": null,
+      "flags": [
+        "ohlc_range_repaired"
+      ]
+    },
+    {
+      "date": "2015-10-07",
+      "open": 7735,
+      "high": 8008,
+      "low": 7234,
+      "close": 8008,
+      "volume": 3000,
+      "value": null,
+      "flags": [
+        "ohlc_range_repaired"
+      ]
+    },
+    {
+      "date": "2015-10-27",
+      "open": 6642,
+      "high": 7353,
+      "low": 6642,
+      "close": 7353,
+      "volume": 300,
+      "value": null,
+      "flags": [
+        "ohlc_range_repaired"
+      ]
+    },
+    {
+      "date": "2015-11-02",
+      "open": 6642,
+      "high": 7353,
+      "low": 6642,
+      "close": 7353,
+      "volume": 200,
+      "value": null,
+      "flags": [
+        "ohlc_range_repaired"
+      ]
+    },
+    {
+      "date": "2015-11-11",
+      "open": 6642,
+      "high": 7353,
+      "low": 6642,
+      "close": 7353,
+      "volume": 5000,
+      "value": null,
+      "flags": [
+        "ohlc_range_repaired"
+      ]
+    },
+    {
+      "date": "2015-12-30",
+      "open": 6142,
+      "high": 6799,
+      "low": 6142,
+      "close": 6799,
+      "volume": 100,
+      "value": null,
+      "flags": [
+        "ohlc_range_repaired"
+      ]
+    }
+  ]
+}

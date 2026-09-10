@@ -1,0 +1,75 @@
+{
+  "version": 1,
+  "assetId": "DGC",
+  "assetType": "stock",
+  "market": "VN",
+  "currency": "VND",
+  "year": 2015,
+  "source": "kbs-public-poc",
+  "generatedAt": "2026-09-10T01:37:22.645Z",
+  "rows": [
+    {
+      "date": "2015-12-24",
+      "open": 8449,
+      "high": 8451,
+      "low": 8382,
+      "close": 8399,
+      "volume": 26900,
+      "value": null
+    },
+    {
+      "date": "2015-12-25",
+      "open": 8397,
+      "high": 8606,
+      "low": 8397,
+      "close": 8468,
+      "volume": 57500,
+      "value": null,
+      "flags": [
+        "ohlc_range_repaired"
+      ]
+    },
+    {
+      "date": "2015-12-28",
+      "open": 8500,
+      "high": 8882,
+      "low": 8500,
+      "close": 8779,
+      "volume": 96330,
+      "value": null,
+      "flags": [
+        "ohlc_range_repaired"
+      ]
+    },
+    {
+      "date": "2015-12-29",
+      "open": 8794,
+      "high": 9244,
+      "low": 8794,
+      "close": 9227,
+      "volume": 133610,
+      "value": null,
+      "flags": [
+        "ohlc_range_repaired"
+      ]
+    },
+    {
+      "date": "2015-12-30",
+      "open": 9276,
+      "high": 9400,
+      "low": 8968,
+      "close": 9055,
+      "volume": 60500,
+      "value": null
+    },
+    {
+      "date": "2015-12-31",
+      "open": 8966,
+      "high": 9106,
+      "low": 8796,
+      "close": 8968,
+      "volume": 69306,
+      "value": null
+    }
+  ]
+}

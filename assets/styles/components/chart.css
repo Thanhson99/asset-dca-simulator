@@ -129,6 +129,12 @@
   padding: 8px 10px;
 }
 
+.source-label.is-warning {
+  border-color: rgba(241, 59, 59, 0.22);
+  background: rgba(255, 241, 241, 0.86);
+  color: #c42e2e;
+}
+
 @media (max-width: 760px) {
   .chart-icon-button {
     top: 8px;

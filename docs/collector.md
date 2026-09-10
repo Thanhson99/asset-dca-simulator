@@ -56,6 +56,28 @@ node collector/bin/market-data.mjs stocks:update --all=true --mode=backfill --fr
 
 Increase `--limit` only after the provider is stable.
 
+## Resumable 500-Symbol Queue
+
+Create a queue from the synced KBS stock list:
+
+```bash
+node collector/bin/market-data.mjs stocks:queue:init --limit=500
+```
+
+This writes:
+
+```text
+data/stocks/download-queue.json
+```
+
+Run the queue. It defaults to backfill from `2000-01-01`, writes each symbol's yearly JSON files, marks each symbol `done` or `failed`, and rebuilds `data/stocks/index.json` for the frontend selector:
+
+```bash
+node collector/bin/market-data.mjs stocks:queue:run --limit=10 --delay-ms=500
+```
+
+Run the same command again to resume; symbols already marked `done` are skipped. Omit `--limit` to continue through the whole queue.
+
 ## Useful Options
 
 - `--dry-run=true`: show planned work without fetching/writing stock data

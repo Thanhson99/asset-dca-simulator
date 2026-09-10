@@ -9,18 +9,6 @@ mkdir -p \
   "$ROOT_DIR/assets/scripts/data" \
   "$ROOT_DIR/assets/scripts/ui" \
   "$ROOT_DIR/assets/styles/components" \
-  "$ROOT_DIR/apps/web/public" \
-  "$ROOT_DIR/apps/web/src/components" \
-  "$ROOT_DIR/apps/web/src/charts" \
-  "$ROOT_DIR/apps/web/src/config" \
-  "$ROOT_DIR/apps/web/src/loaders" \
-  "$ROOT_DIR/apps/web/src/models" \
-  "$ROOT_DIR/apps/web/src/services" \
-  "$ROOT_DIR/apps/web/src/simulation" \
-  "$ROOT_DIR/apps/web/src/stores" \
-  "$ROOT_DIR/apps/web/src/types" \
-  "$ROOT_DIR/apps/web/src/utils" \
-  "$ROOT_DIR/apps/web/tests" \
   "$ROOT_DIR/collector/bin" \
   "$ROOT_DIR/collector/config" \
   "$ROOT_DIR/collector/src/commands" \
@@ -41,7 +29,6 @@ mkdir -p \
   "$ROOT_DIR/data/gold" \
   "$ROOT_DIR/data/corporate-actions" \
   "$ROOT_DIR/data/exports" \
-  "$ROOT_DIR/schemas" \
   "$ROOT_DIR/scripts" \
   "$ROOT_DIR/docs"
 

@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "assetId": "ADG",
+  "assetType": "stock",
+  "market": "VN",
+  "currency": "VND",
+  "year": 2019,
+  "source": "kbs-public-poc",
+  "generatedAt": "2026-09-10T01:36:31.972Z",
+  "rows": [
+    {
+      "date": "2019-12-26",
+      "open": 29978,
+      "high": 29978,
+      "low": 29978,
+      "close": 29978,
+      "volume": 10000,
+      "value": null
+    },
+    {
+      "date": "2019-12-27",
+      "open": 34456,
+      "high": 34456,
+      "low": 34456,
+      "close": 34456,
+      "volume": 21600,
+      "value": null
+    },
+    {
+      "date": "2019-12-30",
+      "open": 34962,
+      "high": 36247,
+      "low": 34962,
+      "close": 36247,
+      "volume": 19400,
+      "value": null,
+      "flags": [
+        "ohlc_range_repaired"
+      ]
+    },
+    {
+      "date": "2019-12-31",
+      "open": 34845,
+      "high": 35624,
+      "low": 34456,
+      "close": 35390,
+      "volume": 18900,
+      "value": null
+    }
+  ]
+}

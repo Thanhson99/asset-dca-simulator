@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "assetId": "CJC",
+  "assetType": "stock",
+  "market": "VN",
+  "currency": "VND",
+  "year": 2026,
+  "source": "kbs-public-poc",
+  "generatedAt": "2026-09-10T01:41:38.050Z",
+  "rows": [
+    {
+      "date": "2026-01-12",
+      "open": 19500,
+      "high": 19500,
+      "low": 19500,
+      "close": 19500,
+      "volume": 200,
+      "value": 3900000
+    },
+    {
+      "date": "2026-01-13",
+      "open": 18000,
+      "high": 18000,
+      "low": 18000,
+      "close": 18000,
+      "volume": 400,
+      "value": 7200000
+    },
+    {
+      "date": "2026-07-10",
+      "open": 19800,
+      "high": 19800,
+      "low": 19800,
+      "close": 19800,
+      "volume": 200,
+      "value": 3960000
+    }
+  ]
+}

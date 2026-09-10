@@ -28,20 +28,20 @@
             id="symbol-input"
             class="symbol-combobox"
             type="search"
-            value="FPT"
+            value=""
             list="stock-symbol-list"
-            placeholder="Tìm mã"
+            placeholder="Nhập mã"
             autocomplete="off"
           />
           <datalist id="stock-symbol-list"></datalist>
         </label>
         <label>
           <span>Từ ngày</span>
-          <input id="from-input" class="date-input" type="text" value="2026-01-01" readonly />
+          <input id="from-input" class="date-input" type="text" value="" placeholder="dd/mm/yyyy" autocomplete="off" />
         </label>
         <label>
           <span>Đến ngày</span>
-          <input id="to-input" class="date-input" type="text" value="2026-09-09" readonly />
+          <input id="to-input" class="date-input" type="text" value="" placeholder="dd/mm/yyyy" autocomplete="off" />
         </label>
         <label>
           <span>Thời gian chạy (s)</span>
@@ -50,26 +50,45 @@
         <label>
           <span>Chế độ</span>
           <select id="mode-input">
-            <option value="price">Chỉ xem giá</option>
-            <option value="dca" selected>Đầu tư hằng tháng</option>
+            <option value="price" title="Chỉ xem giá cổ phiếu">Xem giá</option>
+            <option value="dca" selected title="Đầu tư định kỳ hằng tháng">DCA hằng tháng</option>
           </select>
         </label>
         <label>
           <span>Số tiền/tháng</span>
-          <input id="monthly-amount-input" type="text" value="1.000.000" inputmode="numeric" autocomplete="off" />
+          <div class="money-input">
+            <input
+              id="monthly-amount-input"
+              type="text"
+              value=""
+              list="monthly-amount-list"
+              inputmode="numeric"
+              placeholder="Nhập/chọn tiền"
+              autocomplete="off"
+            />
+            <span>VNĐ</span>
+          </div>
+          <datalist id="monthly-amount-list">
+            <option value="1.000.000" label="1 triệu"></option>
+            <option value="2.000.000" label="2 triệu"></option>
+            <option value="10.000.000" label="10 triệu"></option>
+            <option value="50.000.000" label="50 triệu"></option>
+          </datalist>
         </label>
         <label>
           <span>Cách mua</span>
           <select id="buy-strategy-input">
-            <option value="fixed_day">Ngày cố định</option>
-            <option value="first_trading_day">Đầu tháng</option>
-            <option value="last_trading_day">Cuối tháng</option>
-            <option value="average_first_5">Chia 5 ngày đầu</option>
-            <option value="monthly_average">Giá trung bình tháng</option>
-            <option value="monthly_low">Giá thấp nhất tháng</option>
+            <option value="fixed_day" title="Mua theo ngày trong tháng của ngày bắt đầu">Ngày cố định</option>
+            <option value="first_trading_day" title="Mua ở phiên giao dịch đầu tiên của tháng">Đầu tháng</option>
+            <option value="last_trading_day" title="Mua ở phiên giao dịch cuối cùng của tháng">Cuối tháng</option>
+            <option value="average_first_5" title="Chia tiền mua đều trong 5 phiên đầu tháng">Chia 5 ngày đầu</option>
+            <option value="monthly_average" title="Mô phỏng mua theo giá đóng cửa trung bình tháng">Trung bình tháng</option>
+            <option value="monthly_low" title="Mô phỏng mua theo giá đóng cửa thấp nhất tháng">Thấp nhất tháng</option>
           </select>
+          <small id="buy-strategy-help" class="field-help"></small>
         </label>
         <button id="play-button" type="button">Xem biểu đồ</button>
+        <p id="control-error" class="control-error" hidden></p>
       </section>
 
       <section class="chart-theme-panel" aria-label="Tông màu biểu đồ">
@@ -92,7 +111,7 @@
             <span>Chỉnh màu biểu đồ</span>
           </div>
           <label>
-            <span>FPT</span>
+            <span>Giá cổ phiếu</span>
             <input id="line-color-input" type="color" value="#459ef2" />
           </label>
           <label>
@@ -123,7 +142,7 @@
           </div>
           <label class="toggle-control">
             <input id="value-line-input" type="checkbox" checked />
-            <span>Giá FPT</span>
+            <span>Giá cổ phiếu</span>
           </label>
           <label class="toggle-control">
             <input id="invested-line-input" type="checkbox" checked />
@@ -142,9 +161,9 @@
         <div class="section-heading">
           <div>
             <p id="chart-eyebrow" class="eyebrow">DCA simulator</p>
-            <h2 id="chart-title">Biểu đồ mô phỏng FPT</h2>
+            <h2 id="chart-title">Chọn mã và khoảng ngày để mô phỏng</h2>
           </div>
-          <span id="chart-status" class="source-label">Đang tải</span>
+          <span id="chart-status" class="source-label">Chưa tải dữ liệu</span>
         </div>
 
         <div class="chart-frame">
@@ -156,7 +175,7 @@
             <strong>Đang tải dữ liệu</strong>
           </div>
           <div id="chart-tooltip" class="chart-tooltip" hidden></div>
-          <canvas id="price-chart" width="1200" height="460" aria-label="Biểu đồ giá FPT và giá trị đầu tư"></canvas>
+          <canvas id="price-chart" width="1200" height="460" aria-label="Biểu đồ giá cổ phiếu và giá trị đầu tư"></canvas>
         </div>
       </section>
     </main>

@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "assetId": "BED",
+  "assetType": "stock",
+  "market": "VN",
+  "currency": "VND",
+  "year": 2022,
+  "source": "kbs-public-poc",
+  "generatedAt": "2026-09-10T01:41:23.835Z",
+  "rows": [
+    {
+      "date": "2022-04-15",
+      "open": 30806,
+      "high": 30806,
+      "low": 30806,
+      "close": 30806,
+      "volume": 100,
+      "value": null
+    },
+    {
+      "date": "2022-07-14",
+      "open": 30806,
+      "high": 32202,
+      "low": 30806,
+      "close": 32202,
+      "volume": 1,
+      "value": null,
+      "flags": [
+        "ohlc_range_repaired"
+      ]
+    },
+    {
+      "date": "2022-10-03",
+      "open": 30806,
+      "high": 32202,
+      "low": 30806,
+      "close": 32202,
+      "volume": 1,
+      "value": null,
+      "flags": [
+        "ohlc_range_repaired"
+      ]
+    },
+    {
+      "date": "2022-11-18",
+      "open": 30961,
+      "high": 30961,
+      "low": 30961,
+      "close": 30961,
+      "volume": 100,
+      "value": null
+    }
+  ]
+}

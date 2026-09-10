@@ -10,11 +10,15 @@ import {
 import { enhanceDateInput, readDateInput } from "./ui/date-picker.js";
 import { renderChartError, renderChartMeta } from "./ui/summary.js";
 
+const TODAY_ISO = toIsoDate(new Date());
+const FORM_STORAGE_KEY = "asset-dca-simulator:form";
+
 const elements = {
   canvas: document.getElementById("price-chart"),
   chartFrame: document.querySelector(".chart-frame"),
   chartLoading: document.getElementById("chart-loading"),
   tooltip: document.getElementById("chart-tooltip"),
+  controlError: document.getElementById("control-error"),
   symbol: document.getElementById("symbol-input"),
   symbolList: document.getElementById("stock-symbol-list"),
   from: document.getElementById("from-input"),
@@ -23,6 +27,7 @@ const elements = {
   mode: document.getElementById("mode-input"),
   monthlyAmount: document.getElementById("monthly-amount-input"),
   buyStrategy: document.getElementById("buy-strategy-input"),
+  buyStrategyHelp: document.getElementById("buy-strategy-help"),
   lineColor: document.getElementById("line-color-input"),
   investmentColor: document.getElementById("investment-color-input"),
   textColor: document.getElementById("text-color-input"),
@@ -44,21 +49,30 @@ let currentRows = [];
 let currentChartRows = [];
 let currentFilters = null;
 let currentHoverIndex = null;
-let availableSymbols = new Set([DEMO_ASSET.symbol]);
+let availableSymbols = new Set();
+let stockAssetsBySymbol = new Map();
 
 hydrateDefaultInputs();
+const restoredForm = restoreFormState();
 enhanceDateInput(elements.from);
 enhanceDateInput(elements.to);
 elements.play.addEventListener("click", renderSelectedChart);
 elements.fullscreen.addEventListener("click", toggleChartFullscreen);
+bindFieldErrorReset();
+bindFormPersistence();
 document.addEventListener("fullscreenchange", redrawCurrentChart);
 observeChartResize();
 bindThemeInputs();
 bindModeInputs();
 bindMoneyInput();
+updateBuyStrategyHelp();
 bindTooltip();
-loadStockOptions();
-await renderInitialChart();
+await loadStockOptions();
+if (restoredForm && canRestoreChart()) {
+  await renderSelectedChart();
+} else {
+  renderEmptyChart();
+}
 
 /**
  * Put configured defaults into the form.
@@ -69,7 +83,7 @@ function hydrateDefaultInputs() {
   elements.to.value = DEMO_ASSET.toDate;
   elements.duration.value = String(DEMO_ASSET.durationSeconds);
   elements.mode.value = DEMO_ASSET.mode;
-  elements.monthlyAmount.value = formatVnd(DEMO_ASSET.monthlyAmount);
+  elements.monthlyAmount.value = DEMO_ASSET.monthlyAmount ? formatVnd(DEMO_ASSET.monthlyAmount) : "";
   elements.buyStrategy.value = DEMO_ASSET.buyStrategy;
   elements.lineColor.value = DEFAULT_CHART_THEME.price;
   elements.investmentColor.value = DEFAULT_CHART_THEME.investment;
@@ -82,28 +96,86 @@ function hydrateDefaultInputs() {
 }
 
 /**
- * Load the default range and draw it without animation.
+ * Show a neutral state before the user chooses a symbol and date range.
  */
-async function renderInitialChart() {
-  setBusy(true);
+function renderEmptyChart() {
+  currentData = null;
+  currentRows = [];
+  currentFilters = null;
+  currentChartRows = [];
+  elements.simulationSummary.hidden = true;
+  elements.simulationSummary.innerHTML = "";
+  document.getElementById("chart-title").textContent = "Chọn mã và khoảng ngày để mô phỏng";
+  document.getElementById("chart-status").textContent = "Chưa tải dữ liệu";
+  resizeCanvasToFrame();
+  drawStaticClosePriceChart(elements.canvas, [], readTheme(), {});
+}
 
+/**
+ * Restore the previous form values after a page reload.
+ *
+ * @returns {boolean}
+ */
+function restoreFormState() {
   try {
-    const filters = readFilters();
-    const data = await loadStockRange(filters);
-    currentData = data;
-    currentRows = data.rows;
-    currentFilters = filters;
-    currentChartRows = buildChartRows(currentRows, filters);
-    renderChartMeta(data, filters);
-    renderSimulationSummary(currentChartRows, filters);
-    resizeCanvasToFrame();
-    drawStaticClosePriceChart(elements.canvas, currentChartRows, readTheme(), chartOptions(filters));
-  } catch (error) {
-    renderChartError(error);
-    console.error(error);
-  } finally {
-    setBusy(false);
+    const state = JSON.parse(localStorage.getItem(FORM_STORAGE_KEY) || "null");
+    if (!state) {
+      return false;
+    }
+
+    elements.symbol.value = state.symbol || "";
+    elements.from.value = state.fromDate || "";
+    elements.to.value = state.toDate || "";
+    elements.duration.value = state.durationSeconds || elements.duration.value;
+    elements.mode.value = state.mode || elements.mode.value;
+    elements.monthlyAmount.value = state.monthlyAmount || "";
+    elements.buyStrategy.value = state.buyStrategy || elements.buyStrategy.value;
+    return true;
+  } catch {
+    return false;
   }
+}
+
+/**
+ * Save form values so reloads do not wipe a generated chart setup.
+ */
+function bindFormPersistence() {
+  for (const input of [elements.symbol, elements.from, elements.to, elements.duration, elements.mode, elements.monthlyAmount, elements.buyStrategy]) {
+    input.addEventListener("input", saveFormState);
+    input.addEventListener("change", saveFormState);
+  }
+}
+
+/**
+ * Persist the current form values.
+ */
+function saveFormState() {
+  try {
+    localStorage.setItem(
+      FORM_STORAGE_KEY,
+      JSON.stringify({
+        symbol: elements.symbol.value,
+        fromDate: readDateInput(elements.from),
+        toDate: readDateInput(elements.to),
+        durationSeconds: elements.duration.value,
+        mode: elements.mode.value,
+        monthlyAmount: elements.monthlyAmount.value,
+        buyStrategy: elements.buyStrategy.value,
+      }),
+    );
+  } catch {
+    // Ignore unavailable storage; the app still works without persistence.
+  }
+}
+
+/**
+ * Check whether restored values are sufficient to rerender the chart.
+ *
+ * @returns {boolean}
+ */
+function canRestoreChart() {
+  const hasBaseInputs = elements.symbol.value.trim() && readDateInput(elements.from) && readDateInput(elements.to);
+  return Boolean(hasBaseInputs && (elements.mode.value !== "dca" || parseVndInput(elements.monthlyAmount.value) > 0));
 }
 
 /**
@@ -112,15 +184,18 @@ async function renderInitialChart() {
 async function renderSelectedChart() {
   setBusy(true);
   stopActiveAnimation();
+  clearFieldErrors();
 
   try {
     const filters = readFilters();
+    normalizeMoneyInput(filters.monthlyAmount);
+    saveFormState();
     const data = await loadStockRange(filters);
     currentData = data;
     currentRows = data.rows;
     currentFilters = filters;
     currentChartRows = buildChartRows(currentRows, filters);
-    renderChartMeta(data, filters);
+    renderChartMeta(data, filters, stockAssetsBySymbol.get(filters.symbol));
     renderSimulationSummary(currentChartRows, filters);
     resizeCanvasToFrame();
     activeAnimation = animateClosePriceChart(elements.canvas, currentChartRows, {
@@ -129,8 +204,9 @@ async function renderSelectedChart() {
       ...chartOptions(filters),
     });
   } catch (error) {
+    showFieldError(error);
     renderChartError(error);
-    console.error(error);
+    console.warn(error.message);
   } finally {
     setBusy(false);
   }
@@ -145,13 +221,33 @@ function refreshCurrentSimulation() {
   }
 
   stopActiveAnimation();
-  const filters = readFilters();
+  let filters;
+  try {
+    clearFieldErrors();
+    filters = readFilters();
+  } catch (error) {
+    showFieldError(error);
+    renderChartError(error);
+    console.warn(error.message);
+    return;
+  }
+
   currentFilters = filters;
   currentHoverIndex = null;
   currentChartRows = buildChartRows(currentRows, filters);
-  renderChartMeta(currentData, filters);
+  renderChartMeta(currentData, filters, stockAssetsBySymbol.get(filters.symbol));
   renderSimulationSummary(currentChartRows, filters);
   redrawCurrentChart();
+}
+
+/**
+ * Clear validation state as soon as the user edits a field.
+ */
+function bindFieldErrorReset() {
+  for (const input of [elements.symbol, elements.from, elements.to, elements.duration, elements.mode, elements.monthlyAmount, elements.buyStrategy]) {
+    input.addEventListener("input", () => clearFieldError(input));
+    input.addEventListener("change", () => clearFieldError(input));
+  }
 }
 
 /**
@@ -261,6 +357,7 @@ async function loadStockOptions() {
     const data = await response.json();
     const assets = Array.isArray(data.assets) ? data.assets : [];
     availableSymbols = new Set(assets.map((asset) => asset.symbol?.toUpperCase()).filter(Boolean));
+    stockAssetsBySymbol = new Map(assets.map((asset) => [asset.symbol?.toUpperCase(), asset]).filter(([symbol]) => symbol));
     elements.symbolList.innerHTML = assets.map(createStockOption).join("");
   } catch (error) {
     console.warn("Không tải được danh sách mã cổ phiếu", error);
@@ -288,6 +385,9 @@ function bindModeInputs() {
   });
 
   elements.buyStrategy.addEventListener("change", refreshCurrentSimulation);
+  elements.buyStrategy.addEventListener("change", updateBuyStrategyHelp);
+  elements.from.addEventListener("change", updateBuyStrategyHelp);
+  elements.from.addEventListener("input", updateBuyStrategyHelp);
 }
 
 /**
@@ -295,13 +395,44 @@ function bindModeInputs() {
  */
 function bindMoneyInput() {
   elements.monthlyAmount.addEventListener("focus", () => {
-    elements.monthlyAmount.value = String(parseVndInput(elements.monthlyAmount.value));
+    elements.monthlyAmount.select();
   });
 
   elements.monthlyAmount.addEventListener("blur", () => {
-    elements.monthlyAmount.value = formatVnd(parseVndInput(elements.monthlyAmount.value));
+    const amount = parseVndInput(elements.monthlyAmount.value);
+    if (amount > 0) {
+      normalizeMoneyInput(amount);
+    }
+
     refreshCurrentSimulation();
   });
+}
+
+/**
+ * Format the money field only after the user finishes editing.
+ *
+ * @param {number} amount
+ */
+function normalizeMoneyInput(amount) {
+  elements.monthlyAmount.value = formatVnd(amount);
+}
+
+/**
+ * Explain the selected buy strategy without lengthening the select label.
+ */
+function updateBuyStrategyHelp() {
+  const fromDate = readDateInput(elements.from);
+  const fixedDayText = fromDate ? `Mua ngày ${Number(fromDate.slice(8, 10))} hằng tháng.` : "Lấy ngày trong ô Từ ngày.";
+  const messages = {
+    fixed_day: fixedDayText,
+    first_trading_day: "Mua phiên đầu tiên mỗi tháng.",
+    last_trading_day: "Mua phiên cuối cùng mỗi tháng.",
+    average_first_5: "Chia đều trong 5 phiên đầu tháng.",
+    monthly_average: "Dùng giá đóng cửa trung bình tháng.",
+    monthly_low: "Dùng giá đóng cửa thấp nhất tháng.",
+  };
+
+  elements.buyStrategyHelp.textContent = messages[elements.buyStrategy.value] || "";
 }
 
 /**
@@ -497,13 +628,44 @@ function readFilters() {
   const symbol = elements.symbol.value.trim().toUpperCase();
   const fromDate = readDateInput(elements.from);
   const toDate = readDateInput(elements.to);
+  const monthlyAmount = parseVndInput(elements.monthlyAmount.value);
+  const errors = [];
 
   if (!availableSymbols.has(symbol)) {
-    throw new Error(`Mã ${symbol || "(trống)"} chưa có dữ liệu trong prototype`);
+    if (!symbol) {
+      errors.push(fieldError(elements.symbol, "nhập mã cổ phiếu, ví dụ FPT"));
+    } else {
+      errors.push(fieldError(elements.symbol, `chọn mã có dữ liệu, ${symbol} chưa có trong danh sách`));
+    }
   }
 
-  if (fromDate > toDate) {
-    throw new Error("Ngày bắt đầu phải trước ngày kết thúc");
+  if (!elements.from.value.trim()) {
+    errors.push(fieldError(elements.from, "nhập ngày bắt đầu, ví dụ 01/01/2020"));
+  } else if (!fromDate) {
+    errors.push(fieldError(elements.from, "sửa ngày bắt đầu theo định dạng dd/mm/yyyy"));
+  } else if (fromDate < "2000-01-01") {
+    errors.push(fieldError(elements.from, "chọn ngày bắt đầu từ 01/01/2000 trở đi"));
+  }
+
+  if (!elements.to.value.trim()) {
+    errors.push(fieldError(elements.to, `nhập ngày kết thúc, tối đa ${formatDate(TODAY_ISO)}`));
+  } else if (!toDate) {
+    errors.push(fieldError(elements.to, "sửa ngày kết thúc theo định dạng dd/mm/yyyy"));
+  } else if (toDate > TODAY_ISO) {
+    errors.push(fieldError(elements.to, `chọn ngày kết thúc không sau hôm nay (${formatDate(TODAY_ISO)})`));
+  }
+
+  if (elements.mode.value === "dca" && monthlyAmount <= 0) {
+    errors.push(fieldError(elements.monthlyAmount, "nhập hoặc chọn số tiền đầu tư hằng tháng"));
+  }
+
+  if (fromDate && toDate && fromDate > toDate) {
+    errors.push(fieldError(elements.from, "ngày bắt đầu phải trước hoặc bằng ngày kết thúc"));
+    errors.push(fieldError(elements.to, "ngày kết thúc phải sau hoặc bằng ngày bắt đầu"));
+  }
+
+  if (errors.length > 0) {
+    throw validationError(errors);
   }
 
   return {
@@ -512,9 +674,95 @@ function readFilters() {
     toDate,
     durationSeconds: clamp(Number(elements.duration.value), 1, 60),
     mode: elements.mode.value,
-    monthlyAmount: clamp(parseVndInput(elements.monthlyAmount.value), 10000, 1000000000),
+    monthlyAmount: clamp(monthlyAmount, 10000, 1000000000),
     buyStrategy: elements.buyStrategy.value,
   };
+}
+
+/**
+ * Create one field-level validation item.
+ *
+ * @param {HTMLElement} field
+ * @param {string} message
+ * @returns {object}
+ */
+function fieldError(field, message) {
+  return { field, message };
+}
+
+/**
+ * Create a validation error tied to one or more controls.
+ *
+ * @param {Array<object>} fieldErrors
+ * @returns {Error}
+ */
+function validationError(fieldErrors) {
+  const message =
+    fieldErrors.length === 1
+      ? `Vui lòng ${fieldErrors[0].message}.`
+      : `Vui lòng kiểm tra ${fieldErrors.length} mục bên dưới.`;
+  const error = new Error(message);
+  error.fieldErrors = fieldErrors;
+  return error;
+}
+
+/**
+ * Display form validation error near the controls and mark the field.
+ *
+ * @param {Error} error
+ */
+function showFieldError(error) {
+  if (!error.fieldErrors?.length) {
+    return;
+  }
+
+  for (const item of error.fieldErrors) {
+    const label = item.field.closest("label");
+    label?.classList.add("is-invalid");
+    item.field.setAttribute("aria-invalid", "true");
+  }
+
+  elements.controlError.hidden = false;
+  if (error.fieldErrors.length === 1) {
+    elements.controlError.textContent = error.message;
+    return;
+  }
+
+  elements.controlError.innerHTML = [
+    "<strong>Vui lòng kiểm tra:</strong>",
+    `<ul>${error.fieldErrors.map((item) => `<li>${escapeHtml(item.message)}</li>`).join("")}</ul>`,
+  ].join("");
+}
+
+/**
+ * Clear all visible form validation errors.
+ */
+function clearFieldErrors() {
+  elements.controlError.hidden = true;
+  elements.controlError.replaceChildren();
+
+  for (const label of document.querySelectorAll(".control-panel label.is-invalid")) {
+    label.classList.remove("is-invalid");
+  }
+
+  for (const input of [elements.symbol, elements.from, elements.to, elements.duration, elements.mode, elements.monthlyAmount, elements.buyStrategy]) {
+    input.removeAttribute("aria-invalid");
+  }
+}
+
+/**
+ * Clear validation state for one edited field.
+ *
+ * @param {HTMLElement} field
+ */
+function clearFieldError(field) {
+  field.closest("label")?.classList.remove("is-invalid");
+  field.removeAttribute("aria-invalid");
+
+  if (!document.querySelector(".control-panel label.is-invalid")) {
+    elements.controlError.hidden = true;
+    elements.controlError.replaceChildren();
+  }
 }
 
 /**
@@ -597,7 +845,7 @@ function renderSimulationSummary(rows, filters) {
   elements.simulationSummary.hidden = false;
   elements.simulationSummary.innerHTML = [
     createSummaryItem("Mỗi tháng", formatMoney(filters.monthlyAmount)),
-    createSummaryItem("Cách mua", buyStrategyLabel(filters.buyStrategy)),
+    createSummaryItem("Cách mua", buyStrategyLabel(filters.buyStrategy, filters)),
     createSummaryItem("Đã góp", formatMoney(latest.investedValue)),
     createSummaryItem("Giá trị hiện tại", formatMoney(latest.investmentValue)),
     createSummaryItem("Số cổ phiếu", formatShares(latest.units)),
@@ -652,9 +900,14 @@ function formatDate(value) {
  * Convert a buy strategy id into a Vietnamese label.
  *
  * @param {string} strategy
+ * @param {object} filters
  * @returns {string}
  */
-function buyStrategyLabel(strategy) {
+function buyStrategyLabel(strategy, filters = {}) {
+  if (strategy === "fixed_day" && filters.fromDate) {
+    return `Ngày ${Number(filters.fromDate.slice(8, 10))} hằng tháng`;
+  }
+
   const labels = {
     fixed_day: "Ngày cố định",
     first_trading_day: "Đầu tháng",
@@ -725,4 +978,18 @@ function clamp(value, min, max) {
   }
 
   return Math.min(Math.max(value, min), max);
+}
+
+/**
+ * Convert Date to local ISO date without timezone shifts.
+ *
+ * @param {Date} date
+ * @returns {string}
+ */
+function toIsoDate(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
 }

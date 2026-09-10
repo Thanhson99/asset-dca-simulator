@@ -14,6 +14,8 @@ const MONTH_LABELS = [
 ];
 
 const WEEKDAY_LABELS = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"];
+const MIN_DATE_ISO = "2000-01-01";
+const TODAY_ISO = toIsoDate(new Date());
 
 /**
  * Replace a native date input with a small static-friendly calendar picker.
@@ -24,22 +26,37 @@ const WEEKDAY_LABELS = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"];
  * @param {HTMLInputElement} input
  */
 export function enhanceDateInput(input) {
+  const initialIso = parseDateText(input.value);
   const state = {
     input,
-    selectedIso: normalizeIso(input.value),
-    visibleMonth: monthStart(normalizeIso(input.value)),
+    selectedIso: initialIso,
+    visibleMonth: initialIso ? monthStart(initialIso) : monthStart(TODAY_ISO),
     popover: document.createElement("div"),
   };
 
-  input.dataset.iso = state.selectedIso;
-  input.value = formatDisplayDate(state.selectedIso);
+  if (state.selectedIso) {
+    input.dataset.iso = state.selectedIso;
+    input.value = formatDisplayDate(state.selectedIso);
+  } else {
+    delete input.dataset.iso;
+    input.value = "";
+  }
+
   input.setAttribute("aria-haspopup", "dialog");
 
   state.popover.className = "date-picker";
   state.popover.hidden = true;
   document.body.append(state.popover);
 
-  input.addEventListener("click", () => showPicker(state));
+  input.addEventListener("click", (event) => {
+    event.stopPropagation();
+    showPicker(state);
+  });
+  state.popover.addEventListener("click", (event) => {
+    event.stopPropagation();
+  });
+  input.addEventListener("blur", () => syncTypedDate(state));
+  input.addEventListener("change", () => syncTypedDate(state));
   input.addEventListener("keydown", (event) => {
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
@@ -61,7 +78,7 @@ export function enhanceDateInput(input) {
  * @returns {string}
  */
 export function readDateInput(input) {
-  return input.dataset.iso || normalizeIso(input.value);
+  return input.dataset.iso || parseDateText(input.value) || "";
 }
 
 /**
@@ -87,14 +104,16 @@ function renderPicker(state) {
 
   state.popover.innerHTML = `
     <div class="date-picker__header">
-      <button type="button" data-action="prev" aria-label="Tháng trước">‹</button>
+      <button type="button" data-action="prev" aria-label="Tháng trước" ${isMinOrPastMonth(state.visibleMonth) ? "disabled" : ""}>‹</button>
       <div class="date-picker__jump">
         <select aria-label="Chọn tháng">
-          ${MONTH_LABELS.map((label, index) => `<option value="${index}" ${index === month ? "selected" : ""}>${label}</option>`).join("")}
+          ${createMonthOptions(month, year)}
         </select>
-        <input aria-label="Chọn năm" type="number" value="${year}" min="2000" max="2100" />
+        <select aria-label="Chọn năm">
+          ${createYearOptions(year)}
+        </select>
       </div>
-      <button type="button" data-action="next" aria-label="Tháng sau">›</button>
+      <button type="button" data-action="next" aria-label="Tháng sau" ${isCurrentOrFutureMonth(state.visibleMonth) ? "disabled" : ""}>›</button>
     </div>
     <div class="date-picker__weekdays">
       ${WEEKDAY_LABELS.map((label) => `<span>${label}</span>`).join("")}
@@ -106,16 +125,43 @@ function renderPicker(state) {
 
   state.popover.querySelector('[data-action="prev"]').addEventListener("click", () => moveMonth(state, -1));
   state.popover.querySelector('[data-action="next"]').addEventListener("click", () => moveMonth(state, 1));
-  state.popover.querySelector(".date-picker__jump select").addEventListener("change", (event) => {
+  const [monthSelect, yearSelect] = state.popover.querySelectorAll(".date-picker__jump select");
+
+  monthSelect.addEventListener("change", (event) => {
     setVisibleMonth(state, Number(event.target.value), year);
   });
-  state.popover.querySelector(".date-picker__jump input").addEventListener("change", (event) => {
-    setVisibleMonth(state, month, clampYear(Number(event.target.value)));
+
+  yearSelect.addEventListener("change", (event) => {
+    setVisibleMonth(state, month, Number(event.target.value));
   });
 
   for (const button of state.popover.querySelectorAll("[data-date]")) {
     button.addEventListener("click", () => selectDate(state, button.dataset.date));
   }
+}
+
+/**
+ * Keep typed dates and calendar state in sync.
+ *
+ * @param {object} state
+ */
+function syncTypedDate(state) {
+  if (!state.input.value.trim()) {
+    state.selectedIso = "";
+    delete state.input.dataset.iso;
+    return;
+  }
+
+  const iso = parseDateText(state.input.value);
+  if (!iso) {
+    delete state.input.dataset.iso;
+    return;
+  }
+
+  state.selectedIso = iso;
+  state.input.dataset.iso = iso;
+  state.input.value = formatDisplayDate(iso);
+  state.visibleMonth = monthStart(iso);
 }
 
 /**
@@ -125,7 +171,7 @@ function renderPicker(state) {
  */
 function positionPicker(state) {
   const rect = state.input.getBoundingClientRect();
-  const left = Math.min(rect.left + window.scrollX, window.scrollX + window.innerWidth - 292);
+  const left = Math.min(rect.left + window.scrollX, window.scrollX + window.innerWidth - 320);
   const top = rect.bottom + window.scrollY + 8;
 
   state.popover.style.left = `${Math.max(left, 8)}px`;
@@ -139,7 +185,7 @@ function positionPicker(state) {
  * @param {number} offset
  */
 function moveMonth(state, offset) {
-  state.visibleMonth = new Date(state.visibleMonth.getFullYear(), state.visibleMonth.getMonth() + offset, 1);
+  state.visibleMonth = clampVisibleMonth(new Date(state.visibleMonth.getFullYear(), state.visibleMonth.getMonth() + offset, 1));
   renderPicker(state);
 }
 
@@ -151,7 +197,7 @@ function moveMonth(state, offset) {
  * @param {number} year
  */
 function setVisibleMonth(state, month, year) {
-  state.visibleMonth = new Date(year, month, 1);
+  state.visibleMonth = clampVisibleMonth(new Date(year, month, 1));
   renderPicker(state);
 }
 
@@ -162,6 +208,10 @@ function setVisibleMonth(state, month, year) {
  * @param {string} iso
  */
 function selectDate(state, iso) {
+  if (iso < MIN_DATE_ISO || iso > TODAY_ISO) {
+    return;
+  }
+
   state.selectedIso = iso;
   state.input.dataset.iso = iso;
   state.input.value = formatDisplayDate(iso);
@@ -201,19 +251,128 @@ function createMonthCells(year, month) {
  */
 function createDayButton(day, selectedIso, visibleMonth) {
   const outsideClass = day.date.getMonth() === visibleMonth ? "" : " is-outside";
-  const selectedClass = day.iso === selectedIso ? " is-selected" : "";
+  const selectedClass = selectedIso && day.iso === selectedIso ? " is-selected" : "";
+  const disabled = day.iso < MIN_DATE_ISO || day.iso > TODAY_ISO ? " disabled" : "";
 
-  return `<button class="date-picker__day${outsideClass}${selectedClass}" type="button" data-date="${day.iso}">${day.date.getDate()}</button>`;
+  return `<button class="date-picker__day${outsideClass}${selectedClass}" type="button" data-date="${day.iso}"${disabled}>${day.date.getDate()}</button>`;
 }
 
 /**
- * Normalize any valid date-like value to ISO.
+ * Parse `dd/mm/yyyy`, `d/m/yyyy`, or `yyyy-mm-dd` into ISO.
  *
  * @param {string} value
  * @returns {string}
  */
-function normalizeIso(value) {
-  return toIsoDate(new Date(`${value}T00:00:00`));
+function parseDateText(value) {
+  const text = String(value || "").trim();
+  const isoMatch = text.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+  const displayMatch = text.match(/^(\d{1,2})[/-](\d{1,2})[/-](\d{4})$/);
+
+  if (isoMatch) {
+    return validIso(Number(isoMatch[1]), Number(isoMatch[2]), Number(isoMatch[3]));
+  }
+
+  if (displayMatch) {
+    return validIso(Number(displayMatch[3]), Number(displayMatch[2]), Number(displayMatch[1]));
+  }
+
+  return "";
+}
+
+/**
+ * Return an ISO date only when the parts form a real calendar day.
+ *
+ * @param {number} year
+ * @param {number} month
+ * @param {number} day
+ * @returns {string}
+ */
+function validIso(year, month, day) {
+  const date = new Date(year, month - 1, day);
+  if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) {
+    return "";
+  }
+
+  return toIsoDate(date);
+}
+
+/**
+ * Create a practical year dropdown.
+ *
+ * @param {number} selectedYear
+ * @returns {string}
+ */
+function createYearOptions(selectedYear) {
+  const currentYear = new Date().getFullYear();
+  const startYear = 2000;
+  const endYear = currentYear;
+  const options = [];
+
+  for (let year = endYear; year >= startYear; year -= 1) {
+    options.push(`<option value="${year}" ${year === selectedYear ? "selected" : ""}>${year}</option>`);
+  }
+
+  return options.join("");
+}
+
+/**
+ * Create month options and disable future months in the current year.
+ *
+ * @param {number} selectedMonth
+ * @param {number} selectedYear
+ * @returns {string}
+ */
+function createMonthOptions(selectedMonth, selectedYear) {
+  const today = new Date(`${TODAY_ISO}T00:00:00`);
+  const minDate = new Date(`${MIN_DATE_ISO}T00:00:00`);
+  return MONTH_LABELS.map((label, index) => {
+    const disabled =
+      (selectedYear === today.getFullYear() && index > today.getMonth()) ||
+      (selectedYear === minDate.getFullYear() && index < minDate.getMonth())
+        ? " disabled"
+        : "";
+    return `<option value="${index}" ${index === selectedMonth ? "selected" : ""}${disabled}>${label}</option>`;
+  }).join("");
+}
+
+/**
+ * Keep the visible calendar from moving beyond the current month.
+ *
+ * @param {Date} month
+ * @returns {Date}
+ */
+function clampVisibleMonth(month) {
+  const maxMonth = monthStart(TODAY_ISO);
+  const minMonth = monthStart(MIN_DATE_ISO);
+  if (month < minMonth) {
+    return minMonth;
+  }
+
+  if (month > maxMonth) {
+    return maxMonth;
+  }
+
+  return month;
+}
+
+/**
+ * Check whether a calendar month is the current month or later.
+ *
+ * @param {Date} month
+ * @returns {boolean}
+ */
+function isCurrentOrFutureMonth(month) {
+  return month >= monthStart(TODAY_ISO);
+}
+
+/**
+ * Check whether a calendar month is the minimum allowed month or earlier.
+ *
+ * @param {Date} month
+ * @returns {boolean}
+ */
+function isMinOrPastMonth(month) {
+  return month <= monthStart(MIN_DATE_ISO);
 }
 
 /**
@@ -250,18 +409,4 @@ function toIsoDate(date) {
   const day = String(date.getDate()).padStart(2, "0");
 
   return `${year}-${month}-${day}`;
-}
-
-/**
- * Keep year input in a practical range for this static dataset.
- *
- * @param {number} year
- * @returns {number}
- */
-function clampYear(year) {
-  if (!Number.isFinite(year)) {
-    return new Date().getFullYear();
-  }
-
-  return Math.min(Math.max(year, 2000), 2100);
 }
