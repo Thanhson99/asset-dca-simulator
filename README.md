@@ -1,41 +1,54 @@
-# asset-dca-simulator
+# Asset DCA Simulator
 
-A simple web app for visualizing long-term investing scenarios across assets like stocks, gold, and bank savings.
+[![Open demo](https://img.shields.io/badge/Open-Demo-459EF2?style=for-the-badge&logo=githubpages&logoColor=white)](https://thanhson99.github.io/asset-dca-simulator/)
+[![Static app](https://img.shields.io/badge/Frontend-Static_HTML%2FCSS%2FJS-176B4D?style=for-the-badge&logo=javascript&logoColor=white)](docs/architecture.md)
+[![Market data](https://img.shields.io/badge/Data-500_VN_stocks-F13B3B?style=for-the-badge&logo=json&logoColor=white)](data/stocks/index.json)
 
-The goal is to answer questions like:
+Static web app for simulating monthly DCA on Vietnamese stocks with local JSON market data.
 
-- What happens if I invest a fixed amount every month?
-- How much profit or loss would I have today?
-- How do different assets compare on the same chart?
+## Features
 
-## Live
+- Search/select stock symbols from local data.
+- Pick a date range and simulate monthly investing.
+- Compare close price and portfolio value on an animated Canvas chart.
+- Try buy strategies such as fixed day, first/last trading day, monthly average, and monthly low.
+- Customize chart colors, visible lines, light/dark chart background, tooltip, and fullscreen.
 
-```text
-https://thanhson99.github.io/asset-dca-simulator/
-```
+## Data
 
-## Setup
+The app currently includes 500 Vietnamese stock symbols under `data/stocks/`.
 
-Initialize folders only:
+- Frontend manifest: [`data/stocks/index.json`](data/stocks/index.json)
+- Download queue/checkpoint: [`data/stocks/download-queue.json`](data/stocks/download-queue.json)
+- Yearly price files: `data/stocks/{SYMBOL}/{YEAR}.json`
 
-macOS / Linux:
+## Collector
+
+Sync provider symbols:
 
 ```bash
-sh scripts/init.sh
+node collector/bin/market-data.mjs assets:sync
 ```
 
-Windows:
+Create or reset the 500-symbol queue:
 
-```powershell
-powershell -ExecutionPolicy Bypass -File scripts/init.ps1
+```bash
+node collector/bin/market-data.mjs stocks:queue:init --limit=500
 ```
 
-## Notes
+Run or resume downloads:
 
-Project context and technical decisions are tracked in `docs/agent-handoff.md`.
-Collector usage is tracked in `docs/collector.md`.
-Code style rules are tracked in `docs/code-style.md`.
+```bash
+node collector/bin/market-data.mjs stocks:queue:run --delay-ms=500
+```
+
+## Docs
+
+- [Architecture](docs/architecture.md)
+- [Collector](docs/collector.md)
+- [Data format](docs/data-format.md)
+- [Agent handoff](docs/agent-handoff.md)
 
 ## License
 
-MIT License.
+MIT
