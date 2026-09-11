@@ -36,17 +36,19 @@ export function animateClosePriceChart(canvas, rows, options) {
   const context = canvas.getContext("2d");
   const state = createChartState(canvas, rows, options);
   const durationSeconds = Math.max(Number(options.durationSeconds) || 0, 0);
+  const onProgress = typeof options.onProgress === "function" ? options.onProgress : () => {};
+  const onComplete = typeof options.onComplete === "function" ? options.onComplete : () => {};
 
   if (durationSeconds === 0) {
+    onProgress(1);
     drawChart(context, state, rows);
+    onComplete();
     return { stop() {} };
   }
 
   const startedAt = performance.now();
   let frameId = 0;
   let stopped = false;
-  let lastVisibleCount = 0;
-  let lastFrameAt = 0;
 
   /**
    * Draw one animation frame.
@@ -59,25 +61,18 @@ export function animateClosePriceChart(canvas, rows, options) {
     }
 
     const progress = Math.min((now - startedAt) / (durationSeconds * 1000), 1);
-    if (progress < 1 && now - lastFrameAt < 33) {
-      frameId = requestAnimationFrame(drawFrame);
-      return;
-    }
-
-    lastFrameAt = now;
-    const visibleCount = Math.max(2, Math.ceil(rows.length * progress));
-
-    if (visibleCount !== lastVisibleCount) {
-      lastVisibleCount = visibleCount;
-      drawChart(context, state, rows.slice(0, visibleCount));
-    }
+    onProgress(progress);
+    drawChart(context, state, rows, null, { revealRatio: progress });
 
     if (progress < 1) {
       frameId = requestAnimationFrame(drawFrame);
+    } else {
+      onComplete();
     }
   }
 
-  drawChart(context, state, rows.slice(0, 2));
+  onProgress(0);
+  drawChart(context, state, rows, null, { revealRatio: 0 });
   frameId = requestAnimationFrame(drawFrame);
 
   return {
@@ -104,7 +99,9 @@ export function drawStaticClosePriceChart(canvas, rows, theme = DEFAULT_CHART_TH
   }
 
   const hover = Number.isInteger(options.hoverIndex) ? { index: options.hoverIndex, ratio: options.hoverRatio ?? null } : null;
-  drawChart(context, createChartState(canvas, rows, { ...options, theme }), rows, hover);
+  drawChart(context, createChartState(canvas, rows, { ...options, theme }), rows, hover, {
+    revealRatio: options.revealRatio ?? 1,
+  });
 }
 
 /**
@@ -142,7 +139,8 @@ export function getNearestChartPoint(canvas, rows, clientX, options = {}) {
   const state = createChartState(canvas, rows, options);
   const canvasX = ((clientX - rect.left) / rect.width) * canvas.width;
   const plotX = clamp(canvasX, state.padding.left, state.width - state.padding.right);
-  const ratio = (plotX - state.padding.left) / plotWidth(state);
+  const maxRatio = Number.isFinite(options.revealRatio) ? clamp(options.revealRatio, 0, 1) : 1;
+  const ratio = Math.min((plotX - state.padding.left) / plotWidth(state), maxRatio);
   const index = findNearestRowIndexByRatio(state, ratio);
   const point = pointForActiveSeries(state, rows[index], index);
 
@@ -213,8 +211,12 @@ function createChartState(canvas, rows, options = {}) {
  * @param {object} state
  * @param {Array<object>} visibleRows
  * @param {{index: number, ratio: number|null}|null} hover
+ * @param {{revealRatio?: number}} options
  */
-function drawChart(context, state, visibleRows, hover = null) {
+function drawChart(context, state, rows, hover = null, options = {}) {
+  const revealRatio = Number.isFinite(options.revealRatio) ? clamp(options.revealRatio, 0, 1) : 1;
+  const visibleRows = createRowsForReveal(state, rows, revealRatio);
+
   clearCanvas(context, state);
   drawGrid(context, state);
   drawPriceArea(context, state, visibleRows);
@@ -225,11 +227,42 @@ function drawChart(context, state, visibleRows, hover = null) {
   drawInvestmentLine(context, state, visibleRows);
   drawComparePriceLines(context, state, visibleRows);
   drawPriceLine(context, state, visibleRows);
-  drawPriceExtremaMarkers(context, state, visibleRows.length);
+  drawPriceExtremaMarkers(context, state, timeForRatio(state, revealRatio));
   drawLatestLabels(context, state, visibleRows.at(-1), visibleRows.length - 1);
-  drawCrosshair(context, state, visibleRows, hover);
+  drawCrosshair(context, state, rows, hover, revealRatio);
   drawDateAxis(context, state);
   drawChartLegend(context, state);
+}
+
+/**
+ * Build the visible rows at an animation ratio, including a temporary interpolated edge point.
+ *
+ * @param {object} state
+ * @param {Array<object>} rows
+ * @param {number} revealRatio
+ * @returns {Array<object>}
+ */
+function createRowsForReveal(state, rows, revealRatio) {
+  if (rows.length < 2 || revealRatio >= 1) {
+    return rows;
+  }
+
+  const targetTime = timeForRatio(state, revealRatio);
+  const bounds = findRowsAroundTime(state, targetTime);
+  const visibleRows = rows.slice(0, bounds.leftIndex + 1);
+
+  if (bounds.leftIndex === bounds.rightIndex) {
+    return visibleRows.length >= 2 ? visibleRows : [{ ...rows[0] }, { ...rows[0], __time: targetTime }];
+  }
+
+  const left = rows[bounds.leftIndex];
+  const right = rows[bounds.rightIndex];
+  const leftTime = state.rowTimes[bounds.leftIndex];
+  const rightTime = state.rowTimes[bounds.rightIndex];
+  const ratio = rightTime === leftTime ? 0 : (targetTime - leftTime) / (rightTime - leftTime);
+  visibleRows.push(interpolateRow(left, right, clamp(ratio, 0, 1), targetTime));
+
+  return visibleRows.length >= 2 ? visibleRows : rows.slice(0, 2);
 }
 
 /**
@@ -617,15 +650,15 @@ function drawSeriesLine(context, rows, pointFactory, color, width, lineGlow) {
  *
  * @param {CanvasRenderingContext2D} context
  * @param {object} state
- * @param {number} visibleCount
+ * @param {number} revealTime
  */
-function drawPriceExtremaMarkers(context, state, visibleCount) {
+function drawPriceExtremaMarkers(context, state, revealTime) {
   if (!state.showPrice) {
     return;
   }
 
   for (const marker of state.extrema) {
-    if (marker.index < visibleCount) {
+    if (timeForRow(state, marker.row, marker.index) <= revealTime) {
       drawPriceMarker(context, state, marker);
     }
   }
@@ -851,16 +884,18 @@ function drawPriceMarker(context, state, marker) {
  * @param {object} state
  * @param {Array<object>} rows
  * @param {{index: number, ratio: number|null}|null} hover
+ * @param {number} revealRatio
  */
-function drawCrosshair(context, state, rows, hover) {
+function drawCrosshair(context, state, rows, hover, revealRatio = 1) {
   if (!hover || hover.index >= rows.length) {
     return;
   }
 
-  const row = rows[hover.index];
-  const guideX = Number.isFinite(hover.ratio) ? state.padding.left + plotWidth(state) * hover.ratio : xForIndex(state, hover.index);
+  const hoverRatio = Number.isFinite(hover.ratio) ? Math.min(hover.ratio, revealRatio) : revealRatio;
+  const row = rows[findNearestRowIndexByRatio(state, hoverRatio)];
+  const guideX = state.padding.left + plotWidth(state) * hoverRatio;
   const plotBottom = state.height - state.padding.bottom;
-  const hoverPoints = createHoverPoints(state, rows, row, hover.index, hover.ratio);
+  const hoverPoints = createHoverPoints(state, rows, row, hover.index, hoverRatio);
 
   context.save();
   context.strokeStyle = "rgba(0, 143, 107, 0.28)";
@@ -1008,7 +1043,7 @@ function pointForActiveSeries(state, row, index) {
  */
 function pointForPrice(state, row, index) {
   return {
-    x: xForIndex(state, index),
+    x: xForRow(state, row, index),
     y: yForPrice(state, row.close),
   };
 }
@@ -1023,7 +1058,7 @@ function pointForPrice(state, row, index) {
  */
 function pointForComparePrice(state, row, index, series) {
   return {
-    x: xForIndex(state, index),
+    x: xForRow(state, row, index),
     y: yForPrice(state, row[series.priceKey]),
   };
 }
@@ -1038,7 +1073,7 @@ function pointForComparePrice(state, row, index, series) {
  */
 function pointForInvestment(state, row, index) {
   return {
-    x: xForIndex(state, index),
+    x: xForRow(state, row, index),
     y: yForInvestment(state, row.investmentValue),
   };
 }
@@ -1053,9 +1088,33 @@ function pointForInvestment(state, row, index) {
  */
 function pointForCompareInvestment(state, row, index, series) {
   return {
-    x: xForIndex(state, index),
+    x: xForRow(state, row, index),
     y: yForInvestment(state, row[series.investmentKey]),
   };
+}
+
+/**
+ * Convert a row into an X coordinate, including temporary animation rows.
+ *
+ * @param {object} state
+ * @param {object} row
+ * @param {number} index
+ * @returns {number}
+ */
+function xForRow(state, row, index) {
+  return xForTime(state, timeForRow(state, row, index));
+}
+
+/**
+ * Read a row timestamp from chart state or an interpolated animation row.
+ *
+ * @param {object} state
+ * @param {object} row
+ * @param {number} index
+ * @returns {number}
+ */
+function timeForRow(state, row, index) {
+  return Number.isFinite(row?.__time) ? row.__time : state.rowTimes[index] ?? state.startTime;
 }
 
 /**
@@ -1156,6 +1215,27 @@ function findRowsAroundTime(state, targetTime) {
  */
 function interpolateNumber(left, right, ratio) {
   return Number(left) + (Number(right) - Number(left)) * ratio;
+}
+
+/**
+ * Create a temporary row for smooth reveal animation between two real dates.
+ *
+ * @param {object} left
+ * @param {object} right
+ * @param {number} ratio
+ * @param {number} time
+ * @returns {object}
+ */
+function interpolateRow(left, right, ratio, time) {
+  const row = { ...left, __time: time };
+
+  for (const [key, value] of Object.entries(right)) {
+    if (typeof value === "number" && typeof left[key] === "number") {
+      row[key] = interpolateNumber(left[key], value, ratio);
+    }
+  }
+
+  return row;
 }
 
 /**

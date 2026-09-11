@@ -68,6 +68,7 @@ let currentChartRows = [];
 let currentFilters = null;
 let currentHoverIndex = null;
 let currentHoverRatio = null;
+let currentRevealRatio = 1;
 let pendingHoverFrame = 0;
 let availableSymbols = new Set();
 let stockAssetsBySymbol = new Map();
@@ -403,9 +404,20 @@ async function renderSelectedChart() {
     };
 
     if (filters.durationSeconds === 0) {
+      currentRevealRatio = 1;
       drawStaticClosePriceChart(elements.canvas, currentChartRows, chartSettings.theme, chartSettings);
     } else {
-      activeAnimation = animateClosePriceChart(elements.canvas, currentChartRows, chartSettings);
+      currentRevealRatio = 0;
+      activeAnimation = animateClosePriceChart(elements.canvas, currentChartRows, {
+        ...chartSettings,
+        onProgress(progress) {
+          currentRevealRatio = progress;
+        },
+        onComplete() {
+          currentRevealRatio = 1;
+          activeAnimation = null;
+        },
+      });
     }
   } catch (error) {
     if (requestId !== renderRequestId) {
@@ -965,6 +977,7 @@ function redrawCurrentChart() {
     ...chartOptions(currentFilters),
     hoverIndex: currentHoverIndex,
     hoverRatio: currentHoverRatio,
+    revealRatio: currentRevealRatio,
   });
 }
 
@@ -1026,7 +1039,10 @@ function showTooltip(event) {
     return;
   }
 
-  const focus = getNearestChartPoint(elements.canvas, currentChartRows, event.clientX, chartOptions(currentFilters));
+  const focus = getNearestChartPoint(elements.canvas, currentChartRows, event.clientX, {
+    ...chartOptions(currentFilters),
+    revealRatio: currentRevealRatio,
+  });
   if (!focus) {
     return;
   }
@@ -1720,6 +1736,7 @@ function stopActiveAnimation() {
     activeAnimation.stop();
     activeAnimation = null;
   }
+  currentRevealRatio = 1;
 }
 
 /**
