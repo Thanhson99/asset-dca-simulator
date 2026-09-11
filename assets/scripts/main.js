@@ -114,6 +114,7 @@ const compareControls = createCompareControls({
   onRender: renderSelectedChart,
   onRefresh: refreshCurrentSimulation,
   onSave: saveFormState,
+  shouldCloseSymbolSuggestions: isKnownSymbolValue,
 });
 
 hydrateDefaultInputs();
@@ -681,11 +682,13 @@ function scoreStockMatch(asset, keyword) {
 function bindDataSyncStatus() {
   elements.symbol.addEventListener("input", () => {
     updateStockSymbolList(elements.symbol.value, { showStatus: true });
+    closeSymbolSuggestionsIfExact(elements.symbol);
   });
   elements.symbol.addEventListener("change", () => {
     normalizeSymbolField(elements.symbol);
     updateStockSymbolList(elements.symbol.value, { showStatus: true });
     updateDataSyncStatus(elements.symbol.value);
+    closeSymbolSuggestionsIfExact(elements.symbol);
   });
   elements.symbol.addEventListener("blur", () => {
     normalizeSymbolField(elements.symbol);
@@ -1039,6 +1042,13 @@ function showTooltip(event) {
     return;
   }
 
+  if (isChartRevealing()) {
+    currentHoverIndex = null;
+    currentHoverRatio = null;
+    elements.tooltip.hidden = true;
+    return;
+  }
+
   const focus = getNearestChartPoint(elements.canvas, currentChartRows, event.clientX, {
     ...chartOptions(currentFilters),
     revealRatio: currentRevealRatio,
@@ -1105,7 +1115,42 @@ function hideTooltip() {
   currentHoverIndex = null;
   currentHoverRatio = null;
   elements.tooltip.hidden = true;
+  if (isChartRevealing()) {
+    return;
+  }
   redrawCurrentChart();
+}
+
+/**
+ * Avoid hover redraw fighting with the progressive chart animation.
+ *
+ * @returns {boolean}
+ */
+function isChartRevealing() {
+  return Boolean(activeAnimation) || currentRevealRatio < 1;
+}
+
+/**
+ * Close native datalist suggestions after the user chooses an exact symbol.
+ *
+ * @param {HTMLInputElement} input
+ */
+function closeSymbolSuggestionsIfExact(input) {
+  if (!isKnownSymbolValue(input.value)) {
+    return;
+  }
+
+  requestAnimationFrame(() => input.blur());
+}
+
+/**
+ * Check whether text is an available stock symbol.
+ *
+ * @param {string} value
+ * @returns {boolean}
+ */
+function isKnownSymbolValue(value) {
+  return availableSymbols.has(normalizeSymbolText(value));
 }
 
 /**

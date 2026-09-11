@@ -154,11 +154,13 @@ export function createCompareControls(options) {
       options.clearFieldError(symbolInput);
       options.onSymbolQuery(symbolInput.value);
       updateLeg(id, { symbol: options.normalizeSymbol(symbolInput.value) });
+      closeSymbolSuggestionsIfExact(symbolInput);
     });
     symbolInput.addEventListener("change", () => {
       options.normalizeSymbolField(symbolInput);
       options.onSymbolQuery(symbolInput.value);
       updateLeg(id, { symbol: symbolInput.value });
+      closeSymbolSuggestionsIfExact(symbolInput);
       options.onRender();
     });
     symbolInput.addEventListener("blur", () => {
@@ -205,6 +207,19 @@ export function createCompareControls(options) {
       options.onSave();
       options.onRefresh();
     });
+  }
+
+  /**
+   * Close the native datalist after an exact symbol selection.
+   *
+   * @param {HTMLInputElement} input
+   */
+  function closeSymbolSuggestionsIfExact(input) {
+    if (typeof options.shouldCloseSymbolSuggestions !== "function" || !options.shouldCloseSymbolSuggestions(input.value)) {
+      return;
+    }
+
+    requestAnimationFrame(() => input.blur());
   }
 
   function updateLeg(id, patch) {
