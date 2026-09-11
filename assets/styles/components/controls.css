@@ -268,8 +268,18 @@
 .compare-row__options label {
   display: inline-flex;
   flex: 0 0 auto;
+  justify-content: space-between;
   min-width: 0;
+  min-height: 42px;
   padding: 6px 8px;
+}
+
+.compare-row__options .compare-option-toggle {
+  width: 84px;
+}
+
+.compare-row__options .compare-color-control {
+  width: 124px;
 }
 
 .compare-row__options input[type="color"] {

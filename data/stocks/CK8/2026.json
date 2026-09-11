@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "assetId": "CK8",
+  "assetType": "stock",
+  "market": "VN",
+  "currency": "VND",
+  "year": 2026,
+  "source": "kbs-public-poc",
+  "generatedAt": "2026-09-11T03:44:34.087Z",
+  "rows": [
+    {
+      "date": "2026-05-08",
+      "open": 5000,
+      "high": 5000,
+      "low": 5000,
+      "close": 5000,
+      "volume": 665800,
+      "value": 3329000000
+    },
+    {
+      "date": "2026-06-05",
+      "open": 5600,
+      "high": 5600,
+      "low": 5600,
+      "close": 5600,
+      "volume": 1900,
+      "value": 10640000
+    }
+  ]
+}

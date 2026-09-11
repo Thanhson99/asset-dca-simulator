@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "assetId": "BTG",
+  "assetType": "stock",
+  "market": "VN",
+  "currency": "VND",
+  "year": 2026,
+  "source": "kbs-public-poc",
+  "generatedAt": "2026-09-11T03:44:13.420Z",
+  "rows": [
+    {
+      "date": "2026-01-15",
+      "open": 7600,
+      "high": 7600,
+      "low": 7600,
+      "close": 7600,
+      "volume": 31300,
+      "value": 237880000
+    },
+    {
+      "date": "2026-01-19",
+      "open": 8700,
+      "high": 8700,
+      "low": 8700,
+      "close": 8700,
+      "volume": 1200,
+      "value": 10440000
+    },
+    {
+      "date": "2026-06-02",
+      "open": 8000,
+      "high": 8100,
+      "low": 8000,
+      "close": 8100,
+      "volume": 1900,
+      "value": 15330000
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "assetId": "PTH",
+  "assetType": "stock",
+  "market": "VN",
+  "currency": "VND",
+  "year": 2026,
+  "source": "kbs-public-poc",
+  "generatedAt": "2026-09-11T03:48:36.913Z",
+  "rows": [
+    {
+      "date": "2026-02-11",
+      "open": 9100,
+      "high": 9100,
+      "low": 9100,
+      "close": 9100,
+      "volume": 1000,
+      "value": null
+    },
+    {
+      "date": "2026-07-06",
+      "open": 12000,
+      "high": 12000,
+      "low": 12000,
+      "close": 12000,
+      "volume": 500,
+      "value": 6000000
+    }
+  ]
+}

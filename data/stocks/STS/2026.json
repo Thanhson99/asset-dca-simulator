@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "assetId": "STS",
+  "assetType": "stock",
+  "market": "VN",
+  "currency": "VND",
+  "year": 2026,
+  "source": "kbs-public-poc",
+  "generatedAt": "2026-09-11T03:49:56.662Z",
+  "rows": [
+    {
+      "date": "2026-06-17",
+      "open": 101500,
+      "high": 101500,
+      "low": 101500,
+      "close": 101500,
+      "volume": 100,
+      "value": 10150000
+    },
+    {
+      "date": "2026-06-18",
+      "open": 116700,
+      "high": 116700,
+      "low": 116700,
+      "close": 116700,
+      "volume": 100,
+      "value": 11670000
+    },
+    {
+      "date": "2026-06-23",
+      "open": 134200,
+      "high": 134200,
+      "low": 134200,
+      "close": 134200,
+      "volume": 200,
+      "value": 26840000
+    }
+  ]
+}

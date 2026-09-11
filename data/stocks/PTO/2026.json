@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "assetId": "PTO",
+  "assetType": "stock",
+  "market": "VN",
+  "currency": "VND",
+  "year": 2026,
+  "source": "kbs-public-poc",
+  "generatedAt": "2026-09-11T03:48:38.015Z",
+  "rows": [
+    {
+      "date": "2026-01-13",
+      "open": 19000,
+      "high": 19000,
+      "low": 19000,
+      "close": 19000,
+      "volume": 900,
+      "value": 17100000
+    },
+    {
+      "date": "2026-03-10",
+      "open": 19100,
+      "high": 19100,
+      "low": 19100,
+      "close": 19100,
+      "volume": 5000,
+      "value": 95500000
+    },
+    {
+      "date": "2026-03-19",
+      "open": 19100,
+      "high": 19100,
+      "low": 19100,
+      "close": 19100,
+      "volume": 3500,
+      "value": 66850000
+    },
+    {
+      "date": "2026-04-10",
+      "open": 21900,
+      "high": 21900,
+      "low": 21900,
+      "close": 21900,
+      "volume": 100,
+      "value": 2190000
+    },
+    {
+      "date": "2026-05-18",
+      "open": 20000,
+      "high": 20000,
+      "low": 20000,
+      "close": 20000,
+      "volume": 4800,
+      "value": 96000000
+    }
+  ]
+}

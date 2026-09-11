@@ -6,7 +6,7 @@
   "currency": "VND",
   "year": 2026,
   "source": "kbs-public-poc",
-  "generatedAt": "2026-09-10T01:38:56.913Z",
+  "generatedAt": "2026-09-11T03:47:42.222Z",
   "rows": [
     {
       "date": "2026-01-05",
@@ -1510,6 +1510,24 @@
       "close": 11250,
       "volume": 1231800,
       "value": 13898470000
+    },
+    {
+      "date": "2026-09-10",
+      "open": 11300,
+      "high": 11300,
+      "low": 11150,
+      "close": 11250,
+      "volume": 1323400,
+      "value": 14856005000
+    },
+    {
+      "date": "2026-09-11",
+      "open": 11250,
+      "high": 11350,
+      "low": 11200,
+      "close": 11200,
+      "volume": 769700,
+      "value": null
     }
   ]
 }

@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "assetId": "DTH",
+  "assetType": "stock",
+  "market": "VN",
+  "currency": "VND",
+  "year": 2026,
+  "source": "kbs-public-poc",
+  "generatedAt": "2026-09-11T03:45:24.965Z",
+  "rows": [
+    {
+      "date": "2026-05-13",
+      "open": 12600,
+      "high": 12600,
+      "low": 12600,
+      "close": 12600,
+      "volume": 800,
+      "value": null
+    },
+    {
+      "date": "2026-06-17",
+      "open": 14400,
+      "high": 14400,
+      "low": 14400,
+      "close": 14400,
+      "volume": 7600,
+      "value": 109440000
+    },
+    {
+      "date": "2026-07-24",
+      "open": 14000,
+      "high": 14000,
+      "low": 14000,
+      "close": 14000,
+      "volume": 1200,
+      "value": 16800000
+    },
+    {
+      "date": "2026-07-27",
+      "open": 15500,
+      "high": 16000,
+      "low": 15500,
+      "close": 16000,
+      "volume": 10000,
+      "value": 158100000
+    }
+  ]
+}

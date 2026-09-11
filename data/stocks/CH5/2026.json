@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "assetId": "CH5",
+  "assetType": "stock",
+  "market": "VN",
+  "currency": "VND",
+  "year": 2026,
+  "source": "kbs-public-poc",
+  "generatedAt": "2026-09-11T03:44:30.752Z",
+  "rows": [
+    {
+      "date": "2026-04-09",
+      "open": 11013,
+      "high": 11013,
+      "low": 11013,
+      "close": 11013,
+      "volume": 900,
+      "value": null
+    },
+    {
+      "date": "2026-06-11",
+      "open": 15400,
+      "high": 15400,
+      "low": 15400,
+      "close": 15400,
+      "volume": 100,
+      "value": null
+    },
+    {
+      "date": "2026-08-06",
+      "open": 9300,
+      "high": 9300,
+      "low": 9300,
+      "close": 9300,
+      "volume": 4800,
+      "value": 0
+    }
+  ]
+}

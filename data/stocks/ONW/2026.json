@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "assetId": "ONW",
+  "assetType": "stock",
+  "market": "VN",
+  "currency": "VND",
+  "year": 2026,
+  "source": "kbs-public-poc",
+  "generatedAt": "2026-09-11T03:48:04.515Z",
+  "rows": [
+    {
+      "date": "2026-04-02",
+      "open": 5000,
+      "high": 5000,
+      "low": 5000,
+      "close": 5000,
+      "volume": 100,
+      "value": 500000
+    },
+    {
+      "date": "2026-05-18",
+      "open": 7000,
+      "high": 7000,
+      "low": 7000,
+      "close": 7000,
+      "volume": 100,
+      "value": 700000
+    },
+    {
+      "date": "2026-05-19",
+      "open": 7000,
+      "high": 7000,
+      "low": 7000,
+      "close": 7000,
+      "volume": 300,
+      "value": 2100000
+    },
+    {
+      "date": "2026-06-12",
+      "open": 6500,
+      "high": 6500,
+      "low": 6000,
+      "close": 6000,
+      "volume": 7400,
+      "value": 44450000
+    }
+  ]
+}

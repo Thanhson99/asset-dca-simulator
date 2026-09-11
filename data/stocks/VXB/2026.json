@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "assetId": "VXB",
+  "assetType": "stock",
+  "market": "VN",
+  "currency": "VND",
+  "year": 2026,
+  "source": "kbs-public-poc",
+  "generatedAt": "2026-09-11T03:51:45.861Z",
+  "rows": [
+    {
+      "date": "2026-02-06",
+      "open": 40800,
+      "high": 40800,
+      "low": 30300,
+      "close": 30300,
+      "volume": 200,
+      "value": 7110000
+    },
+    {
+      "date": "2026-03-06",
+      "open": 40700,
+      "high": 40700,
+      "low": 40700,
+      "close": 40700,
+      "volume": 100,
+      "value": 4070000
+    }
+  ]
+}

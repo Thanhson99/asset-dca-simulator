@@ -46,6 +46,7 @@ export function animateClosePriceChart(canvas, rows, options) {
   let frameId = 0;
   let stopped = false;
   let lastVisibleCount = 0;
+  let lastFrameAt = 0;
 
   /**
    * Draw one animation frame.
@@ -58,6 +59,12 @@ export function animateClosePriceChart(canvas, rows, options) {
     }
 
     const progress = Math.min((now - startedAt) / (durationSeconds * 1000), 1);
+    if (progress < 1 && now - lastFrameAt < 33) {
+      frameId = requestAnimationFrame(drawFrame);
+      return;
+    }
+
+    lastFrameAt = now;
     const visibleCount = Math.max(2, Math.ceil(rows.length * progress));
 
     if (visibleCount !== lastVisibleCount) {

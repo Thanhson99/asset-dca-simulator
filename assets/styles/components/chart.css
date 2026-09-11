@@ -30,6 +30,10 @@
   height: auto;
 }
 
+.chart-frame.is-loading canvas {
+  opacity: 0.64;
+}
+
 .chart-icon-button {
   position: absolute;
   z-index: 3;

@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "assetId": "HFC",
+  "assetType": "stock",
+  "market": "VN",
+  "currency": "VND",
+  "year": 2026,
+  "source": "kbs-public-poc",
+  "generatedAt": "2026-09-11T03:46:08.896Z",
+  "rows": [
+    {
+      "date": "2026-03-20",
+      "open": 10000,
+      "high": 10000,
+      "low": 10000,
+      "close": 10000,
+      "volume": 200,
+      "value": 2000000
+    },
+    {
+      "date": "2026-03-24",
+      "open": 9000,
+      "high": 9000,
+      "low": 9000,
+      "close": 9000,
+      "volume": 800,
+      "value": 7200000
+    },
+    {
+      "date": "2026-03-25",
+      "open": 7700,
+      "high": 7700,
+      "low": 7700,
+      "close": 7700,
+      "volume": 200,
+      "value": 1540000
+    },
+    {
+      "date": "2026-06-02",
+      "open": 8000,
+      "high": 8000,
+      "low": 8000,
+      "close": 8000,
+      "volume": 200,
+      "value": 1600000
+    },
+    {
+      "date": "2026-06-24",
+      "open": 8500,
+      "high": 8500,
+      "low": 8500,
+      "close": 8500,
+      "volume": 100,
+      "value": 850000
+    }
+  ]
+}

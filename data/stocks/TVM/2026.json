@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "assetId": "TVM",
+  "assetType": "stock",
+  "market": "VN",
+  "currency": "VND",
+  "year": 2026,
+  "source": "kbs-public-poc",
+  "generatedAt": "2026-09-11T03:50:45.301Z",
+  "rows": [
+    {
+      "date": "2026-04-23",
+      "open": 5775,
+      "high": 5775,
+      "low": 5775,
+      "close": 5775,
+      "volume": 100,
+      "value": null
+    },
+    {
+      "date": "2026-05-07",
+      "open": 6600,
+      "high": 6600,
+      "low": 6600,
+      "close": 6600,
+      "volume": 200,
+      "value": null
+    },
+    {
+      "date": "2026-07-06",
+      "open": 7000,
+      "high": 7000,
+      "low": 6600,
+      "close": 6600,
+      "volume": 1500,
+      "value": 10020000
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "assetId": "TCK",
+  "assetType": "stock",
+  "market": "VN",
+  "currency": "VND",
+  "year": 2026,
+  "source": "kbs-public-poc",
+  "generatedAt": "2026-09-11T03:50:05.743Z",
+  "rows": [
+    {
+      "date": "2026-01-16",
+      "open": 3000,
+      "high": 3000,
+      "low": 3000,
+      "close": 3000,
+      "volume": 3600,
+      "value": 10800000
+    },
+    {
+      "date": "2026-01-30",
+      "open": 3000,
+      "high": 3000,
+      "low": 3000,
+      "close": 3000,
+      "volume": 100,
+      "value": 300000
+    }
+  ]
+}

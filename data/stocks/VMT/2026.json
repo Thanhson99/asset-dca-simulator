@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "assetId": "VMT",
+  "assetType": "stock",
+  "market": "VN",
+  "currency": "VND",
+  "year": 2026,
+  "source": "kbs-public-poc",
+  "generatedAt": "2026-09-11T03:51:24.833Z",
+  "rows": [
+    {
+      "date": "2026-01-20",
+      "open": 19500,
+      "high": 19500,
+      "low": 19500,
+      "close": 19500,
+      "volume": 200,
+      "value": 3900000
+    },
+    {
+      "date": "2026-02-26",
+      "open": 16600,
+      "high": 16600,
+      "low": 16600,
+      "close": 16600,
+      "volume": 200,
+      "value": 3320000
+    }
+  ]
+}

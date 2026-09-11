@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "assetId": "KAI",
+  "assetType": "stock",
+  "market": "VN",
+  "currency": "VND",
+  "year": 2026,
+  "source": "kbs-public-poc",
+  "generatedAt": "2026-09-11T03:46:49.840Z",
+  "rows": [
+    {
+      "date": "2026-09-09",
+      "open": 21000,
+      "high": 21000,
+      "low": 12000,
+      "close": 12900,
+      "volume": 547800,
+      "value": 7147260000
+    },
+    {
+      "date": "2026-09-10",
+      "open": 13000,
+      "high": 13000,
+      "low": 12200,
+      "close": 12300,
+      "volume": 210100,
+      "value": 2614410000
+    },
+    {
+      "date": "2026-09-11",
+      "open": 12300,
+      "high": 12500,
+      "low": 12000,
+      "close": 12100,
+      "volume": 219100,
+      "value": null
+    }
+  ]
+}

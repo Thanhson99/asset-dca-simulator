@@ -120,19 +120,19 @@ export function createCompareControls(options) {
           <button class="compare-row__remove" type="button" aria-label="Xóa mã so sánh" title="Xóa">×</button>
         </div>
         <div class="compare-row__options">
-          <label class="toggle-control">
+          <label class="toggle-control compare-option-toggle">
             <input data-field="showPrice" type="checkbox" ${leg.showPrice ? "checked" : ""} />
             <span>Giá</span>
           </label>
-          <label>
+          <label class="compare-color-control">
             <span>Màu giá</span>
             <input data-field="priceColor" type="color" value="${options.escapeHtml(leg.priceColor)}" />
           </label>
-          <label class="toggle-control">
+          <label class="toggle-control compare-option-toggle">
             <input data-field="showInvestment" type="checkbox" ${leg.showInvestment ? "checked" : ""} />
             <span>Đầu tư</span>
           </label>
-          <label>
+          <label class="compare-color-control">
             <span>Màu đầu tư</span>
             <input data-field="investmentColor" type="color" value="${options.escapeHtml(leg.investmentColor)}" />
           </label>

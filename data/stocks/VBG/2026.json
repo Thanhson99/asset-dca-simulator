@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "assetId": "VBG",
+  "assetType": "stock",
+  "market": "VN",
+  "currency": "VND",
+  "year": 2026,
+  "source": "kbs-public-poc",
+  "generatedAt": "2026-09-11T03:50:55.358Z",
+  "rows": [
+    {
+      "date": "2026-06-22",
+      "open": 4900,
+      "high": 4900,
+      "low": 4900,
+      "close": 4900,
+      "volume": 200,
+      "value": null
+    },
+    {
+      "date": "2026-06-26",
+      "open": 5000,
+      "high": 5000,
+      "low": 5000,
+      "close": 5000,
+      "volume": 100,
+      "value": 500000
+    },
+    {
+      "date": "2026-07-28",
+      "open": 5000,
+      "high": 5000,
+      "low": 5000,
+      "close": 5000,
+      "volume": 100,
+      "value": 500000
+    },
+    {
+      "date": "2026-08-05",
+      "open": 4300,
+      "high": 4300,
+      "low": 4300,
+      "close": 4300,
+      "volume": 100,
+      "value": 0
+    },
+    {
+      "date": "2026-08-07",
+      "open": 4300,
+      "high": 4300,
+      "low": 4300,
+      "close": 4300,
+      "volume": 200,
+      "value": 0
+    }
+  ]
+}

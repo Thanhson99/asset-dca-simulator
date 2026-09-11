@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "assetId": "VNX",
+  "assetType": "stock",
+  "market": "VN",
+  "currency": "VND",
+  "year": 2026,
+  "source": "kbs-public-poc",
+  "generatedAt": "2026-09-11T03:51:29.526Z",
+  "rows": [
+    {
+      "date": "2026-01-28",
+      "open": 300,
+      "high": 300,
+      "low": 300,
+      "close": 300,
+      "volume": 100,
+      "value": null
+    },
+    {
+      "date": "2026-07-28",
+      "open": 400,
+      "high": 400,
+      "low": 400,
+      "close": 400,
+      "volume": 100,
+      "value": 40000
+    }
+  ]
+}

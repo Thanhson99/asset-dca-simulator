@@ -362,6 +362,7 @@ async function renderSelectedChart() {
   clearFieldErrors();
 
   try {
+    await waitForBrowserPaint();
     const filters = readFilters();
     normalizeMoneyInput(filters.monthlyAmount);
     saveFormState();
@@ -1730,6 +1731,18 @@ function setBusy(isBusy) {
   elements.play.disabled = isBusy;
   elements.play.textContent = isBusy ? "Đang tải" : "Xem biểu đồ";
   elements.chartLoading.hidden = !isBusy;
+  elements.chartFrame.classList.toggle("is-loading", isBusy);
+}
+
+/**
+ * Let the browser paint loading UI before heavier fetch/compute/draw work starts.
+ *
+ * @returns {Promise<void>}
+ */
+function waitForBrowserPaint() {
+  return new Promise((resolve) => {
+    requestAnimationFrame(() => requestAnimationFrame(resolve));
+  });
 }
 
 /**

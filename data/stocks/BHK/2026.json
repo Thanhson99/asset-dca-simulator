@@ -1,0 +1,39 @@
+{
+  "version": 1,
+  "assetId": "BHK",
+  "assetType": "stock",
+  "market": "VN",
+  "currency": "VND",
+  "year": 2026,
+  "source": "kbs-public-poc",
+  "generatedAt": "2026-09-11T03:43:58.874Z",
+  "rows": [
+    {
+      "date": "2026-01-08",
+      "open": 9357,
+      "high": 9357,
+      "low": 9357,
+      "close": 9357,
+      "volume": 100,
+      "value": null
+    },
+    {
+      "date": "2026-02-24",
+      "open": 13100,
+      "high": 13100,
+      "low": 13100,
+      "close": 13100,
+      "volume": 100,
+      "value": null
+    },
+    {
+      "date": "2026-07-30",
+      "open": 12000,
+      "high": 12000,
+      "low": 12000,
+      "close": 12000,
+      "volume": 100,
+      "value": 1200000
+    }
+  ]
+}
