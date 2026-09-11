@@ -11,8 +11,11 @@ Static web app for simulating monthly DCA on Vietnamese stocks with local JSON m
 - Search/select stock symbols from local data.
 - Pick a date range and simulate monthly investing.
 - Compare close price and portfolio value on an animated Canvas chart.
+- Compare multiple stock symbols with per-symbol chart colors, grouped tooltips, high/low markers, and calendar-based spacing.
+- Add an existing holding to the main DCA simulation and let related portfolio fields be inferred where possible.
 - Try buy strategies such as fixed day, first/last trading day, monthly average, and monthly low.
 - Customize chart colors, visible lines, light/dark chart background, tooltip, and fullscreen.
+- See stale local data warnings when a symbol has not been synced through the latest completed date.
 
 ## Data
 
@@ -42,12 +45,29 @@ Run or resume downloads:
 node collector/bin/market-data.mjs stocks:queue:run --delay-ms=500
 ```
 
+Update all existing stock data on macOS, Windows, or Ubuntu:
+
+```bash
+node scripts/update-data.mjs
+```
+
+Useful safe checks:
+
+```bash
+node scripts/update-data.mjs --dry-run=true --limit=5
+```
+
 ## Docs
 
 - [Architecture](docs/architecture.md)
 - [Collector](docs/collector.md)
 - [Data format](docs/data-format.md)
 - [Agent handoff](docs/agent-handoff.md)
+
+## Roadmap Notes
+
+- Add a new chart comparison tab for bank savings, MoMo Túi Thần Tài, and similar cash/yield products.
+- Keep the stock chart as the main flow, then compare cash/yield tracks over the same date range.
 
 ## License
 

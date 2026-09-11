@@ -57,6 +57,7 @@ export function enhanceDateInput(input) {
   });
   input.addEventListener("blur", () => syncTypedDate(state));
   input.addEventListener("change", () => syncTypedDate(state));
+  input.addEventListener("date-picker:clear", () => clearDate(state));
   input.addEventListener("keydown", (event) => {
     if (event.key === "Enter" || event.key === " ") {
       event.preventDefault();
@@ -69,6 +70,17 @@ export function enhanceDateInput(input) {
       state.popover.hidden = true;
     }
   });
+}
+
+/**
+ * Clear the picker state when another UI action resets the input.
+ *
+ * @param {object} state
+ */
+function clearDate(state) {
+  state.selectedIso = "";
+  delete state.input.dataset.iso;
+  state.input.value = "";
 }
 
 /**

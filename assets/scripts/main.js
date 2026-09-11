@@ -1,16 +1,19 @@
 import { DEMO_ASSET } from "./config.js";
-import { loadStockRange } from "./data/stock-loader.js";
-import { buildMonthlyDcaRows, buildPriceRows } from "./simulation/dca.js";
+import { loadStockFreshness, loadStockRange } from "./data/stock-loader.js";
+import { buildMonthlyDcaRows, buildMultiComparisonRows, buildPriceRows } from "./simulation/dca.js";
 import {
   DEFAULT_CHART_THEME,
   animateClosePriceChart,
   drawStaticClosePriceChart,
   getNearestChartPoint,
 } from "./charts/price-chart.js";
+import { createCompareControls, createCompareSeriesOptions } from "./ui/compare-controls.js";
 import { enhanceDateInput, readDateInput } from "./ui/date-picker.js";
+import { createPortfolioControls } from "./ui/portfolio-controls.js";
 import { renderChartError, renderChartMeta } from "./ui/summary.js";
 
 const TODAY_ISO = toIsoDate(new Date());
+const LATEST_COMPLETED_DATA_DATE_ISO = previousIsoDate(TODAY_ISO);
 const FORM_STORAGE_KEY = "asset-dca-simulator:form";
 
 const elements = {
@@ -21,6 +24,7 @@ const elements = {
   controlError: document.getElementById("control-error"),
   symbol: document.getElementById("symbol-input"),
   symbolList: document.getElementById("stock-symbol-list"),
+  symbolSearchStatus: document.getElementById("symbol-search-status"),
   from: document.getElementById("from-input"),
   to: document.getElementById("to-input"),
   duration: document.getElementById("duration-input"),
@@ -28,6 +32,16 @@ const elements = {
   monthlyAmount: document.getElementById("monthly-amount-input"),
   buyStrategy: document.getElementById("buy-strategy-input"),
   buyStrategyHelp: document.getElementById("buy-strategy-help"),
+  portfolioStart: document.getElementById("portfolio-start-input"),
+  portfolioInvested: document.getElementById("portfolio-invested-input"),
+  portfolioProfit: document.getElementById("portfolio-profit-input"),
+  portfolioProfitValue: document.getElementById("portfolio-profit-value-input"),
+  portfolioCurrentPrice: document.getElementById("portfolio-current-price-input"),
+  portfolioAveragePrice: document.getElementById("portfolio-average-price-input"),
+  portfolioShares: document.getElementById("portfolio-shares-input"),
+  portfolioResult: document.getElementById("portfolio-result"),
+  addCompare: document.getElementById("add-compare-button"),
+  compareList: document.getElementById("compare-list"),
   lineColor: document.getElementById("line-color-input"),
   investmentColor: document.getElementById("investment-color-input"),
   textColor: document.getElementById("text-color-input"),
@@ -35,28 +49,79 @@ const elements = {
   lowColor: document.getElementById("low-color-input"),
   chartBgColor: document.getElementById("chart-bg-color-input"),
   chartTheme: document.getElementById("chart-theme-input"),
+  dataSyncPanel: document.getElementById("data-sync-panel"),
+  dataSyncStatus: document.getElementById("data-sync-status"),
   valueLine: document.getElementById("value-line-input"),
   investedLine: document.getElementById("invested-line-input"),
   lineGlow: document.getElementById("line-glow-input"),
   simulationSummary: document.getElementById("simulation-summary"),
   play: document.getElementById("play-button"),
+  clearForm: document.getElementById("clear-form-button"),
   fullscreen: document.getElementById("fullscreen-button"),
 };
 
 let activeAnimation = null;
 let currentData = null;
 let currentRows = [];
+let currentCompareRows = [];
 let currentChartRows = [];
 let currentFilters = null;
 let currentHoverIndex = null;
+let currentHoverRatio = null;
+let pendingHoverFrame = 0;
 let availableSymbols = new Set();
 let stockAssetsBySymbol = new Map();
+let stockAssets = [];
+let renderRequestId = 0;
+let syncStatusRequestId = 0;
+
+const portfolioControls = createPortfolioControls({
+  elements: {
+    start: elements.portfolioStart,
+    invested: elements.portfolioInvested,
+    profitPercent: elements.portfolioProfit,
+    profitValue: elements.portfolioProfitValue,
+    currentPrice: elements.portfolioCurrentPrice,
+    averagePrice: elements.portfolioAveragePrice,
+    shares: elements.portfolioShares,
+    result: elements.portfolioResult,
+  },
+  todayIso: TODAY_ISO,
+  getToDate: () => currentFilters?.toDate,
+  readDate: readDateInput,
+  parseVnd: parseVndInput,
+  parseSignedVnd: parseSignedVndInput,
+  formatVnd,
+  formatMoney,
+  formatPercent,
+  formatShares,
+  formatPlainNumber,
+});
+const compareControls = createCompareControls({
+  elements: {
+    addButton: elements.addCompare,
+    list: elements.compareList,
+  },
+  normalizeSymbol: normalizeSymbolText,
+  normalizeSymbolField,
+  parseVnd: parseVndInput,
+  formatVnd,
+  clamp,
+  escapeHtml,
+  clearFieldError,
+  onSymbolQuery: (query) => updateStockSymbolList(query, { showStatus: false }),
+  onRender: renderSelectedChart,
+  onRefresh: refreshCurrentSimulation,
+  onSave: saveFormState,
+});
 
 hydrateDefaultInputs();
 const restoredForm = restoreFormState();
 enhanceDateInput(elements.from);
 enhanceDateInput(elements.to);
+enhanceDateInput(elements.portfolioStart);
 elements.play.addEventListener("click", renderSelectedChart);
+elements.clearForm.addEventListener("click", clearAllFormData);
 elements.fullscreen.addEventListener("click", toggleChartFullscreen);
 bindFieldErrorReset();
 bindFormPersistence();
@@ -65,6 +130,9 @@ observeChartResize();
 bindThemeInputs();
 bindModeInputs();
 bindMoneyInput();
+portfolioControls.bind();
+compareControls.bind();
+bindDataSyncStatus();
 updateBuyStrategyHelp();
 bindTooltip();
 await loadStockOptions();
@@ -81,7 +149,7 @@ function hydrateDefaultInputs() {
   elements.symbol.value = DEMO_ASSET.symbol;
   elements.from.value = DEMO_ASSET.fromDate;
   elements.to.value = DEMO_ASSET.toDate;
-  elements.duration.value = String(DEMO_ASSET.durationSeconds);
+  elements.duration.value = DEMO_ASSET.durationSeconds ? String(DEMO_ASSET.durationSeconds) : "";
   elements.mode.value = DEMO_ASSET.mode;
   elements.monthlyAmount.value = DEMO_ASSET.monthlyAmount ? formatVnd(DEMO_ASSET.monthlyAmount) : "";
   elements.buyStrategy.value = DEMO_ASSET.buyStrategy;
@@ -96,13 +164,68 @@ function hydrateDefaultInputs() {
 }
 
 /**
+ * Clear every user-entered value and return the app to a neutral chart state.
+ */
+function clearAllFormData() {
+  renderRequestId += 1;
+  syncStatusRequestId += 1;
+  stopActiveAnimation();
+  clearFieldErrors();
+  hideTooltip();
+  clearDateInput(elements.from);
+  clearDateInput(elements.to);
+  clearDateInput(elements.portfolioStart);
+
+  for (const input of [
+    elements.symbol,
+    elements.duration,
+    elements.monthlyAmount,
+    elements.portfolioInvested,
+    elements.portfolioProfit,
+    elements.portfolioProfitValue,
+    elements.portfolioCurrentPrice,
+    elements.portfolioAveragePrice,
+    elements.portfolioShares,
+  ]) {
+    input.value = "";
+    delete input.dataset.autoFilled;
+  }
+
+  elements.mode.value = "dca";
+  elements.buyStrategy.value = "fixed_day";
+  portfolioControls.clearAutoFlags();
+  currentCompareRows = [];
+  compareControls.clear();
+  syncModeControls();
+  updateBuyStrategyHelp();
+  removeSavedFormState();
+  renderEmptyChart();
+}
+
+/**
+ * Clear an enhanced date input including its internal ISO value.
+ *
+ * @param {HTMLInputElement} input
+ */
+function clearDateInput(input) {
+  input.value = "";
+  delete input.dataset.iso;
+  delete input.dataset.autoFilled;
+  input.dispatchEvent(new CustomEvent("date-picker:clear"));
+}
+
+/**
  * Show a neutral state before the user chooses a symbol and date range.
  */
 function renderEmptyChart() {
   currentData = null;
   currentRows = [];
+  currentCompareRows = [];
   currentFilters = null;
   currentChartRows = [];
+  currentHoverIndex = null;
+  currentHoverRatio = null;
+  renderDataSyncStatus(null);
   elements.simulationSummary.hidden = true;
   elements.simulationSummary.innerHTML = "";
   document.getElementById("chart-title").textContent = "Chọn mã và khoảng ngày để mô phỏng";
@@ -126,10 +249,18 @@ function restoreFormState() {
     elements.symbol.value = state.symbol || "";
     elements.from.value = state.fromDate || "";
     elements.to.value = state.toDate || "";
-    elements.duration.value = state.durationSeconds || elements.duration.value;
+    elements.duration.value = state.durationSeconds ?? elements.duration.value;
     elements.mode.value = state.mode || elements.mode.value;
     elements.monthlyAmount.value = state.monthlyAmount || "";
     elements.buyStrategy.value = state.buyStrategy || elements.buyStrategy.value;
+    elements.portfolioStart.value = state.portfolioStart || "";
+    elements.portfolioInvested.value = state.portfolioInvested || "";
+    elements.portfolioProfit.value = state.portfolioProfit || "";
+    elements.portfolioProfitValue.value = state.portfolioProfitValue || "";
+    elements.portfolioCurrentPrice.value = state.portfolioCurrentPrice || "";
+    elements.portfolioAveragePrice.value = state.portfolioAveragePrice || "";
+    elements.portfolioShares.value = state.portfolioShares || "";
+    compareControls.restore(state);
     return true;
   } catch {
     return false;
@@ -140,7 +271,24 @@ function restoreFormState() {
  * Save form values so reloads do not wipe a generated chart setup.
  */
 function bindFormPersistence() {
-  for (const input of [elements.symbol, elements.from, elements.to, elements.duration, elements.mode, elements.monthlyAmount, elements.buyStrategy]) {
+  const inputs = [
+    elements.symbol,
+    elements.from,
+    elements.to,
+    elements.duration,
+    elements.mode,
+    elements.monthlyAmount,
+    elements.buyStrategy,
+    elements.portfolioStart,
+    elements.portfolioInvested,
+    elements.portfolioProfit,
+    elements.portfolioProfitValue,
+    elements.portfolioCurrentPrice,
+    elements.portfolioAveragePrice,
+    elements.portfolioShares,
+  ];
+
+  for (const input of inputs) {
     input.addEventListener("input", saveFormState);
     input.addEventListener("change", saveFormState);
   }
@@ -161,12 +309,38 @@ function saveFormState() {
         mode: elements.mode.value,
         monthlyAmount: elements.monthlyAmount.value,
         buyStrategy: elements.buyStrategy.value,
+        portfolioStart: readDateInput(elements.portfolioStart),
+        portfolioInvested: elements.portfolioInvested.value,
+        portfolioProfit: elements.portfolioProfit.value,
+        portfolioProfitValue: elements.portfolioProfitValue.value,
+        portfolioCurrentPrice: elements.portfolioCurrentPrice.value,
+        portfolioAveragePrice: elements.portfolioAveragePrice.value,
+        portfolioShares: elements.portfolioShares.value,
+        compareLegs: compareControls.values(),
       }),
     );
   } catch {
     // Ignore unavailable storage; the app still works without persistence.
   }
 }
+
+/**
+ * Remove persisted form data when the user explicitly clears the UI.
+ */
+function removeSavedFormState() {
+  try {
+    localStorage.removeItem(FORM_STORAGE_KEY);
+  } catch {
+    // Ignore unavailable storage; clearing the visible form is enough.
+  }
+}
+
+/**
+ * Restore compare rows from current or previous localStorage shape.
+ *
+ * @param {object} state
+ * @returns {Array<object>}
+ */
 
 /**
  * Check whether restored values are sufficient to rerender the chart.
@@ -182,6 +356,7 @@ function canRestoreChart() {
  * Load the selected range and start chart animation after user action.
  */
 async function renderSelectedChart() {
+  const requestId = ++renderRequestId;
   setBusy(true);
   stopActiveAnimation();
   clearFieldErrors();
@@ -191,24 +366,60 @@ async function renderSelectedChart() {
     normalizeMoneyInput(filters.monthlyAmount);
     saveFormState();
     const data = await loadStockRange(filters);
+    const compareData = await Promise.all(
+      filters.compareLegs.map(async (leg) => ({
+        ...leg,
+        rows: (await loadStockRange({
+          symbol: leg.symbol,
+          fromDate: filters.fromDate,
+          toDate: filters.toDate,
+        })).rows,
+      })),
+    );
+    if (requestId !== renderRequestId) {
+      return;
+    }
+
     currentData = data;
     currentRows = data.rows;
+    currentCompareRows = compareData;
     currentFilters = filters;
-    currentChartRows = buildChartRows(currentRows, filters);
+    currentChartRows = buildChartRows(currentRows, filters, currentCompareRows);
+    if (filters.compareLegs.length > 0 && currentChartRows.length === 0) {
+      throw new Error(`Không có ngày giao dịch chung cho các mã đã chọn trong khoảng này`);
+    }
     renderChartMeta(data, filters, stockAssetsBySymbol.get(filters.symbol));
+    renderCompareMeta(filters);
     renderSimulationSummary(currentChartRows, filters);
+    portfolioControls.syncCurrentPrice(currentChartRows.at(-1));
+    portfolioControls.render();
+    await updateDataSyncStatus(filters.symbol);
     resizeCanvasToFrame();
-    activeAnimation = animateClosePriceChart(elements.canvas, currentChartRows, {
+    const chartSettings = {
       ...filters,
       theme: readTheme(),
       ...chartOptions(filters),
-    });
+    };
+
+    if (filters.durationSeconds === 0) {
+      drawStaticClosePriceChart(elements.canvas, currentChartRows, chartSettings.theme, chartSettings);
+    } else {
+      activeAnimation = animateClosePriceChart(elements.canvas, currentChartRows, chartSettings);
+    }
   } catch (error) {
+    if (requestId !== renderRequestId) {
+      return;
+    }
+
     showFieldError(error);
-    renderChartError(error);
+    if (!isValidationError(error)) {
+      renderChartError(error);
+    }
     console.warn(error.message);
   } finally {
-    setBusy(false);
+    if (requestId === renderRequestId) {
+      setBusy(false);
+    }
   }
 }
 
@@ -227,14 +438,17 @@ function refreshCurrentSimulation() {
     filters = readFilters();
   } catch (error) {
     showFieldError(error);
-    renderChartError(error);
+    if (!isValidationError(error)) {
+      renderChartError(error);
+    }
     console.warn(error.message);
     return;
   }
 
   currentFilters = filters;
   currentHoverIndex = null;
-  currentChartRows = buildChartRows(currentRows, filters);
+  currentHoverRatio = null;
+  currentChartRows = buildChartRows(currentRows, filters, currentCompareRows);
   renderChartMeta(currentData, filters, stockAssetsBySymbol.get(filters.symbol));
   renderSimulationSummary(currentChartRows, filters);
   redrawCurrentChart();
@@ -244,7 +458,17 @@ function refreshCurrentSimulation() {
  * Clear validation state as soon as the user edits a field.
  */
 function bindFieldErrorReset() {
-  for (const input of [elements.symbol, elements.from, elements.to, elements.duration, elements.mode, elements.monthlyAmount, elements.buyStrategy]) {
+  const inputs = [
+    elements.symbol,
+    elements.from,
+    elements.to,
+    elements.duration,
+    elements.mode,
+    elements.monthlyAmount,
+    elements.buyStrategy,
+  ];
+
+  for (const input of inputs) {
     input.addEventListener("input", () => clearFieldError(input));
     input.addEventListener("change", () => clearFieldError(input));
   }
@@ -355,13 +579,199 @@ async function loadStockOptions() {
     }
 
     const data = await response.json();
-    const assets = Array.isArray(data.assets) ? data.assets : [];
-    availableSymbols = new Set(assets.map((asset) => asset.symbol?.toUpperCase()).filter(Boolean));
-    stockAssetsBySymbol = new Map(assets.map((asset) => [asset.symbol?.toUpperCase(), asset]).filter(([symbol]) => symbol));
-    elements.symbolList.innerHTML = assets.map(createStockOption).join("");
+    stockAssets = Array.isArray(data.assets) ? data.assets : [];
+    availableSymbols = new Set(stockAssets.map((asset) => asset.symbol?.toUpperCase()).filter(Boolean));
+    stockAssetsBySymbol = new Map(stockAssets.map((asset) => [asset.symbol?.toUpperCase(), asset]).filter(([symbol]) => symbol));
+    updateStockSymbolList("");
   } catch (error) {
     console.warn("Không tải được danh sách mã cổ phiếu", error);
   }
+}
+
+/**
+ * Keep browser suggestions predictable by filtering symbols before datalist renders.
+ *
+ * @param {string} query
+ */
+function updateStockSymbolList(query, options = {}) {
+  const showStatus = options.showStatus !== false;
+  const keyword = normalizeSymbolText(query);
+  const searchableAssets = availableSymbols.has(keyword)
+    ? stockAssets.filter((asset) => String(asset.symbol || "").toUpperCase() === keyword)
+    : stockAssets;
+  const matches = searchableAssets
+    .filter((asset) => {
+      const symbol = String(asset.symbol || "").toUpperCase();
+      const name = String(asset.name || "").toUpperCase();
+
+      if (!keyword) {
+        return true;
+      }
+
+      return symbol === keyword || symbol.startsWith(keyword) || name.includes(keyword);
+    })
+    .sort((left, right) => scoreStockMatch(left, keyword) - scoreStockMatch(right, keyword))
+    .slice(0, 12);
+
+  if (keyword && matches.length === 0) {
+    elements.symbolList.innerHTML = `<option value="" label="Không có mã nào khớp"></option>`;
+    if (showStatus) {
+      renderSymbolSearchStatus("Không có mã nào khớp");
+    }
+    return;
+  }
+
+  elements.symbolList.innerHTML = matches.map(createStockOption).join("");
+  if (showStatus) {
+    renderSymbolSearchStatus(null);
+  }
+}
+
+/**
+ * Show primary symbol-search feedback outside the browser datalist.
+ *
+ * @param {string|null} message
+ */
+function renderSymbolSearchStatus(message) {
+  elements.symbolSearchStatus.hidden = !message;
+  elements.symbolSearchStatus.textContent = message || "";
+}
+
+/**
+ * Rank exact and symbol-prefix matches ahead of company-name matches.
+ *
+ * @param {object} asset
+ * @param {string} keyword
+ * @returns {number}
+ */
+function scoreStockMatch(asset, keyword) {
+  const symbol = String(asset.symbol || "").toUpperCase();
+
+  if (!keyword) {
+    return 10;
+  }
+
+  if (symbol === keyword) {
+    return 0;
+  }
+
+  if (symbol.startsWith(keyword)) {
+    return 1;
+  }
+
+  return 2;
+}
+
+/**
+ * Refresh data sync state when users choose or type a symbol.
+ */
+function bindDataSyncStatus() {
+  elements.symbol.addEventListener("input", () => {
+    updateStockSymbolList(elements.symbol.value, { showStatus: true });
+  });
+  elements.symbol.addEventListener("change", () => {
+    normalizeSymbolField(elements.symbol);
+    updateStockSymbolList(elements.symbol.value, { showStatus: true });
+    updateDataSyncStatus(elements.symbol.value);
+  });
+  elements.symbol.addEventListener("blur", () => {
+    normalizeSymbolField(elements.symbol);
+    updateStockSymbolList(elements.symbol.value, { showStatus: true });
+    updateDataSyncStatus(elements.symbol.value);
+  });
+}
+
+/**
+ * Load sync metadata for a symbol and render a stale/fresh status.
+ *
+ * @param {string} symbol
+ */
+async function updateDataSyncStatus(symbol) {
+  const requestId = ++syncStatusRequestId;
+  const normalizedSymbol = symbol.trim().toUpperCase();
+
+  if (!normalizedSymbol || !availableSymbols.has(normalizedSymbol)) {
+    if (requestId === syncStatusRequestId) {
+      renderDataSyncStatus(null);
+    }
+    return;
+  }
+
+  renderDataSyncStatus({ symbol: normalizedSymbol, loading: true });
+
+  try {
+    const freshness = await loadStockFreshness(normalizedSymbol);
+    if (requestId === syncStatusRequestId) {
+      renderDataSyncStatus(freshness);
+    }
+  } catch (error) {
+    if (requestId === syncStatusRequestId) {
+      renderDataSyncStatus({ symbol: normalizedSymbol, error: error.message });
+    }
+  }
+}
+
+/**
+ * Render the sync panel only when local data is stale.
+ *
+ * @param {object|null} freshness
+ */
+function renderDataSyncStatus(freshness) {
+  elements.dataSyncPanel.hidden = true;
+  elements.dataSyncPanel.className = "data-sync-panel is-warning";
+  elements.dataSyncStatus.textContent = "";
+
+  if (!freshness) {
+    return;
+  }
+
+  if (freshness.loading) {
+    return;
+  }
+
+  if (freshness.error || !freshness.generatedDate) {
+    elements.dataSyncPanel.hidden = false;
+    elements.dataSyncStatus.textContent = freshness.error || `Chưa đọc được ngày sync của ${freshness.symbol}`;
+    return;
+  }
+
+  if (freshness.generatedDate >= LATEST_COMPLETED_DATA_DATE_ISO) {
+    return;
+  }
+
+  elements.dataSyncPanel.hidden = false;
+  elements.dataSyncStatus.textContent = formatDataGapMessage(nextIsoDate(freshness.generatedDate), LATEST_COMPLETED_DATA_DATE_ISO);
+}
+
+/**
+ * Add comparison metadata to the chart title.
+ *
+ * @param {object} filters
+ */
+function renderCompareMeta(filters) {
+  if (filters.compareLegs.length === 0) {
+    return;
+  }
+
+  const title = document.getElementById("chart-title");
+  if (title) {
+    const chips = [
+      createChartTitleChip(filters.symbol, elements.lineColor.value),
+      ...filters.compareLegs.map((leg) => createChartTitleChip(leg.symbol, leg.priceColor)),
+    ].join("");
+    title.innerHTML = `Biểu đồ mô phỏng <span class="chart-title__chips">${chips}</span>`;
+  }
+}
+
+/**
+ * Create a compact colored symbol chip for multi-stock chart titles.
+ *
+ * @param {string} symbol
+ * @param {string} color
+ * @returns {string}
+ */
+function createChartTitleChip(symbol, color) {
+  return `<span class="chart-title__chip" style="--chip-color: ${escapeHtml(color)}">${escapeHtml(symbol)}</span>`;
 }
 
 /**
@@ -373,6 +783,17 @@ async function loadStockOptions() {
 function createStockOption(asset) {
   const label = [asset.name, asset.exchange].filter(Boolean).join(" - ");
   return `<option value="${escapeHtml(asset.symbol)}" label="${escapeHtml(label)}"></option>`;
+}
+
+/**
+ * Build a compact symbol label from manifest metadata.
+ *
+ * @param {string} symbol
+ * @param {object|null} asset
+ * @returns {string}
+ */
+function formatAssetName(symbol, asset = null) {
+  return [symbol, asset?.name, asset?.exchange].filter(Boolean).join(" - ");
 }
 
 /**
@@ -394,22 +815,52 @@ function bindModeInputs() {
  * Keep the monthly amount readable while preserving a numeric value.
  */
 function bindMoneyInput() {
-  elements.monthlyAmount.addEventListener("focus", () => {
-    elements.monthlyAmount.select();
-  });
+  for (const input of [elements.monthlyAmount]) {
+    input.addEventListener("focus", () => {
+      input.select();
+    });
 
-  elements.monthlyAmount.addEventListener("blur", () => {
-    const amount = parseVndInput(elements.monthlyAmount.value);
-    if (amount > 0) {
-      normalizeMoneyInput(amount);
-    }
+    input.addEventListener("blur", () => {
+      const amount = parseVndInput(input.value);
+      if (amount > 0) {
+        input.value = formatVnd(amount);
+      }
 
-    refreshCurrentSimulation();
-  });
+      refreshCurrentSimulation();
+    });
+  }
 }
 
 /**
- * Format the money field only after the user finishes editing.
+ * Normalize a symbol field after datalist/browser autofill.
+ *
+ * @param {HTMLInputElement} input
+ */
+function normalizeSymbolField(input) {
+  const symbol = normalizeSymbolText(input.value);
+  if (availableSymbols.has(symbol)) {
+    input.value = symbol;
+  }
+}
+
+/**
+ * Extract the stock symbol from user or datalist text.
+ *
+ * @param {string} value
+ * @returns {string}
+ */
+function normalizeSymbolText(value) {
+  return String(value || "").trim().toUpperCase().match(/^[A-Z0-9]+/)?.[0] || "";
+}
+
+/**
+ * Keep each comparison row from hiding both lines at once.
+ *
+ * @param {HTMLElement} row
+ * @param {HTMLInputElement} changedInput
+ */
+/**
+ * Keep the monthly amount readable while preserving a numeric value.
  *
  * @param {number} amount
  */
@@ -509,8 +960,10 @@ function redrawCurrentChart() {
 
   resizeCanvasToFrame();
   drawStaticClosePriceChart(elements.canvas, currentChartRows, readTheme(), {
+    ...currentFilters,
     ...chartOptions(currentFilters),
     hoverIndex: currentHoverIndex,
+    hoverRatio: currentHoverRatio,
   });
 }
 
@@ -578,20 +1031,54 @@ function showTooltip(event) {
   }
 
   currentHoverIndex = focus.index;
-  redrawCurrentChart();
+  currentHoverRatio = focus.hoverRatio;
+  scheduleHoverRedraw();
 
   const row = focus.row;
   const frameRect = elements.chartFrame.getBoundingClientRect();
-  const canvasRect = elements.canvas.getBoundingClientRect();
-  const canvasLeft = canvasRect.left - frameRect.left;
-  const canvasTop = canvasRect.top - frameRect.top;
-  const left = clamp(canvasLeft + focus.x + 18, 10, frameRect.width - 230);
-  const top = clamp(canvasTop + focus.y + 18, 10, frameRect.height - 142);
+  const pointerLeft = event.clientX - frameRect.left;
+  const pointerTop = event.clientY - frameRect.top;
 
   elements.tooltip.hidden = false;
-  elements.tooltip.style.left = `${left}px`;
-  elements.tooltip.style.top = `${top}px`;
   elements.tooltip.innerHTML = createTooltipHtml(row, currentFilters);
+  positionTooltip(pointerLeft, pointerTop, frameRect);
+}
+
+/**
+ * Place the tooltip around the pointer without clipping long multi-symbol content.
+ *
+ * @param {number} pointerLeft
+ * @param {number} pointerTop
+ * @param {DOMRect} frameRect
+ */
+function positionTooltip(pointerLeft, pointerTop, frameRect) {
+  const gap = 18;
+  const margin = 10;
+  const tooltipWidth = elements.tooltip.offsetWidth;
+  const tooltipHeight = elements.tooltip.offsetHeight;
+  const hasRightSpace = pointerLeft + gap + tooltipWidth <= frameRect.width - margin;
+  const hasBottomSpace = pointerTop + gap + tooltipHeight <= frameRect.height - margin;
+  const left = hasRightSpace ? pointerLeft + gap : pointerLeft - tooltipWidth - gap;
+  const top = hasBottomSpace ? pointerTop + gap : pointerTop - tooltipHeight - gap;
+  const maxLeft = Math.max(margin, frameRect.width - tooltipWidth - margin);
+  const maxTop = Math.max(margin, frameRect.height - tooltipHeight - margin);
+
+  elements.tooltip.style.left = `${clamp(left, margin, maxLeft)}px`;
+  elements.tooltip.style.top = `${clamp(top, margin, maxTop)}px`;
+}
+
+/**
+ * Redraw hover markers at most once per animation frame.
+ */
+function scheduleHoverRedraw() {
+  if (pendingHoverFrame) {
+    return;
+  }
+
+  pendingHoverFrame = requestAnimationFrame(() => {
+    pendingHoverFrame = 0;
+    redrawCurrentChart();
+  });
 }
 
 /**
@@ -599,6 +1086,7 @@ function showTooltip(event) {
  */
 function hideTooltip() {
   currentHoverIndex = null;
+  currentHoverRatio = null;
   elements.tooltip.hidden = true;
   redrawCurrentChart();
 }
@@ -625,10 +1113,12 @@ function hexToRgba(hex, alpha) {
  * @returns {object}
  */
 function readFilters() {
-  const symbol = elements.symbol.value.trim().toUpperCase();
+  const symbol = normalizeSymbolText(elements.symbol.value);
   const fromDate = readDateInput(elements.from);
   const toDate = readDateInput(elements.to);
   const monthlyAmount = parseVndInput(elements.monthlyAmount.value);
+  const normalizedCompareLegs = compareControls.read(monthlyAmount);
+  const existingPosition = portfolioControls.readExistingPosition();
   const errors = [];
 
   if (!availableSymbols.has(symbol)) {
@@ -659,6 +1149,19 @@ function readFilters() {
     errors.push(fieldError(elements.monthlyAmount, "nhập hoặc chọn số tiền đầu tư hằng tháng"));
   }
 
+  for (const leg of normalizedCompareLegs) {
+    if (!availableSymbols.has(leg.symbol)) {
+      errors.push(fieldError(leg.symbolInput, "chọn mã so sánh có dữ liệu"));
+    } else if (leg.symbol === symbol) {
+      errors.push(fieldError(leg.symbolInput, "chọn mã so sánh khác mã chính"));
+    }
+
+    const duplicateCount = normalizedCompareLegs.filter((item) => item.symbol === leg.symbol).length;
+    if (leg.symbol && duplicateCount > 1) {
+      errors.push(fieldError(leg.symbolInput, "mỗi mã so sánh chỉ chọn một lần"));
+    }
+  }
+
   if (fromDate && toDate && fromDate > toDate) {
     errors.push(fieldError(elements.from, "ngày bắt đầu phải trước hoặc bằng ngày kết thúc"));
     errors.push(fieldError(elements.to, "ngày kết thúc phải sau hoặc bằng ngày bắt đầu"));
@@ -672,10 +1175,12 @@ function readFilters() {
     symbol,
     fromDate,
     toDate,
-    durationSeconds: clamp(Number(elements.duration.value), 1, 60),
+    durationSeconds: clamp(parseOptionalNumber(elements.duration.value), 0, 60),
     mode: elements.mode.value,
     monthlyAmount: clamp(monthlyAmount, 10000, 1000000000),
     buyStrategy: elements.buyStrategy.value,
+    existingPosition,
+    compareLegs: normalizedCompareLegs.map(({ symbolInput, amountInput, ...leg }) => leg),
   };
 }
 
@@ -704,6 +1209,16 @@ function validationError(fieldErrors) {
   const error = new Error(message);
   error.fieldErrors = fieldErrors;
   return error;
+}
+
+/**
+ * Detect form-only errors so they do not replace the chart content.
+ *
+ * @param {Error} error
+ * @returns {boolean}
+ */
+function isValidationError(error) {
+  return Array.isArray(error.fieldErrors);
 }
 
 /**
@@ -741,11 +1256,20 @@ function clearFieldErrors() {
   elements.controlError.hidden = true;
   elements.controlError.replaceChildren();
 
-  for (const label of document.querySelectorAll(".control-panel label.is-invalid")) {
+  for (const label of document.querySelectorAll("label.is-invalid")) {
     label.classList.remove("is-invalid");
   }
 
-  for (const input of [elements.symbol, elements.from, elements.to, elements.duration, elements.mode, elements.monthlyAmount, elements.buyStrategy]) {
+  for (const input of [
+    elements.symbol,
+    elements.from,
+    elements.to,
+    elements.duration,
+    elements.mode,
+    elements.monthlyAmount,
+    elements.buyStrategy,
+    ...elements.compareList.querySelectorAll("input"),
+  ]) {
     input.removeAttribute("aria-invalid");
   }
 }
@@ -759,7 +1283,7 @@ function clearFieldError(field) {
   field.closest("label")?.classList.remove("is-invalid");
   field.removeAttribute("aria-invalid");
 
-  if (!document.querySelector(".control-panel label.is-invalid")) {
+  if (!document.querySelector("label.is-invalid")) {
     elements.controlError.hidden = true;
     elements.controlError.replaceChildren();
   }
@@ -772,12 +1296,31 @@ function clearFieldError(field) {
  * @param {object} filters
  * @returns {Array<object>}
  */
-function buildChartRows(rows, filters) {
+function buildChartRows(rows, filters, comparisons = []) {
   if (filters.mode === "dca") {
-    return buildMonthlyDcaRows(rows, filters);
+    const primaryRows = buildMonthlyDcaRows(rows, {
+      ...filters,
+      initialPosition: filters.existingPosition,
+    });
+    const compareSimulations = comparisons.map((comparison) => ({
+      ...comparison,
+      rows: buildMonthlyDcaRows(comparison.rows, {
+        ...filters,
+        monthlyAmount: comparison.monthlyAmount,
+      }),
+    }));
+
+    return buildMultiComparisonRows(primaryRows, compareSimulations);
   }
 
-  return buildPriceRows(rows);
+  const priceRows = buildPriceRows(rows);
+  return buildMultiComparisonRows(
+    priceRows,
+    comparisons.map((comparison) => ({
+      ...comparison,
+      rows: buildPriceRows(comparison.rows),
+    })),
+  );
 }
 
 /**
@@ -790,6 +1333,7 @@ function chartOptions(filters) {
   return {
     showPrice: elements.valueLine.checked,
     showInvestment: filters.mode === "dca" && elements.investedLine.checked,
+    compareSeries: filters.compareLegs.map((leg) => createCompareSeriesOptions(leg)),
   };
 }
 
@@ -801,18 +1345,62 @@ function chartOptions(filters) {
  * @returns {string}
  */
 function createTooltipHtml(row, filters) {
-  const lines = [
-    `<strong>${formatDate(row.date)}</strong>`,
-    `<span><b>Giá đóng cửa</b><em>${formatMoney(row.close)}</em></span>`,
+  const groups = [
+    createTooltipGroup(filters.symbol, [
+      [priceLabelForDate(row.sourceDate, row.date), formatMoney(row.close)],
+      ...(filters.mode === "dca"
+        ? [
+            ["Hiện tại", formatMoney(row.investmentValue)],
+            ["Đã góp", formatMoney(row.investedValue)],
+            ["Cổ phiếu", formatShares(row.units)],
+          ]
+        : []),
+    ]),
   ];
 
-  if (filters.mode === "dca") {
-    lines.push(`<span><b>Giá trị đầu tư</b><em>${formatMoney(row.investmentValue)}</em></span>`);
-    lines.push(`<span><b>Đã góp</b><em>${formatMoney(row.investedValue)}</em></span>`);
-    lines.push(`<span><b>Số cổ phiếu</b><em>${formatShares(row.units)}</em></span>`);
+  for (const leg of filters.compareLegs) {
+    groups.push(
+      createTooltipGroup(leg.symbol, [
+        [priceLabelForDate(row[`${leg.id}Date`], row.date), formatMoney(row[`${leg.id}Close`])],
+        ...(filters.mode === "dca"
+          ? [
+              ["Hiện tại", formatMoney(row[`${leg.id}InvestmentValue`])],
+              ["Đã góp", formatMoney(row[`${leg.id}InvestedValue`])],
+              ["Cổ phiếu", formatShares(row[`${leg.id}Units`])],
+            ]
+          : []),
+      ]),
+    );
   }
 
-  return lines.join("");
+  return [`<strong>${formatDate(row.date)}</strong>`, ...groups].join("");
+}
+
+/**
+ * Create a separated tooltip block for one stock symbol.
+ *
+ * @param {string} symbol
+ * @param {Array<[string, string]>} rows
+ * @returns {string}
+ */
+function createTooltipGroup(symbol, rows) {
+  return `
+    <div class="chart-tooltip__group">
+      <div class="chart-tooltip__symbol">${escapeHtml(symbol)}</div>
+      ${rows.map(([label, value]) => `<span><b>${escapeHtml(label)}</b><em>${escapeHtml(value)}</em></span>`).join("")}
+    </div>
+  `;
+}
+
+/**
+ * Clarify carried-forward prices for symbols that did not trade on the hover date.
+ *
+ * @param {string} sourceDate
+ * @param {string} displayDate
+ * @returns {string}
+ */
+function priceLabelForDate(sourceDate, displayDate) {
+  return sourceDate && sourceDate !== displayDate ? "Đóng cửa gần nhất" : "Đóng cửa";
 }
 
 /**
@@ -839,18 +1427,83 @@ function renderSimulationSummary(rows, filters) {
   }
 
   const latest = rows.at(-1);
-  const profitLoss = latest.investmentValue - latest.investedValue;
-  const profitClass = profitLoss >= 0 ? "is-profit" : "is-loss";
+  const items = [
+    createSummaryMetaItem("Cách mua", buyStrategyLabel(filters.buyStrategy, filters)),
+    createSummaryRow({
+      symbol: filters.symbol,
+      color: elements.lineColor.value,
+      monthlyAmount: filters.monthlyAmount,
+      investedValue: latest.investedValue,
+      investmentValue: latest.investmentValue,
+      units: latest.units,
+    }),
+    ...filters.compareLegs.map((leg) =>
+      createSummaryRow({
+        symbol: leg.symbol,
+        color: leg.priceColor,
+        monthlyAmount: leg.monthlyAmount,
+        investedValue: latest[`${leg.id}InvestedValue`],
+        investmentValue: latest[`${leg.id}InvestmentValue`],
+        units: latest[`${leg.id}Units`],
+      }),
+    ),
+  ];
+
+  if (filters.compareLegs.length > 0) {
+    items.push(createSummaryMetaItem("So sánh", formatComparePerformance(latest, filters), "is-compare"));
+  }
 
   elements.simulationSummary.hidden = false;
-  elements.simulationSummary.innerHTML = [
-    createSummaryItem("Mỗi tháng", formatMoney(filters.monthlyAmount)),
-    createSummaryItem("Cách mua", buyStrategyLabel(filters.buyStrategy, filters)),
-    createSummaryItem("Đã góp", formatMoney(latest.investedValue)),
-    createSummaryItem("Giá trị hiện tại", formatMoney(latest.investmentValue)),
-    createSummaryItem("Số cổ phiếu", formatShares(latest.units)),
-    createSummaryItem("Lãi/lỗ", `${profitLoss >= 0 ? "+" : ""}${formatMoney(profitLoss)}`, profitClass),
-  ].join("");
+  elements.simulationSummary.innerHTML = items.join("");
+}
+
+/**
+ * Create one full-width summary row for one stock symbol.
+ *
+ * @param {object} item
+ * @returns {string}
+ */
+function createSummaryRow(item) {
+  const profitLoss = item.investmentValue - item.investedValue;
+  const profitClass = profitLoss >= 0 ? "is-profit" : "is-loss";
+
+  return `
+    <div class="summary-row">
+      <div class="summary-row__symbol" style="--summary-color: ${escapeHtml(item.color)}">
+        <span></span>
+        <strong>${escapeHtml(item.symbol)}</strong>
+      </div>
+      ${createSummaryMetric("Mỗi tháng", formatMoney(item.monthlyAmount))}
+      ${createSummaryMetric("Đã góp", formatMoney(item.investedValue))}
+      ${createSummaryMetric("Hiện tại", formatMoney(item.investmentValue))}
+      ${createSummaryMetric("Cổ phiếu", formatShares(item.units))}
+      ${createSummaryMetric("Lãi/lỗ", `${profitLoss >= 0 ? "+" : ""}${formatMoney(profitLoss)}`, profitClass)}
+    </div>
+  `;
+}
+
+/**
+ * Create a compact metric inside a symbol summary row.
+ *
+ * @param {string} label
+ * @param {string} value
+ * @param {string} className
+ * @returns {string}
+ */
+function createSummaryMetric(label, value, className = "") {
+  return `<div class="summary-metric ${className}"><span>${label}</span><strong>${value}</strong></div>`;
+}
+
+/**
+ * Create a full-width metadata row for summary context.
+ *
+ * @param {string} label
+ * @param {string} value
+ * @param {string} className
+ * @returns {string}
+ */
+function createSummaryMetaItem(label, value, className = "") {
+  return `<div class="summary-meta ${className}"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`;
 }
 
 /**
@@ -886,6 +1539,47 @@ function formatShares(value) {
 }
 
 /**
+ * Compare DCA legs by return percentage so different monthly amounts are fair.
+ *
+ * @param {object} latest
+ * @param {object} filters
+ * @returns {string}
+ */
+function formatComparePerformance(latest, filters) {
+  const returns = [
+    {
+      symbol: filters.symbol,
+      value: returnRatio(latest.investmentValue, latest.investedValue),
+    },
+    ...filters.compareLegs.map((leg) => ({
+      symbol: leg.symbol,
+      value: returnRatio(latest[`${leg.id}InvestmentValue`], latest[`${leg.id}InvestedValue`]),
+    })),
+  ].sort((left, right) => right.value - left.value);
+
+  const best = returns[0];
+  const runnerUp = returns[1];
+  const diff = (best.value - runnerUp.value) * 100;
+
+  if (diff < 0.01) {
+    return "Các mã gần như ngang nhau";
+  }
+
+  return `${best.symbol} cao hơn ${runnerUp.symbol} ${formatPercent(diff)}`;
+}
+
+/**
+ * Calculate return ratio.
+ *
+ * @param {number} currentValue
+ * @param {number} investedValue
+ * @returns {number}
+ */
+function returnRatio(currentValue, investedValue) {
+  return investedValue > 0 ? (currentValue - investedValue) / investedValue : 0;
+}
+
+/**
  * Format an ISO date as dd/mm/yyyy for compact UI labels.
  *
  * @param {string} value
@@ -894,6 +1588,58 @@ function formatShares(value) {
 function formatDate(value) {
   const [year, month, day] = value.split("-");
   return `${day}/${month}/${year}`;
+}
+
+/**
+ * Format a percentage value for compact Vietnamese UI.
+ *
+ * @param {number} value
+ * @returns {string}
+ */
+function formatPercent(value) {
+  return `${value.toLocaleString("vi-VN", {
+    maximumFractionDigits: 2,
+    minimumFractionDigits: 0,
+  })}%`;
+}
+
+/**
+ * Return the next local ISO date after a given ISO date.
+ *
+ * @param {string} value
+ * @returns {string}
+ */
+function nextIsoDate(value) {
+  const date = new Date(`${value}T00:00:00`);
+  date.setDate(date.getDate() + 1);
+  return toIsoDate(date);
+}
+
+/**
+ * Return the local ISO date before a given ISO date.
+ *
+ * @param {string} value
+ * @returns {string}
+ */
+function previousIsoDate(value) {
+  const date = new Date(`${value}T00:00:00`);
+  date.setDate(date.getDate() - 1);
+  return toIsoDate(date);
+}
+
+/**
+ * Create readable stale-data copy for one or more missing completed days.
+ *
+ * @param {string} fromDate
+ * @param {string} toDate
+ * @returns {string}
+ */
+function formatDataGapMessage(fromDate, toDate) {
+  if (fromDate === toDate) {
+    return `Chưa có data ngày ${formatDate(fromDate)}`;
+  }
+
+  return `Chưa có data từ ngày ${formatDate(fromDate)} tới ${formatDate(toDate)}`;
 }
 
 /**
@@ -921,18 +1667,6 @@ function buyStrategyLabel(strategy, filters = {}) {
 }
 
 /**
- * Create one compact summary item.
- *
- * @param {string} label
- * @param {string} value
- * @param {string} className
- * @returns {string}
- */
-function createSummaryItem(label, value, className = "") {
-  return `<div class="summary-item ${className}"><span>${label}</span><strong>${value}</strong></div>`;
-}
-
-/**
  * Parse VND text input such as `1.000.000` or `1,000,000`.
  *
  * @param {string} value
@@ -941,6 +1675,40 @@ function createSummaryItem(label, value, className = "") {
 function parseVndInput(value) {
   const digits = String(value).replace(/\D/g, "");
   return Number(digits || 0);
+}
+
+/**
+ * Parse signed VND input such as `-5.000.000` or `+500.000`.
+ *
+ * @param {string} value
+ * @returns {number}
+ */
+function parseSignedVndInput(value) {
+  const text = String(value || "").trim();
+  const amount = parseVndInput(text);
+  return text.startsWith("-") ? -amount : amount;
+}
+
+/**
+ * Parse an optional numeric input, treating blank/invalid values as zero.
+ *
+ * @param {string} value
+ * @returns {number}
+ */
+function parseOptionalNumber(value) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : 0;
+}
+
+/**
+ * Format a plain number without locale separators for numeric inputs.
+ *
+ * @param {number} value
+ * @param {number} digits
+ * @returns {string}
+ */
+function formatPlainNumber(value, digits) {
+  return Number(value.toFixed(digits)).toString();
 }
 
 /**

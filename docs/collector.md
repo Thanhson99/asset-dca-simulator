@@ -48,6 +48,12 @@ node collector/bin/market-data.mjs stocks:update --symbols=FPT,HPG,MWG
 node collector/bin/market-data.mjs stocks:update --all=true --concurrency=2 --delay-ms=500
 ```
 
+Cross-platform wrapper for macOS, Windows, and Ubuntu:
+
+```bash
+node scripts/update-data.mjs
+```
+
 For the first historical load, run in batches instead of all at once:
 
 ```bash
@@ -84,3 +90,9 @@ Run the same command again to resume; symbols already marked `done` are skipped.
 - `--refresh-days=3`: recheck recent rows in update mode
 - `--to=YYYY-MM-DD`: override end date
 - `--force=true`: rewrite existing historical years in backfill mode
+
+All options can be passed through `scripts/update-data.mjs`, for example:
+
+```bash
+node scripts/update-data.mjs --dry-run=true --limit=5
+```

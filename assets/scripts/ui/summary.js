@@ -10,9 +10,12 @@ export function renderChartMeta(data, filters, asset = null) {
   const actualFrom = data.rows[0]?.date;
   const actualTo = data.rows.at(-1)?.date;
   const coverage = describeCoverage(filters, actualFrom, actualTo);
+  const title = document.getElementById("chart-title");
 
   setText("chart-eyebrow", "DCA simulator");
-  setText("chart-title", `${modeLabel} ${formatAssetName(data.symbol, asset)}`);
+  if (title) {
+    title.textContent = `${modeLabel} ${formatAssetName(data.symbol, asset)}`;
+  }
   setText("chart-status", coverage.text);
   setClass("chart-status", "source-label", coverage.warning ? "source-label is-warning" : "source-label");
 }

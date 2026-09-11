@@ -1,6 +1,6 @@
 .chart-frame {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #fffefa;
@@ -56,6 +56,9 @@
   position: absolute;
   z-index: 4;
   min-width: 176px;
+  max-width: min(340px, calc(100vw - 32px));
+  max-height: min(520px, calc(100vh - 32px));
+  overflow: auto;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: rgba(255, 254, 250, 0.98);
@@ -70,6 +73,24 @@
 .chart-tooltip strong {
   display: block;
   margin-bottom: 4px;
+}
+
+.chart-tooltip__group {
+  display: grid;
+  gap: 2px;
+  padding-top: 7px;
+}
+
+.chart-tooltip__group + .chart-tooltip__group {
+  border-top: 1px solid var(--line);
+  margin-top: 7px;
+}
+
+.chart-tooltip__symbol {
+  color: var(--brand-strong);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0;
 }
 
 .chart-tooltip span {

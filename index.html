@@ -34,6 +34,7 @@
             autocomplete="off"
           />
           <datalist id="stock-symbol-list"></datalist>
+          <small id="symbol-search-status" class="field-help search-status" hidden></small>
         </label>
         <label>
           <span>Từ ngày</span>
@@ -45,7 +46,12 @@
         </label>
         <label>
           <span>Thời gian chạy (s)</span>
-          <input id="duration-input" type="number" value="10" min="1" max="60" step="1" />
+          <input id="duration-input" type="number" value="" min="0" max="60" step="1" list="duration-list" placeholder="0" />
+          <datalist id="duration-list">
+            <option value="0" label="Vẽ ngay"></option>
+            <option value="5" label="5 giây"></option>
+            <option value="10" label="10 giây"></option>
+          </datalist>
         </label>
         <label>
           <span>Chế độ</span>
@@ -87,7 +93,10 @@
           </select>
           <small id="buy-strategy-help" class="field-help"></small>
         </label>
-        <button id="play-button" type="button">Xem biểu đồ</button>
+        <div class="control-actions">
+          <button id="play-button" type="button">Xem biểu đồ</button>
+          <button id="clear-form-button" class="secondary-button" type="button">Xóa dữ liệu</button>
+        </div>
         <p id="control-error" class="control-error" hidden></p>
       </section>
 
@@ -104,8 +113,58 @@
         </label>
       </section>
 
+      <section id="data-sync-panel" class="data-sync-panel is-warning" aria-label="Trạng thái đồng bộ dữ liệu" hidden>
+        <div>
+          <span>Đồng bộ dữ liệu</span>
+          <strong id="data-sync-status"></strong>
+        </div>
+      </section>
+
       <details class="advanced-chart-options">
         <summary>Tùy chỉnh nâng cao</summary>
+        <div class="portfolio-panel" aria-label="Khoản đang nắm của mã chính">
+          <div class="portfolio-panel__heading">
+            <span>Khoản đang nắm của mã chính</span>
+          </div>
+          <label>
+            <span>Ngày bắt đầu</span>
+            <input id="portfolio-start-input" class="date-input" type="text" value="" placeholder="dd/mm/yyyy" autocomplete="off" />
+          </label>
+          <label>
+            <span>Đã đầu tư</span>
+            <input id="portfolio-invested-input" type="text" value="" inputmode="numeric" placeholder="Tổng tiền đã mua" autocomplete="off" />
+          </label>
+          <label>
+            <span>Lãi/lỗ (%)</span>
+            <input id="portfolio-profit-input" type="number" value="" step="0.01" placeholder="Ví dụ: -5 hoặc 12" />
+          </label>
+          <label>
+            <span>Lãi/lỗ tiền</span>
+            <input id="portfolio-profit-value-input" type="text" value="" inputmode="numeric" placeholder="Số tiền lời hoặc lỗ" autocomplete="off" />
+          </label>
+          <label>
+            <span>Giá hiện tại</span>
+            <input id="portfolio-current-price-input" type="text" value="" inputmode="numeric" placeholder="Giá đang giao dịch" autocomplete="off" />
+          </label>
+          <label>
+            <span>Giá mua TB</span>
+            <input id="portfolio-average-price-input" type="text" value="" inputmode="numeric" placeholder="Giá vốn mỗi cổ phiếu" autocomplete="off" />
+          </label>
+          <label>
+            <span>Số cổ phiếu</span>
+            <input id="portfolio-shares-input" type="number" value="" min="0" step="0.0001" placeholder="Khối lượng đang nắm" />
+          </label>
+          <div id="portfolio-result" class="portfolio-result" hidden></div>
+        </div>
+
+        <div class="compare-panel" aria-label="So sánh nhiều mã">
+          <div class="compare-panel__heading">
+            <span>So sánh thêm mã</span>
+            <button id="add-compare-button" type="button">+ Thêm mã</button>
+          </div>
+          <div id="compare-list" class="compare-list"></div>
+        </div>
+
         <div class="style-panel" aria-label="Chỉnh màu biểu đồ">
           <div class="style-panel__heading">
             <span>Chỉnh màu biểu đồ</span>

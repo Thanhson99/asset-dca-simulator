@@ -3,7 +3,9 @@ export const DEFAULT_CHART_THEME = {
   muted: "#77807c",
   grid: "#e9efeb",
   price: "#459ef2",
+  comparePrice: "#176b4d",
   investment: "#e042ff",
+  compareInvestment: "#ff9f1c",
   high: "#f13b3b",
   low: "#f13b3b",
   latest: "#f13b3b",
@@ -13,6 +15,10 @@ export const DEFAULT_CHART_THEME = {
   fillBottom: "rgba(69, 158, 242, 0)",
   investmentFillTop: "rgba(224, 66, 255, 0.12)",
   investmentFillBottom: "rgba(224, 66, 255, 0)",
+  compareFillTop: "rgba(23, 107, 77, 0.1)",
+  compareFillBottom: "rgba(23, 107, 77, 0)",
+  compareInvestmentFillTop: "rgba(255, 159, 28, 0.1)",
+  compareInvestmentFillBottom: "rgba(255, 159, 28, 0)",
 };
 
 const CHART_PADDING = { top: 34, right: 132, bottom: 70, left: 82 };
@@ -29,9 +35,17 @@ const CHART_PADDING = { top: 34, right: 132, bottom: 70, left: 82 };
 export function animateClosePriceChart(canvas, rows, options) {
   const context = canvas.getContext("2d");
   const state = createChartState(canvas, rows, options);
+  const durationSeconds = Math.max(Number(options.durationSeconds) || 0, 0);
+
+  if (durationSeconds === 0) {
+    drawChart(context, state, rows);
+    return { stop() {} };
+  }
+
   const startedAt = performance.now();
   let frameId = 0;
   let stopped = false;
+  let lastVisibleCount = 0;
 
   /**
    * Draw one animation frame.
@@ -43,10 +57,13 @@ export function animateClosePriceChart(canvas, rows, options) {
       return;
     }
 
-    const progress = Math.min((now - startedAt) / (options.durationSeconds * 1000), 1);
+    const progress = Math.min((now - startedAt) / (durationSeconds * 1000), 1);
     const visibleCount = Math.max(2, Math.ceil(rows.length * progress));
 
-    drawChart(context, state, rows.slice(0, visibleCount));
+    if (visibleCount !== lastVisibleCount) {
+      lastVisibleCount = visibleCount;
+      drawChart(context, state, rows.slice(0, visibleCount));
+    }
 
     if (progress < 1) {
       frameId = requestAnimationFrame(drawFrame);
@@ -79,7 +96,8 @@ export function drawStaticClosePriceChart(canvas, rows, theme = DEFAULT_CHART_TH
     return;
   }
 
-  drawChart(context, createChartState(canvas, rows, { ...options, theme }), rows, options.hoverIndex);
+  const hover = Number.isInteger(options.hoverIndex) ? { index: options.hoverIndex, ratio: options.hoverRatio ?? null } : null;
+  drawChart(context, createChartState(canvas, rows, { ...options, theme }), rows, hover);
 }
 
 /**
@@ -106,7 +124,7 @@ function drawEmptyChart(context, canvas, theme) {
  * @param {Array<object>} rows
  * @param {number} clientX
  * @param {object} options
- * @returns {{index: number, row: object, x: number, y: number}|null}
+ * @returns {{index: number, row: object, x: number, y: number, hoverRatio: number}|null}
  */
 export function getNearestChartPoint(canvas, rows, clientX, options = {}) {
   if (rows.length === 0) {
@@ -118,7 +136,7 @@ export function getNearestChartPoint(canvas, rows, clientX, options = {}) {
   const canvasX = ((clientX - rect.left) / rect.width) * canvas.width;
   const plotX = clamp(canvasX, state.padding.left, state.width - state.padding.right);
   const ratio = (plotX - state.padding.left) / plotWidth(state);
-  const index = Math.round(ratio * (rows.length - 1));
+  const index = findNearestRowIndexByRatio(state, ratio);
   const point = pointForActiveSeries(state, rows[index], index);
 
   return {
@@ -126,6 +144,7 @@ export function getNearestChartPoint(canvas, rows, clientX, options = {}) {
     row: rows[index],
     x: (point.x / canvas.width) * rect.width,
     y: (point.y / canvas.height) * rect.height,
+    hoverRatio: clamp(ratio, 0, 1),
   };
 }
 
@@ -141,24 +160,37 @@ function createChartState(canvas, rows, options = {}) {
   const theme = options.theme || DEFAULT_CHART_THEME;
   const requestedPrice = options.showPrice !== false;
   const requestedInvestment = options.showInvestment === true;
+  const compareSeries = Array.isArray(options.compareSeries) ? options.compareSeries : [];
+  const showCompare = compareSeries.length > 0;
   const showPrice = requestedPrice || !requestedInvestment;
   const showInvestment = requestedInvestment;
-  const priceTicks = createNiceTicksForRows(rows, "close");
-  const investmentTicks = createNiceTicksForRows(rows, "investmentValue");
-  const padding = createResponsivePadding(priceTicks, investmentTicks, rows.at(-1), { showPrice, showInvestment });
+  const priceKeys = ["close", ...compareSeries.filter((series) => series.showPrice !== false).map((series) => series.priceKey)];
+  const investmentKeys = ["investmentValue", ...compareSeries.filter((series) => series.showInvestment !== false).map((series) => series.investmentKey)];
+  const priceTicks = createNiceTicksForRows(rows, priceKeys);
+  const investmentTicks = createNiceTicksForRows(rows, investmentKeys);
+  const padding = createResponsivePadding(priceTicks, investmentTicks, rows.at(-1), { showPrice, showInvestment }, compareSeries, options.symbol);
+  const rowTimes = rows.map((row) => dateToTime(row.date));
+  const startTime = rowTimes[0];
+  const endTime = rowTimes.at(-1);
 
   return {
     width: canvas.width,
     height: canvas.height,
     padding,
     theme,
+    symbol: options.symbol || "Mã",
     showPrice,
     showInvestment,
+    showCompare,
+    compareSeries,
     activeSeries: showPrice ? "price" : "investment",
     priceTicks,
     investmentTicks,
+    rowTimes,
+    startTime,
+    endTime,
     xTicks: createDateTicks(rows, dateTickCountForWidth(canvas.width)),
-    extrema: findGlobalPriceExtrema(rows),
+    extrema: findVisiblePriceExtrema(rows, options.symbol || "Mã", compareSeries),
     totalRows: rows.length,
     priceMin: priceTicks[0],
     priceMax: priceTicks.at(-1),
@@ -173,19 +205,90 @@ function createChartState(canvas, rows, options = {}) {
  * @param {CanvasRenderingContext2D} context
  * @param {object} state
  * @param {Array<object>} visibleRows
- * @param {number|null} hoverIndex
+ * @param {{index: number, ratio: number|null}|null} hover
  */
-function drawChart(context, state, visibleRows, hoverIndex = null) {
+function drawChart(context, state, visibleRows, hover = null) {
   clearCanvas(context, state);
   drawGrid(context, state);
   drawPriceArea(context, state, visibleRows);
+  drawComparePriceAreas(context, state, visibleRows);
   drawInvestmentArea(context, state, visibleRows);
+  drawCompareInvestmentAreas(context, state, visibleRows);
+  drawCompareInvestmentLines(context, state, visibleRows);
   drawInvestmentLine(context, state, visibleRows);
+  drawComparePriceLines(context, state, visibleRows);
   drawPriceLine(context, state, visibleRows);
   drawPriceExtremaMarkers(context, state, visibleRows.length);
   drawLatestLabels(context, state, visibleRows.at(-1), visibleRows.length - 1);
-  drawCrosshair(context, state, visibleRows, hoverIndex);
+  drawCrosshair(context, state, visibleRows, hover);
   drawDateAxis(context, state);
+  drawChartLegend(context, state);
+}
+
+/**
+ * Draw a compact legend so colors stay meaningful with multiple symbols.
+ *
+ * @param {CanvasRenderingContext2D} context
+ * @param {object} state
+ */
+function drawChartLegend(context, state) {
+  const items = createLegendItems(state);
+  if (items.length <= 1) {
+    return;
+  }
+
+  context.save();
+  context.font = "700 12px system-ui";
+  context.textBaseline = "middle";
+  let x = state.padding.left;
+  let y = state.height - state.padding.bottom + 62;
+  const maxX = state.width - state.padding.right;
+
+  for (const item of items) {
+    const width = context.measureText(item.label).width + 28;
+    if (x + width > maxX && x > state.padding.left) {
+      x = state.padding.left;
+      y += 20;
+    }
+
+    context.fillStyle = item.color;
+    context.fillRect(x, y - 4, 16, 3);
+    context.fillStyle = state.theme.text;
+    context.fillText(item.label, x + 22, y);
+    x += width + 12;
+  }
+
+  context.restore();
+}
+
+/**
+ * Build visible legend entries for primary and comparison series.
+ *
+ * @param {object} state
+ * @returns {Array<{label: string, color: string}>}
+ */
+function createLegendItems(state) {
+  const items = [];
+
+  if (state.showPrice) {
+    items.push({ label: `${state.symbol} giá`, color: state.theme.price });
+  }
+
+  if (state.showInvestment) {
+    items.push({ label: `${state.symbol} đầu tư`, color: state.theme.investment });
+  }
+
+  for (const series of state.compareSeries) {
+    if (state.showPrice && series.showPrice !== false) {
+      items.push({ label: `${series.symbol} giá`, color: series.color });
+    }
+
+    if (state.showInvestment && series.showInvestment !== false) {
+      items.push({ label: `${series.symbol} đầu tư`, color: series.investmentColor });
+    }
+  }
+
+  return items;
 }
 
 /**
@@ -277,6 +380,26 @@ function drawInvestmentArea(context, state, rows) {
 }
 
 /**
+ * Draw subtle area fill below the comparison investment line.
+ *
+ * @param {CanvasRenderingContext2D} context
+ * @param {object} state
+ * @param {Array<object>} rows
+ */
+function drawCompareInvestmentAreas(context, state, rows) {
+  if (!state.showInvestment || !state.showCompare || rows.length < 2) {
+    return;
+  }
+
+  for (const series of state.compareSeries.filter((item) => item.showInvestment !== false)) {
+    drawArea(context, state, rows, (row, index) => pointForCompareInvestment(state, row, index, series), [
+      transparentize(series.investmentColor, 0.08),
+      transparentize(series.investmentColor, 0),
+    ]);
+  }
+}
+
+/**
  * Draw right Y-axis labels for investment value.
  *
  * @param {CanvasRenderingContext2D} context
@@ -326,6 +449,57 @@ function drawPriceArea(context, state, rows) {
 }
 
 /**
+ * Draw subtle area fill below the comparison price line.
+ *
+ * @param {CanvasRenderingContext2D} context
+ * @param {object} state
+ * @param {Array<object>} rows
+ */
+function drawComparePriceAreas(context, state, rows) {
+  if (!state.showPrice || !state.showCompare || rows.length < 2) {
+    return;
+  }
+
+  for (const series of state.compareSeries.filter((item) => item.showPrice !== false)) {
+    drawArea(context, state, rows, (row, index) => pointForComparePrice(state, row, index, series), [
+      transparentize(series.color, 0.08),
+      transparentize(series.color, 0),
+    ]);
+  }
+}
+
+/**
+ * Draw a generic area under a line.
+ *
+ * @param {CanvasRenderingContext2D} context
+ * @param {object} state
+ * @param {Array<object>} rows
+ * @param {Function} pointFactory
+ * @param {[string, string]} colors
+ */
+function drawArea(context, state, rows, pointFactory, colors) {
+  const gradient = context.createLinearGradient(0, state.padding.top, 0, state.height - state.padding.bottom);
+  gradient.addColorStop(0, colors[0]);
+  gradient.addColorStop(1, colors[1]);
+
+  context.beginPath();
+  rows.forEach((row, index) => {
+    const point = pointFactory(row, index);
+    if (index === 0) {
+      context.moveTo(point.x, point.y);
+    } else {
+      context.lineTo(point.x, point.y);
+    }
+  });
+
+  context.lineTo(pointFactory(rows.at(-1), rows.length - 1).x, state.height - state.padding.bottom);
+  context.lineTo(state.padding.left, state.height - state.padding.bottom);
+  context.closePath();
+  context.fillStyle = gradient;
+  context.fill();
+}
+
+/**
  * Draw the FPT close-price line.
  *
  * @param {CanvasRenderingContext2D} context
@@ -341,6 +515,23 @@ function drawPriceLine(context, state, rows) {
 }
 
 /**
+ * Draw the comparison close-price line.
+ *
+ * @param {CanvasRenderingContext2D} context
+ * @param {object} state
+ * @param {Array<object>} rows
+ */
+function drawComparePriceLines(context, state, rows) {
+  if (!state.showPrice || !state.showCompare || rows.length < 2) {
+    return;
+  }
+
+  for (const series of state.compareSeries.filter((item) => item.showPrice !== false)) {
+    drawSeriesLine(context, rows, (row, index) => pointForComparePrice(state, row, index, series), series.color, 3, state.theme.lineGlow);
+  }
+}
+
+/**
  * Draw the current investment value line.
  *
  * @param {CanvasRenderingContext2D} context
@@ -353,6 +544,30 @@ function drawInvestmentLine(context, state, rows) {
   }
 
   drawSeriesLine(context, rows, (row, index) => pointForInvestment(state, row, index), state.theme.investment, 3, state.theme.lineGlow);
+}
+
+/**
+ * Draw the comparison investment-value line.
+ *
+ * @param {CanvasRenderingContext2D} context
+ * @param {object} state
+ * @param {Array<object>} rows
+ */
+function drawCompareInvestmentLines(context, state, rows) {
+  if (!state.showInvestment || !state.showCompare || rows.length < 2) {
+    return;
+  }
+
+  for (const series of state.compareSeries.filter((item) => item.showInvestment !== false)) {
+    drawSeriesLine(
+      context,
+      rows,
+      (row, index) => pointForCompareInvestment(state, row, index, series),
+      series.investmentColor,
+      3,
+      state.theme.lineGlow,
+    );
+  }
 }
 
 /**
@@ -391,7 +606,7 @@ function drawSeriesLine(context, rows, pointFactory, color, width, lineGlow) {
 }
 
 /**
- * Draw global high/low markers for FPT price only.
+ * Draw global high/low markers for each visible price series.
  *
  * @param {CanvasRenderingContext2D} context
  * @param {object} state
@@ -410,46 +625,80 @@ function drawPriceExtremaMarkers(context, state, visibleCount) {
 }
 
 /**
- * Find the selected range's highest and lowest FPT close price.
+ * Find the selected range's highest and lowest close price for every price line.
  *
  * @param {Array<object>} rows
+ * @param {string} symbol
+ * @param {Array<object>} compareSeries
  * @returns {Array<object>}
  */
-function findGlobalPriceExtrema(rows) {
+function findVisiblePriceExtrema(rows, symbol, compareSeries = []) {
+  const seriesList = [
+    {
+      symbol,
+      valueKey: "close",
+      colorKey: "price",
+      color: null,
+      pointFactory: pointForPrice,
+    },
+    ...compareSeries
+      .filter((series) => series.showPrice !== false)
+      .map((series) => ({
+        symbol: series.symbol,
+        valueKey: series.priceKey,
+        colorKey: null,
+        color: series.color,
+        pointFactory: (state, row, index) => pointForComparePrice(state, row, index, series),
+      })),
+  ];
+
+  return seriesList.flatMap((series) => findSeriesExtrema(rows, series)).sort((left, right) => left.index - right.index);
+}
+
+/**
+ * Find high/low markers for one price series.
+ *
+ * @param {Array<object>} rows
+ * @param {object} series
+ * @returns {Array<object>}
+ */
+function findSeriesExtrema(rows, series) {
   let high = { row: rows[0], index: 0 };
   let low = { row: rows[0], index: 0 };
 
   rows.forEach((row, index) => {
-    if (row.close > high.row.close) {
+    if (row[series.valueKey] > high.row[series.valueKey]) {
       high = { row, index };
     }
 
-    if (row.close < low.row.close) {
+    if (row[series.valueKey] < low.row[series.valueKey]) {
       low = { row, index };
     }
   });
 
   if (high.index === low.index) {
-    return [createPriceMarker(high, "high")];
+    return [createPriceMarker(high, "high", series)];
   }
 
-  return [createPriceMarker(high, "high"), createPriceMarker(low, "low")].sort((left, right) => left.index - right.index);
+  return [createPriceMarker(high, "high", series), createPriceMarker(low, "low", series)].sort((left, right) => left.index - right.index);
 }
 
 /**
- * Create drawing metadata for one FPT price marker.
+ * Create drawing metadata for one price marker.
  *
  * @param {{row: object, index: number}} point
  * @param {"high"|"low"} type
+ * @param {object} series
  * @returns {object}
  */
-function createPriceMarker(point, type) {
+function createPriceMarker(point, type, series) {
   const isHigh = type === "high";
 
   return {
     row: point.row,
     index: point.index,
     type,
+    series,
     label: isHigh ? "Đỉnh" : "Đáy",
     labelOffsetY: isHigh ? -12 : 20,
   };
@@ -464,96 +713,247 @@ function createPriceMarker(point, type) {
  * @param {number} index
  */
 function drawLatestLabels(context, state, row, index) {
-  const pricePoint = state.showPrice ? pointForPrice(state, row, index) : null;
-  const investmentPoint = state.showInvestment ? pointForInvestment(state, row, index) : null;
-  const labelsAreClose = pricePoint && investmentPoint && Math.abs(pricePoint.y - investmentPoint.y) < 34;
+  const labels = [];
 
-  if (pricePoint) {
-    drawLatestPoint(context, pricePoint, `${formatVnd(row.close)} VNĐ`, state.theme.price, {
-      labelOffsetY: labelsAreClose ? -18 : 7,
+  if (state.showPrice) {
+    labels.push({
+      point: pointForPrice(state, row, index),
+      label: `(${state.symbol}) giá ${formatVnd(row.close)}`,
+      color: state.theme.price,
     });
   }
 
-  if (investmentPoint) {
-    drawLatestPoint(context, investmentPoint, `${formatCompactVnd(row.investmentValue)} VNĐ`, state.theme.investment, {
-      labelOffsetY: labelsAreClose ? 24 : 7,
+  if (state.showCompare && state.showPrice) {
+    for (const series of state.compareSeries.filter((item) => item.showPrice !== false)) {
+      labels.push({
+        point: pointForComparePrice(state, row, index, series),
+        label: `(${series.symbol}) giá ${formatVnd(row[series.priceKey])}`,
+        color: series.color,
+      });
+    }
+  }
+
+  if (state.showInvestment) {
+    labels.push({
+      point: pointForInvestment(state, row, index),
+      label: `(${state.symbol}) đầu tư ${formatCompactVnd(row.investmentValue)}`,
+      color: state.theme.investment,
     });
+  }
+
+  if (state.showCompare && state.showInvestment) {
+    for (const series of state.compareSeries.filter((item) => item.showInvestment !== false)) {
+      labels.push({
+        point: pointForCompareInvestment(state, row, index, series),
+        label: `(${series.symbol}) đầu tư ${formatCompactVnd(row[series.investmentKey])}`,
+        color: series.investmentColor,
+      });
+    }
+  }
+
+  drawDistributedLatestLabels(context, labels);
+}
+
+/**
+ * Draw endpoint tags with vertical spacing so several series remain readable.
+ *
+ * @param {CanvasRenderingContext2D} context
+ * @param {Array<{point: {x: number, y: number}, label: string, color: string}>} labels
+ */
+function drawDistributedLatestLabels(context, labels) {
+  if (labels.length === 0) {
+    return;
+  }
+
+  const sortedLabels = labels
+    .map((item) => ({
+      ...item,
+      labelY: clamp(item.point.y, 26, context.canvas.height - 26),
+    }))
+    .sort((left, right) => left.labelY - right.labelY);
+  const minGap = 22;
+
+  for (let index = 1; index < sortedLabels.length; index += 1) {
+    const previous = sortedLabels[index - 1];
+    const current = sortedLabels[index];
+    if (current.labelY - previous.labelY < minGap) {
+      current.labelY = previous.labelY + minGap;
+    }
+  }
+
+  const overflow = sortedLabels.at(-1).labelY - (context.canvas.height - 26);
+  if (overflow > 0) {
+    for (const item of sortedLabels) {
+      item.labelY -= overflow;
+    }
+  }
+
+  for (const item of sortedLabels) {
+    drawLatestPoint(context, item.point, item.label, item.color, item.labelY);
   }
 }
 
 /**
- * Draw a latest point and label for one series.
+ * Draw a latest point and compact text tag for one series.
  *
  * @param {CanvasRenderingContext2D} context
  * @param {{x: number, y: number}} point
  * @param {string} label
  * @param {string} color
- * @param {object} options
+ * @param {number} labelY
  */
-function drawLatestPoint(context, point, label, color, options = {}) {
+function drawLatestPoint(context, point, label, color, labelY) {
   context.fillStyle = color;
   context.beginPath();
-  context.arc(point.x, point.y, 7, 0, Math.PI * 2);
+  context.arc(point.x, point.y, 5, 0, Math.PI * 2);
   context.fill();
 
-  context.font = "700 20px system-ui";
+  context.font = "700 14px system-ui";
   context.textAlign = "left";
-  const labelY = clamp(point.y + (options.labelOffsetY ?? 7), 24, context.canvas.height - 24);
-  context.fillText(label, point.x + 12, labelY);
+  context.textBaseline = "middle";
+  context.fillText(label, point.x + 10, labelY);
+  context.textBaseline = "alphabetic";
 }
 
 /**
- * Draw one high/low marker on the FPT price line.
+ * Draw one high/low marker on its own price line.
  *
  * @param {CanvasRenderingContext2D} context
  * @param {object} state
  * @param {object} marker
  */
 function drawPriceMarker(context, state, marker) {
-  const point = pointForPrice(state, marker.row, marker.index);
-  const color = marker.type === "high" ? state.theme.high : state.theme.low;
+  const point = marker.series.pointFactory(state, marker.row, marker.index);
+  const color = marker.series.color || state.theme[marker.series.colorKey] || state.theme.price;
+  const markerLabel = `(${marker.series.symbol}) ${marker.label} ${formatVnd(marker.row[marker.series.valueKey])}`;
 
   context.fillStyle = color;
   context.beginPath();
   context.arc(point.x, point.y, 5, 0, Math.PI * 2);
   context.fill();
 
-  context.font = "700 15px system-ui";
+  context.font = "700 13px system-ui";
   context.textAlign = "left";
-  context.fillText(`${marker.label} ${formatVnd(marker.row.close)} VNĐ`, point.x + 8, point.y + marker.labelOffsetY);
+  context.fillText(markerLabel, point.x + 8, point.y + marker.labelOffsetY);
 }
 
 /**
- * Draw pointer-following X/Y guide lines.
+ * Draw pointer-following guide and markers for every visible series.
  *
  * @param {CanvasRenderingContext2D} context
  * @param {object} state
  * @param {Array<object>} rows
- * @param {number|null} hoverIndex
+ * @param {{index: number, ratio: number|null}|null} hover
  */
-function drawCrosshair(context, state, rows, hoverIndex) {
-  if (hoverIndex === null || hoverIndex >= rows.length) {
+function drawCrosshair(context, state, rows, hover) {
+  if (!hover || hover.index >= rows.length) {
     return;
   }
 
-  const row = rows[hoverIndex];
-  const point = pointForActiveSeries(state, row, hoverIndex);
+  const row = rows[hover.index];
+  const guideX = Number.isFinite(hover.ratio) ? state.padding.left + plotWidth(state) * hover.ratio : xForIndex(state, hover.index);
   const plotBottom = state.height - state.padding.bottom;
-  const plotRight = state.width - state.padding.right;
-  const color = state.activeSeries === "price" ? state.theme.price : state.theme.investment;
+  const hoverPoints = createHoverPoints(state, rows, row, hover.index, hover.ratio);
 
   context.save();
   context.strokeStyle = "rgba(0, 143, 107, 0.28)";
   context.lineWidth = 1;
   context.setLineDash([5, 5]);
-  drawLine(context, point.x, state.padding.top, point.x, plotBottom);
-  drawLine(context, state.padding.left, point.y, plotRight, point.y);
+  drawLine(context, guideX, state.padding.top, guideX, plotBottom);
   context.setLineDash([]);
-  context.fillStyle = color;
-  context.beginPath();
-  context.arc(point.x, point.y, 5, 0, Math.PI * 2);
-  context.fill();
+
+  for (const item of hoverPoints) {
+    drawHoverMarker(context, item.point, item.color);
+  }
+
   context.restore();
+}
+
+/**
+ * Build hover markers for every visible series at the active date.
+ *
+ * @param {object} state
+ * @param {Array<object>} rows
+ * @param {object} row
+ * @param {number} index
+ * @param {number|null} ratio
+ * @returns {Array<{point: {x: number, y: number}, color: string}>}
+ */
+function createHoverPoints(state, rows, row, index, ratio) {
+  const points = [];
+  const hoverX = Number.isFinite(ratio) ? state.padding.left + plotWidth(state) * ratio : xForIndex(state, index);
+
+  if (state.showPrice) {
+    points.push({ point: pointForHoverValue(state, rows, "close", ratio, hoverX, yForPrice), color: state.theme.price });
+  }
+
+  if (state.showInvestment) {
+    points.push({ point: pointForHoverValue(state, rows, "investmentValue", ratio, hoverX, yForInvestment), color: state.theme.investment });
+  }
+
+  for (const series of state.compareSeries) {
+    if (state.showPrice && series.showPrice !== false) {
+      points.push({ point: pointForHoverValue(state, rows, series.priceKey, ratio, hoverX, yForPrice), color: series.color });
+    }
+
+    if (state.showInvestment && series.showInvestment !== false) {
+      points.push({ point: pointForHoverValue(state, rows, series.investmentKey, ratio, hoverX, yForInvestment), color: series.investmentColor });
+    }
+  }
+
+  return points;
+}
+
+/**
+ * Interpolate a series marker at the pointer X position.
+ *
+ * @param {object} state
+ * @param {Array<object>} rows
+ * @param {string} key
+ * @param {number|null} ratio
+ * @param {number} x
+ * @param {Function} yFactory
+ * @returns {{x: number, y: number}}
+ */
+function pointForHoverValue(state, rows, key, ratio, x, yFactory) {
+  if (!Number.isFinite(ratio) || rows.length < 2) {
+    const index = findNearestRowIndexByRatio(state, ratio || 0);
+    return { x: xForIndex(state, index), y: yFactory(state, rows[index][key]) };
+  }
+
+  const targetTime = timeForRatio(state, ratio);
+  const bounds = findRowsAroundTime(state, targetTime);
+  const left = rows[bounds.leftIndex];
+  const right = rows[bounds.rightIndex];
+  const leftTime = state.rowTimes[bounds.leftIndex];
+  const rightTime = state.rowTimes[bounds.rightIndex];
+  const segmentRatio = rightTime === leftTime ? 0 : (targetTime - leftTime) / (rightTime - leftTime);
+  const value = interpolateNumber(left[key], right[key], clamp(segmentRatio, 0, 1));
+
+  return { x, y: yFactory(state, value) };
+}
+
+/**
+ * Draw one square hover marker with enough contrast over any line color.
+ *
+ * @param {CanvasRenderingContext2D} context
+ * @param {{x: number, y: number}} point
+ * @param {string} color
+ */
+function drawHoverMarker(context, point, color) {
+  const size = 10;
+
+  context.fillStyle = "#fffefa";
+  context.strokeStyle = color;
+  context.lineWidth = 3;
+  context.beginPath();
+  if (typeof context.roundRect === "function") {
+    context.roundRect(point.x - size / 2, point.y - size / 2, size, size, 3);
+  } else {
+    context.rect(point.x - size / 2, point.y - size / 2, size, size);
+  }
+  context.fill();
+  context.stroke();
 }
 
 /**
@@ -565,10 +965,11 @@ function drawCrosshair(context, state, rows, hoverIndex) {
 function drawDateAxis(context, state) {
   context.fillStyle = state.theme.text;
   context.font = "17px system-ui";
+  const axisY = state.height - state.padding.bottom + 34;
 
   for (const tick of state.xTicks) {
     context.textAlign = tick.align;
-    context.fillText(tick.label, xForIndex(state, tick.index), state.height - 26);
+    context.fillText(tick.label, xForIndex(state, tick.index), axisY);
   }
 
   context.textAlign = "left";
@@ -606,6 +1007,21 @@ function pointForPrice(state, row, index) {
 }
 
 /**
+ * Convert one row to comparison price-line coordinates.
+ *
+ * @param {object} state
+ * @param {object} row
+ * @param {number} index
+ * @returns {{x: number, y: number}}
+ */
+function pointForComparePrice(state, row, index, series) {
+  return {
+    x: xForIndex(state, index),
+    y: yForPrice(state, row[series.priceKey]),
+  };
+}
+
+/**
  * Convert one row to investment-value line coordinates.
  *
  * @param {object} state
@@ -621,6 +1037,21 @@ function pointForInvestment(state, row, index) {
 }
 
 /**
+ * Convert one row to comparison investment-value coordinates.
+ *
+ * @param {object} state
+ * @param {object} row
+ * @param {number} index
+ * @returns {{x: number, y: number}}
+ */
+function pointForCompareInvestment(state, row, index, series) {
+  return {
+    x: xForIndex(state, index),
+    y: yForInvestment(state, row[series.investmentKey]),
+  };
+}
+
+/**
  * Convert a row index into an X coordinate.
  *
  * @param {object} state
@@ -628,8 +1059,96 @@ function pointForInvestment(state, row, index) {
  * @returns {number}
  */
 function xForIndex(state, index) {
-  const divisor = Math.max(state.totalRows - 1, 1);
-  return state.padding.left + (plotWidth(state) * index) / divisor;
+  return xForTime(state, state.rowTimes[index] ?? state.startTime);
+}
+
+/**
+ * Convert a local date timestamp into an X coordinate.
+ *
+ * @param {object} state
+ * @param {number} time
+ * @returns {number}
+ */
+function xForTime(state, time) {
+  const duration = Math.max(state.endTime - state.startTime, 1);
+  return state.padding.left + (plotWidth(state) * (time - state.startTime)) / duration;
+}
+
+/**
+ * Convert a hover ratio into a timestamp on the chart timeline.
+ *
+ * @param {object} state
+ * @param {number} ratio
+ * @returns {number}
+ */
+function timeForRatio(state, ratio) {
+  return state.startTime + (state.endTime - state.startTime) * clamp(ratio, 0, 1);
+}
+
+/**
+ * Find the closest real data row to a pointer ratio.
+ *
+ * @param {object} state
+ * @param {number} ratio
+ * @returns {number}
+ */
+function findNearestRowIndexByRatio(state, ratio) {
+  const targetTime = timeForRatio(state, ratio);
+  const bounds = findRowsAroundTime(state, targetTime);
+  const leftDistance = Math.abs(targetTime - state.rowTimes[bounds.leftIndex]);
+  const rightDistance = Math.abs(state.rowTimes[bounds.rightIndex] - targetTime);
+
+  return leftDistance <= rightDistance ? bounds.leftIndex : bounds.rightIndex;
+}
+
+/**
+ * Find row indexes around a timestamp.
+ *
+ * @param {object} state
+ * @param {number} targetTime
+ * @returns {{leftIndex: number, rightIndex: number}}
+ */
+function findRowsAroundTime(state, targetTime) {
+  if (targetTime <= state.rowTimes[0]) {
+    return { leftIndex: 0, rightIndex: 0 };
+  }
+
+  const lastIndex = state.rowTimes.length - 1;
+  if (targetTime >= state.rowTimes[lastIndex]) {
+    return { leftIndex: lastIndex, rightIndex: lastIndex };
+  }
+
+  let low = 0;
+  let high = lastIndex;
+
+  while (low <= high) {
+    const middle = Math.floor((low + high) / 2);
+    const time = state.rowTimes[middle];
+
+    if (time === targetTime) {
+      return { leftIndex: middle, rightIndex: middle };
+    }
+
+    if (time < targetTime) {
+      low = middle + 1;
+    } else {
+      high = middle - 1;
+    }
+  }
+
+  return { leftIndex: Math.max(0, high), rightIndex: Math.min(lastIndex, low) };
+}
+
+/**
+ * Interpolate between two numeric values.
+ *
+ * @param {number} left
+ * @param {number} right
+ * @param {number} ratio
+ * @returns {number}
+ */
+function interpolateNumber(left, right, ratio) {
+  return Number(left) + (Number(right) - Number(left)) * ratio;
 }
 
 /**
@@ -692,8 +1211,9 @@ function drawLine(context, fromX, fromY, toX, toY) {
  * @param {string} key
  * @returns {number[]}
  */
-function createNiceTicksForRows(rows, key) {
-  const values = rows.map((row) => Number(row[key])).filter(Number.isFinite);
+function createNiceTicksForRows(rows, keys) {
+  const fieldNames = Array.isArray(keys) ? keys : [keys];
+  const values = rows.flatMap((row) => fieldNames.map((key) => Number(row[key]))).filter(Number.isFinite);
   return createNiceTicks(Math.min(...values), Math.max(...values), 6);
 }
 
@@ -805,16 +1325,39 @@ function createDateTick(rows, index) {
  * @param {object} visibility
  * @returns {object}
  */
-function createResponsivePadding(priceTicks, investmentTicks, latestRow, visibility) {
+function createResponsivePadding(priceTicks, investmentTicks, latestRow, visibility, compareSeries = [], symbol = "Mã") {
   const leftLength = visibility.showPrice ? maxFormattedLength(priceTicks, formatVnd) : 0;
-  const latestPriceLength = visibility.showPrice ? `${formatVnd(latestRow.close)} VNĐ`.length : 0;
+  const latestPriceLabels = visibility.showPrice
+    ? [
+        `(${symbol}) giá ${formatVnd(latestRow.close)}`,
+        ...compareSeries
+          .filter((series) => series.showPrice !== false)
+          .map((series) => `(${series.symbol}) giá ${formatVnd(latestRow[series.priceKey])}`),
+      ]
+    : [];
+  const latestPriceLength = maxFormattedLength(latestPriceLabels, String);
   const rightAxisLength = visibility.showInvestment ? maxFormattedLength(investmentTicks, formatCompactVnd) : 0;
-  const latestInvestmentLength = visibility.showInvestment ? `${formatCompactVnd(latestRow.investmentValue)} VNĐ`.length : 0;
+  const latestInvestmentLabels = visibility.showInvestment
+    ? [
+        `(${symbol}) đầu tư ${formatCompactVnd(latestRow.investmentValue)}`,
+        ...compareSeries
+          .filter((series) => series.showInvestment !== false)
+          .map((series) => `(${series.symbol}) đầu tư ${formatCompactVnd(latestRow[series.investmentKey])}`),
+      ]
+    : [];
+  const latestInvestmentLength = maxFormattedLength(latestInvestmentLabels, String);
+  const legendCount =
+    (visibility.showPrice ? 1 : 0) +
+    (visibility.showInvestment ? 1 : 0) +
+    compareSeries.filter((series) => visibility.showPrice && series.showPrice !== false).length +
+    compareSeries.filter((series) => visibility.showInvestment && series.showInvestment !== false).length;
+  const legendRows = legendCount > 1 ? Math.ceil(legendCount / 4) : 0;
 
   return {
     ...CHART_PADDING,
     left: Math.max(CHART_PADDING.left, leftLength * 10 + 20),
-    right: Math.max(CHART_PADDING.right, Math.max(latestPriceLength * 12, rightAxisLength * 12, latestInvestmentLength * 12) + 28),
+    right: Math.max(CHART_PADDING.right, Math.max(latestPriceLength * 8, rightAxisLength * 12, latestInvestmentLength * 8) + 28),
+    bottom: Math.max(CHART_PADDING.bottom, 72 + legendRows * 20),
   };
 }
 
@@ -889,6 +1432,32 @@ function formatDecimal(value) {
 function formatDate(value) {
   const [year, month, day] = value.split("-");
   return `${day}/${month}/${year}`;
+}
+
+/**
+ * Convert an ISO date into a local midnight timestamp.
+ *
+ * @param {string} value
+ * @returns {number}
+ */
+function dateToTime(value) {
+  return new Date(`${value}T00:00:00`).getTime();
+}
+
+/**
+ * Convert a hex color to rgba.
+ *
+ * @param {string} hex
+ * @param {number} alpha
+ * @returns {string}
+ */
+function transparentize(hex, alpha) {
+  const value = hex.replace("#", "");
+  const red = Number.parseInt(value.slice(0, 2), 16);
+  const green = Number.parseInt(value.slice(2, 4), 16);
+  const blue = Number.parseInt(value.slice(4, 6), 16);
+
+  return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
 }
 
 /**

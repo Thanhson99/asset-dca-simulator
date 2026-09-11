@@ -31,6 +31,32 @@ export async function loadStockRange({ symbol, fromDate, toDate }) {
 }
 
 /**
+ * Read sync metadata from the latest available local year file for a symbol.
+ *
+ * @param {string} symbol
+ * @returns {Promise<{symbol: string, generatedAt: string, generatedDate: string, latestRowDate: string}|null>}
+ */
+export async function loadStockFreshness(symbol) {
+  const normalizedSymbol = symbol.trim().toUpperCase();
+  const years = await loadAvailableYears(normalizedSymbol);
+  const latestYear = years.at(-1);
+
+  if (!latestYear) {
+    return null;
+  }
+
+  const data = await loadStockYearIfExists(normalizedSymbol, latestYear);
+  const generatedDate = typeof data?.generatedAt === "string" ? data.generatedAt.slice(0, 10) : "";
+
+  return {
+    symbol: normalizedSymbol,
+    generatedAt: data?.generatedAt || "",
+    generatedDate,
+    latestRowDate: data?.rows?.at(-1)?.date || "",
+  };
+}
+
+/**
  * Load every available year file touched by a date range.
  *
  * @param {string} symbol

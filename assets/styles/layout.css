@@ -22,6 +22,35 @@
   line-height: 1.15;
 }
 
+.chart-title__chips {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.chart-title__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(251, 252, 248, 0.86);
+  color: var(--text);
+  font-size: 0.72em;
+  line-height: 1;
+  padding: 7px 10px;
+}
+
+.chart-title__chip::before {
+  content: "";
+  width: 20px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--chip-color);
+}
+
 @media (max-width: 560px) {
   .page-shell {
     width: min(100% - 20px, 1440px);
@@ -39,5 +68,10 @@
 
   .section-heading h2 {
     font-size: 1.5rem;
+  }
+
+  .chart-title__chips {
+    display: flex;
+    margin: 8px 0 0;
   }
 }
