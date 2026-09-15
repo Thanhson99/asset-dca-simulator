@@ -12,12 +12,14 @@ Mô phỏng DCA cổ phiếu Việt Nam trực tiếp trên trình duyệt, dùn
 - So sánh nhiều mã trên cùng biểu đồ với màu riêng, tooltip nhóm theo mã, đỉnh/đáy và giá trị đầu tư.
 - Nhập danh mục đang có để cộng vào mô phỏng và tự suy ra các giá trị liên quan khi đủ dữ liệu.
 - Cảnh báo khi dữ liệu local chưa được cập nhật tới ngày giao dịch gần nhất.
+- Tab lãi suất mô phỏng tiết kiệm ngân hàng và MoMo Túi Thần Tài từ dữ liệu `data/rates/`.
 
 ## Dành Cho Dev
 
 - [Kiến trúc](docs/architecture.md)
 - [Cập nhật dữ liệu](docs/collector.md)
 - [Định dạng dữ liệu](docs/data-format.md)
+- [Lãi suất ngân hàng/MoMo](docs/rates.md)
 - [Ghi chú bàn giao](docs/agent-handoff.md)
 
 ## License

@@ -1,0 +1,189 @@
+.yield-control-panel {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(150px, 1fr));
+  gap: 12px;
+  align-items: start;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(251, 252, 248, 0.96);
+  padding: 14px;
+  box-shadow: var(--shadow);
+}
+
+.yield-control-panel label {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.yield-control-panel [hidden] {
+  display: none !important;
+}
+
+.yield-control-panel span {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.yield-control-panel .field-help {
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1.25;
+  min-height: 0.95rem;
+}
+
+.yield-control-panel input,
+.yield-control-panel select {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #f9fbf6;
+  color: var(--text);
+  font: inherit;
+  padding: 0 10px;
+}
+
+.yield-control-panel label.is-invalid input,
+.yield-control-panel label.is-invalid select {
+  border-color: var(--danger);
+  background: var(--danger-soft);
+  box-shadow: 0 0 0 3px rgba(241, 59, 59, 0.1);
+}
+
+.yield-control-panel .yield-tax-control {
+  display: inline-flex;
+  align-items: center;
+  align-self: start;
+  gap: 8px;
+  min-height: 42px;
+  margin-top: 21px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface-soft);
+  padding: 0 10px;
+}
+
+.yield-control-panel .yield-tax-control input {
+  width: 18px;
+  min-height: 18px;
+  accent-color: var(--brand);
+}
+
+.yield-control-panel .yield-tax-control span {
+  font-size: 0.8rem;
+  font-weight: 680;
+}
+
+.yield-rate-preview {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: repeat(3, minmax(160px, 1fr));
+  gap: 10px;
+  align-self: stretch;
+}
+
+.yield-rate-card {
+  display: grid;
+  gap: 4px;
+  min-height: 78px;
+  border: 1px solid rgba(23, 107, 77, 0.14);
+  border-radius: 6px;
+  background: rgba(237, 247, 242, 0.72);
+  padding: 8px 10px;
+}
+
+.yield-rate-card span,
+.yield-rate-card small {
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1.25;
+}
+
+.yield-rate-card strong {
+  color: var(--brand-strong);
+  font-size: 1rem;
+}
+
+.yield-rate-card.is-warning {
+  border-color: rgba(241, 59, 59, 0.22);
+  background: rgba(255, 241, 241, 0.7);
+}
+
+.yield-rate-card.is-warning strong {
+  color: var(--danger);
+}
+
+.yield-data-panel {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(180px, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.yield-data-card {
+  display: grid;
+  gap: 4px;
+  align-content: start;
+  min-height: 82px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(251, 252, 248, 0.84);
+  padding: 10px 12px;
+}
+
+.yield-data-card span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.78rem;
+  margin-bottom: 4px;
+}
+
+.yield-data-card strong {
+  color: var(--text);
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.yield-data-card small {
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1.3;
+}
+
+.yield-data-card.is-warning {
+  border-color: rgba(210, 143, 24, 0.28);
+  background: rgba(255, 248, 231, 0.9);
+}
+
+.yield-data-card.is-warning strong {
+  color: #9a5d00;
+}
+
+.yield-chart-frame {
+  min-height: 300px;
+}
+
+@media (max-width: 1120px) {
+  .yield-control-panel {
+    grid-template-columns: repeat(3, minmax(150px, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .yield-control-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .yield-control-panel .yield-tax-control {
+    margin-top: 0;
+  }
+
+  .yield-rate-preview {
+    grid-template-columns: 1fr;
+  }
+
+  .yield-data-panel {
+    grid-template-columns: 1fr;
+  }
+}

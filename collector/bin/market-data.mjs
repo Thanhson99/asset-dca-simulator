@@ -9,6 +9,8 @@ import { parseIsoDate, todayIsoDate } from '../src/support/dates.mjs';
 import { readJsonIfExists, writeJsonAtomic } from '../src/support/fs-json.mjs';
 import { runPool, sleep } from '../src/support/pool.mjs';
 import { fetchKbsDailyRows, fetchKbsStockAssets } from '../src/providers/kbs-provider.mjs';
+import { fetchMomoTuiThanTaiSnapshot } from '../src/rate-providers/momo-provider.mjs';
+import { RateRepository } from '../src/repositories/rate-repository.mjs';
 import { StockRepository } from '../src/repositories/stock-repository.mjs';
 import { StockUpdateService } from '../src/services/stock-update-service.mjs';
 
@@ -67,6 +69,12 @@ try {
     await initStockQueue();
   } else if (command === 'stocks:queue:run') {
     await runStockQueue();
+  } else if (command === 'rates:update') {
+    await updateRates();
+  } else if (command === 'rates:validate') {
+    await validateRates();
+  } else if (command === 'rates:audit') {
+    await auditRates();
   } else {
     printUsage();
     process.exit(command ? 1 : 0);
@@ -74,6 +82,122 @@ try {
 } catch (error) {
   console.error(`[ERROR] ${error.message}`);
   process.exit(1);
+}
+
+/**
+ * Update supported rate providers.
+ */
+async function updateRates() {
+  const provider = args.provider ?? 'all';
+  const dryRun = args['dry-run'] === 'true';
+  const repository = new RateRepository(repoRoot);
+  const index = await repository.readIndex();
+  const updated = [];
+
+  if (provider === 'all' || provider === 'momo') {
+    const product = index.products.find((item) => item.id === 'MOMO_TUI_THAN_TAI');
+    if (!product) {
+      throw new Error('Missing MOMO_TUI_THAN_TAI in data/rates/index.json');
+    }
+
+    const history = await repository.readHistory(product);
+    const snapshot = await fetchMomoTuiThanTaiSnapshot();
+    const nextHistory = mergeRateSnapshot(history, snapshot);
+    updated.push(product.id);
+
+    if (dryRun) {
+      console.log(`[DRY] ${product.id}: fetched ${snapshot.annualRate}% from ${snapshot.sourceUrl}`);
+    } else {
+      await repository.writeHistory(product, nextHistory);
+      console.log(`[OK] ${product.id}: wrote ${snapshot.annualRate}%`);
+    }
+  }
+
+  if (provider !== 'all' && provider !== 'momo') {
+    throw new Error(`No live rate provider is implemented yet for ${provider}. Use momo or all.`);
+  }
+
+  if (!dryRun) {
+    await validateRates();
+  }
+
+  console.log(`rates:update completed provider=${provider} updated=${updated.length}.`);
+}
+
+/**
+ * Validate every product listed in data/rates/index.json.
+ */
+async function validateRates() {
+  const repository = new RateRepository(repoRoot);
+  const index = await repository.readIndex();
+
+  for (const product of index.products) {
+    await repository.readHistory(product);
+    console.log(`[OK] ${product.id}`);
+  }
+
+  console.log(`Validated ${index.products.length} rate product(s).`);
+}
+
+/**
+ * Print review warnings for rate histories.
+ */
+async function auditRates() {
+  const repository = new RateRepository(repoRoot);
+  const index = await repository.readIndex();
+  let warnings = 0;
+
+  for (const product of index.products) {
+    const history = await repository.readHistory(product);
+    const reviewSnapshots = history.snapshots.filter((snapshot) => snapshot.needsReview);
+    if (reviewSnapshots.length === 0) {
+      console.log(`[OK] ${product.id}: no review warnings`);
+      continue;
+    }
+
+    warnings += reviewSnapshots.length;
+    for (const snapshot of reviewSnapshots) {
+      const from = snapshot.effectiveFrom || snapshot.date;
+      console.log(`[WARN] ${product.id}: ${from} source=${snapshot.source} url=${snapshot.sourceUrl || 'n/a'}`);
+    }
+  }
+
+  console.log(`Audit complete warnings=${warnings}.`);
+}
+
+function mergeRateSnapshot(history, snapshot) {
+  const snapshots = [...history.snapshots];
+  const last = snapshots.at(-1);
+
+  if (
+    last &&
+    last.rateType === snapshot.rateType &&
+    Number(last.annualRate) === Number(snapshot.annualRate) &&
+    Number(last.taxRate || 0) === Number(snapshot.taxRate || 0)
+  ) {
+    return {
+      ...history,
+      generatedAt: new Date().toISOString(),
+      snapshots: snapshots.map((item, index) => (index === snapshots.length - 1 ? { ...item, fetchedAt: snapshot.fetchedAt } : item)),
+    };
+  }
+
+  if (last && !last.effectiveTo) {
+    last.effectiveTo = shiftIsoDate(snapshot.effectiveFrom, -1);
+  }
+
+  snapshots.push(snapshot);
+  return {
+    ...history,
+    generatedAt: new Date().toISOString(),
+    snapshots,
+  };
+}
+
+function shiftIsoDate(value, days) {
+  const date = new Date(`${value}T00:00:00Z`);
+  date.setUTCDate(date.getUTCDate() + days);
+  return date.toISOString().slice(0, 10);
 }
 
 /**
@@ -452,6 +576,10 @@ function printUsage() {
   node collector/bin/market-data.mjs stocks:update --all=true
   node collector/bin/market-data.mjs stocks:queue:init --limit=500
   node collector/bin/market-data.mjs stocks:queue:run --limit=10
+  node collector/bin/market-data.mjs rates:update --provider=momo
+  node collector/bin/market-data.mjs rates:validate
+  node collector/bin/market-data.mjs rates:audit
+  python3 collector/scripts/import-bank-rates-xlsx.py ~/Desktop/lich_su_lai_suat_10_ngan_hang_2000_2026.xlsx --repo-root .
 
 Options:
   --mode=update|backfill       Default: update
@@ -466,5 +594,11 @@ Options:
 
 Queue:
   stocks:queue:init creates data/stocks/download-queue.json
-  stocks:queue:run defaults to backfill from 2000-01-01, marks each symbol done/failed, and can be resumed`);
+  stocks:queue:run defaults to backfill from 2000-01-01, marks each symbol done/failed, and can be resumed
+
+Rates:
+  rates:update currently supports provider=momo or all; bank files are rebuilt from the curated workbook until per-bank official parsers are added
+  rates:validate checks data/rates JSON shape
+  rates:audit prints snapshots marked needsReview
+  import-bank-rates-xlsx.py rebuilds bank history.json files from the curated Excel workbook`);
 }

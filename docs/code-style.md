@@ -19,6 +19,9 @@
 - Split HTML, CSS, and JS.
 - Put shared visual styles in `assets/styles/`.
 - Put reusable JS in `assets/scripts/`.
+- Put feature-specific orchestration in `assets/scripts/features/{feature}/`.
+- Put small dependency-free helpers that are shared by multiple features in `assets/scripts/shared/`.
+- Keep `assets/scripts/main.js` as app bootstrap only; do not add feature logic there.
 - Keep header, metrics, chart, loaders, and simulation logic separate.
 - Do not add a build step until the static prototype proves the data flow.
 - Do not hardcode one data file in app logic. Build file paths from symbol and selected date range.

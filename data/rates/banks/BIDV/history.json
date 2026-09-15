@@ -1,0 +1,2612 @@
+{
+  "version": 1,
+  "productId": "BIDV_COUNTER_SAVING",
+  "type": "bank_saving",
+  "provider": "BIDV",
+  "name": "BIDV tiết kiệm VND",
+  "currency": "VND",
+  "generatedAt": "2026-09-14T02:34:01Z",
+  "sourceWorkbook": "lich_su_lai_suat_10_ngan_hang_2000_2026.xlsx",
+  "sourceWorkbookSheets": [
+    "Historical_Obs",
+    "Annual_Snapshot",
+    "Coverage",
+    "Sources"
+  ],
+  "coverage": {
+    "Ngân hàng": "BIDV",
+    "Mốc sớm nhất xác nhận": "2002-02-21",
+    "Mốc mới nhất trong file": "2026-04-13",
+    "Số năm có mốc": 14,
+    "Các năm có dữ liệu": "2002, 2008, 2012, 2013, 2016, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026",
+    "Nhận xét": "Có khoảng trống lịch sử; chỉ ghi số liệu có nguồn xác nhận."
+  },
+  "annualSnapshots": [
+    {
+      "Ngân hàng": "BIDV",
+      "Năm": 2000,
+      "Trạng thái": "Chưa tìm thấy biểu số hóa đủ tin cậy",
+      "Bối cảnh": "Không nội suy/không tự điền",
+      "Độ phủ kỳ hạn": 0
+    },
+    {
+      "Ngân hàng": "BIDV",
+      "Năm": 2001,
+      "Trạng thái": "Chưa tìm thấy biểu số hóa đủ tin cậy",
+      "Bối cảnh": "Không nội suy/không tự điền",
+      "Độ phủ kỳ hạn": 0
+    },
+    {
+      "Ngân hàng": "BIDV",
+      "Năm": 2002,
+      "Ngày snapshot": "2002-02-21",
+      "3T": 6.6,
+      "6T": 6.84,
+      "9T": 6.96,
+      "12T": 7.44,
+      "Trạng thái": "Có dữ liệu xác nhận",
+      "Bối cảnh": "Tại quầy | Sở Giao dịch II; trả lãi cuối kỳ",
+      "Độ tin cậy": "B",
+      "URL nguồn": "https://tuoitre.vn/nld/thoi-su-trong-nuoc/ngan-hang-dau-tu-va-phat-trien-tang-lai-suat-tien-gui-tiet-kiem-vnd-82334.htm",
+      "Độ phủ kỳ hạn": 0.2857142857142857
+    },
+    {
+      "Ngân hàng": "BIDV",
+      "Năm": 2003,
+      "Trạng thái": "Chưa tìm thấy biểu số hóa đủ tin cậy",
+      "Bối cảnh": "Không nội suy/không tự điền",
+      "Độ phủ kỳ hạn": 0
+    },
+    {
+      "Ngân hàng": "BIDV",
+      "Năm": 2004,
+      "Trạng thái": "Chưa tìm thấy biểu số hóa đủ tin cậy",
+      "Bối cảnh": "Không nội suy/không tự điền",
+      "Độ phủ kỳ hạn": 0
+    },
+    {
+      "Ngân hàng": "BIDV",
+      "Năm": 2005,
+      "Trạng thái": "Chưa tìm thấy biểu số hóa đủ tin cậy",
+      "Bối cảnh": "Không nội suy/không tự điền",
+      "Độ phủ kỳ hạn": 0
+    },
+    {
+      "Ngân hàng": "BIDV",
+      "Năm": 2006,
+      "Trạng thái": "Chưa tìm thấy biểu số hóa đủ tin cậy",
+      "Bối cảnh": "Không nội suy/không tự điền",
+      "Độ phủ kỳ hạn": 0
+    },
+    {
+      "Ngân hàng": "BIDV",
+      "Năm": 2007,
+      "Trạng thái": "Chưa tìm thấy biểu số hóa đủ tin cậy",
+      "Bối cảnh": "Không nội suy/không tự điền",
+      "Độ phủ kỳ hạn": 0
+    },
+    {
+      "Ngân hàng": "BIDV",
+      "Năm": 2008,
+      "Ngày snapshot": "2008-12-08",
+      "1T": 7,
+      "3T": 8,
+      "6T": 8.5,
+      "9T": 9,
+      "12T": 10.5,
+      "18T": 9,
+      "24T": 9,
+      "36T": 9,
+      "Trạng thái": "Có dữ liệu xác nhận",
+      "Bối cảnh": "Tại quầy | Tiêu chuẩn",
+      "Độ tin cậy": "B",
+      "URL nguồn": "https://cafef.vn/tai-chinh-ngan-hang/bidv-giam-lai-suat-lan-cuoi-cung-trong-nam-2008-20081204054038506.chn",
+      "Độ phủ kỳ hạn": 0.5714285714285714
+    },
+    {
+      "Ngân hàng": "BIDV",
+      "Năm": 2009,
+      "Trạng thái": "Chưa tìm thấy biểu số hóa đủ tin cậy",
+      "Bối cảnh": "Không nội suy/không tự điền",
+      "Độ phủ kỳ hạn": 0
+    },
+    {
+      "Ngân hàng": "BIDV",
+      "Năm": 2010,
+      "Trạng thái": "Chưa tìm thấy biểu số hóa đủ tin cậy",
+      "Bối cảnh": "Không nội suy/không tự điền",
+      "Độ phủ kỳ hạn": 0
+    },
+    {
+      "Ngân hàng": "BIDV",
+      "Năm": 2011,
+      "Trạng thái": "Chưa tìm thấy biểu số hóa đủ tin cậy",
+      "Bối cảnh": "Không nội suy/không tự điền",
+      "Độ phủ kỳ hạn": 0
+    },
+    {
+      "Ngân hàng": "BIDV",
+      "Năm": 2012,
+      "Ngày snapshot": "2012-08-03",
+      "24T": 10,
+      "36T": 10,
+      "Trạng thái": "Có dữ liệu xác nhận",
+      "Bối cảnh": "Tại quầy | Tiêu chuẩn",
+      "Độ tin cậy": "B",
+      "URL nguồn": "https://vnexpress.net/ong-lon-ngan-hang-cung-nang-lai-suat-huy-dong-ky-han-dai-2721596.html",
+      "Độ phủ kỳ hạn": 0.14285714285714285
+    },
+    {
+      "Ngân hàng": "BIDV",
+      "Năm": 2013,
+      "Ngày snapshot": "2013-05-08",
+      "1T": 6,
+      "2T": 6.5,
+      "3T": 7,
+      "4T": 7,
+      "6T": 7,
+      "9T": 7,
+      "12T": 8,
+      "18T": 8,
+      "24T": 8,
+      "36T": 8,
+      "Trạng thái": "Có dữ liệu xác nhận",
+      "Bối cảnh": "Tại quầy | Tiêu chuẩn",
+      "Độ tin cậy": "B",
+      "URL nguồn": "https://vnexpress.net/them-2-ong-lon-ngan-hang-giam-lai-suat-tiet-kiem-2745754.html",
+      "Độ phủ kỳ hạn": 0.7142857142857143
+    },
+    {
+      "Ngân hàng": "BIDV",
+      "Năm": 2014,
+      "Trạng thái": "Chưa tìm thấy biểu số hóa đủ tin cậy",
+      "Bối cảnh": "Không nội suy/không tự điền",
+      "Độ phủ kỳ hạn": 0
+    },
+    {
+      "Ngân hàng": "BIDV",
+      "Năm": 2015,
+      "Trạng thái": "Chưa tìm thấy biểu số hóa đủ tin cậy",
+      "Bối cảnh": "Không nội suy/không tự điền",
+      "Độ phủ kỳ hạn": 0
+    },
+    {
+      "Ngân hàng": "BIDV",
+      "Năm": 2016,
+      "Ngày snapshot": "2016-09-05",
+      "1T": 4.8,
+      "2T": 5,
+      "3T": 5.5,
+      "6T": 5.8,
+      "9T": 5.8,
+      "12T": 6.9,
+      "24T": 7,
+      "Trạng thái": "Có dữ liệu xác nhận",
+      "Bối cảnh": "Tại quầy | Theo bảng so sánh",
+      "Độ tin cậy": "B",
+      "URL nguồn": "https://infonet.vietnamnet.vn/lai-suat-tiet-kiem-cao-nhat-thang-9-nam-2016-ngan-hang-nao-tra-lai-cao-nhat-192786.html",
+      "Độ phủ kỳ hạn": 0.5
+    },
+    {
+      "Ngân hàng": "BIDV",
+      "Năm": 2017,
+      "Trạng thái": "Chưa tìm thấy biểu số hóa đủ tin cậy",
+      "Bối cảnh": "Không nội suy/không tự điền",
+      "Độ phủ kỳ hạn": 0
+    },
+    {
+      "Ngân hàng": "BIDV",
+      "Năm": 2018,
+      "Ngày snapshot": "2018-12-03",
+      "1T": 4.5,
+      "2T": 4.5,
+      "3T": 5,
+      "4T": 5,
+      "6T": 5.5,
+      "9T": 5.5,
+      "12T": 6.9,
+      "18T": 6.8,
+      "24T": 6.9,
+      "36T": 6.9,
+      "Trạng thái": "Có dữ liệu xác nhận",
+      "Bối cảnh": "Tại quầy | Tiêu chuẩn",
+      "Độ tin cậy": "B",
+      "URL nguồn": "https://vietnambiz.vn/so-sanh-lai-suat-ngan-hang-cac-ong-lon-moi-nhat-thang-122018-112416.htm",
+      "Độ phủ kỳ hạn": 0.7142857142857143
+    },
+    {
+      "Ngân hàng": "BIDV",
+      "Năm": 2019,
+      "Ngày snapshot": "2019-12-03",
+      "1T": 4.3,
+      "2T": 4.3,
+      "3T": 4.8,
+      "4T": 4.8,
+      "6T": 5.3,
+      "9T": 5.3,
+      "12T": 6.8,
+      "18T": 6.8,
+      "24T": 6.8,
+      "36T": 6.8,
+      "Trạng thái": "Có dữ liệu xác nhận",
+      "Bối cảnh": "Tại quầy | Tiêu chuẩn",
+      "Độ tin cậy": "B",
+      "URL nguồn": "https://vietnambiz.vn/so-sanh-lai-suat-4-ngan-hang-lon-vietcombank-vietinbank-bidv-agribank-thang-12-2019-20191203165258916.htm",
+      "Độ phủ kỳ hạn": 0.7142857142857143
+    },
+    {
+      "Ngân hàng": "BIDV",
+      "Năm": 2020,
+      "Ngày snapshot": "2020-12-01",
+      "1T": 3.1,
+      "2T": 3.1,
+      "3T": 3.4,
+      "6T": 4,
+      "9T": 4,
+      "12T": 5.6,
+      "18T": 5.6,
+      "24T": 5.6,
+      "36T": 5.6,
+      "Trạng thái": "Có dữ liệu xác nhận",
+      "Bối cảnh": "Tại quầy | Tiêu chuẩn",
+      "Độ tin cậy": "B",
+      "URL nguồn": "https://vietnambiz.vn/so-sanh-lai-suat-4-ong-lon-ngan-hang-thang-12-2020-20201201171856448.htm",
+      "Độ phủ kỳ hạn": 0.6428571428571429
+    },
+    {
+      "Ngân hàng": "BIDV",
+      "Năm": 2021,
+      "Ngày snapshot": "2021-12-13",
+      "12T": 5.5,
+      "Trạng thái": "Có dữ liệu xác nhận",
+      "Bối cảnh": "Tại quầy | Bậc thấp/tiêu chuẩn trong bài; nhiều ngân hàng có bậc theo số tiền.",
+      "Độ tin cậy": "B-",
+      "URL nguồn": "https://vietnambiz.vn/so-sanh-lai-suat-ngan-hang-ky-han-1-nam-moi-nhat-thang-12-2021-20211213170602901.htm",
+      "Độ phủ kỳ hạn": 0.07142857142857142
+    },
+    {
+      "Ngân hàng": "BIDV",
+      "Năm": 2022,
+      "Ngày snapshot": "2022-12-07",
+      "1T": 4.9,
+      "2T": 4.9,
+      "3T": 5.4,
+      "4T": 5.4,
+      "6T": 6,
+      "9T": 6.1,
+      "12T": 7.4,
+      "18T": 7.4,
+      "24T": 7.4,
+      "36T": 7.4,
+      "Trạng thái": "Có dữ liệu xác nhận",
+      "Bối cảnh": "Tại quầy | Tiêu chuẩn",
+      "Độ tin cậy": "B",
+      "URL nguồn": "https://vietnambiz.vn/so-sanh-lai-suat-4-ong-lon-ngan-hang-duy-tri-on-dinh-trong-thang-122022-202212716221567.htm",
+      "Độ phủ kỳ hạn": 0.7142857142857143
+    },
+    {
+      "Ngân hàng": "BIDV",
+      "Năm": 2023,
+      "Ngày snapshot": "2023-08-23",
+      "12T": 5.8,
+      "24T": 5.8,
+      "Trạng thái": "Có dữ liệu xác nhận",
+      "Bối cảnh": "Tại quầy | Tiêu chuẩn",
+      "Độ tin cậy": "B+",
+      "URL nguồn": "https://dulieukinhte.com/du-lieu/lai-suat-huy-dong-bidv-378",
+      "Độ phủ kỳ hạn": 0.14285714285714285
+    },
+    {
+      "Ngân hàng": "BIDV",
+      "Năm": 2024,
+      "Ngày snapshot": "2024-09-01",
+      "1T": 2,
+      "12T": 4.7,
+      "Trạng thái": "Có dữ liệu xác nhận",
+      "Bối cảnh": "Tại quầy | Tiêu chuẩn",
+      "Độ tin cậy": "B+",
+      "URL nguồn": "https://dulieukinhte.com/du-lieu/lai-suat-huy-dong-bidv-378",
+      "Độ phủ kỳ hạn": 0.14285714285714285
+    },
+    {
+      "Ngân hàng": "BIDV",
+      "Năm": 2025,
+      "Ngày snapshot": "2025-12-15",
+      "1T": 2.6,
+      "Trạng thái": "Có dữ liệu xác nhận",
+      "Bối cảnh": "Tại quầy | Tiêu chuẩn",
+      "Độ tin cậy": "B+",
+      "URL nguồn": "https://dulieukinhte.com/du-lieu/lai-suat-huy-dong-bidv-378",
+      "Độ phủ kỳ hạn": 0.07142857142857142
+    },
+    {
+      "Ngân hàng": "BIDV",
+      "Năm": 2026,
+      "Ngày snapshot": "2026-04-13",
+      "1T": 2.1,
+      "2T": 2.1,
+      "3T": 2.4,
+      "6T": 3.5,
+      "9T": 3.5,
+      "12T": 5.9,
+      "18T": 5.9,
+      "24T": 6,
+      "36T": 6,
+      "Trạng thái": "Có dữ liệu xác nhận",
+      "Bối cảnh": "Tại quầy | Tiêu chuẩn",
+      "Độ tin cậy": "B+",
+      "URL nguồn": "https://dulieukinhte.com/du-lieu/lai-suat-huy-dong-bidv-378",
+      "Độ phủ kỳ hạn": 0.6428571428571429
+    }
+  ],
+  "sources": [
+    {
+      "Mã nguồn": "SRC_VCB_2002",
+      "Đơn vị": "VnExpress / Tuổi Trẻ",
+      "Tiêu đề": "Nhiều ngân hàng tăng lãi suất VND",
+      "Ngày": "2002-12-07",
+      "Loại nguồn": "Báo chí lưu trữ",
+      "Độ tin cậy": "B",
+      "Dữ liệu sử dụng": "VCB TP.HCM và ACB; lãi suất %/tháng, đã quy đổi x12 sang %/năm.",
+      "URL": "https://vnexpress.net/nhieu-ngan-hang-tang-lai-suat-vnd-2671263.html"
+    },
+    {
+      "Mã nguồn": "SRC_BIDV_2002",
+      "Đơn vị": "Người Lao Động / Tuổi Trẻ archive",
+      "Tiêu đề": "Ngân hàng Đầu tư và Phát triển tăng lãi suất tiền gửi tiết kiệm VNĐ",
+      "Ngày": "2002-02-21",
+      "Loại nguồn": "Báo chí lưu trữ",
+      "Độ tin cậy": "B",
+      "Dữ liệu sử dụng": "BIDV Sở Giao dịch II; lãi cuối kỳ %/tháng, đã quy đổi x12 sang %/năm.",
+      "URL": "https://tuoitre.vn/nld/thoi-su-trong-nuoc/ngan-hang-dau-tu-va-phat-trien-tang-lai-suat-tien-gui-tiet-kiem-vnd-82334.htm"
+    },
+    {
+      "Mã nguồn": "SRC_ACB_2005",
+      "Đơn vị": "Dân Trí",
+      "Tiêu đề": "ACB tăng lãi suất toàn hệ thống",
+      "Ngày": "2005-07-15",
+      "Loại nguồn": "Báo chí lưu trữ",
+      "Độ tin cậy": "B",
+      "Dữ liệu sử dụng": "ACB VND; %/tháng, quy đổi x12.",
+      "URL": "https://dantri.com.vn/kinh-doanh/acb-tang-lai-suat-toan-he-thong-1121422279.htm"
+    },
+    {
+      "Mã nguồn": "SRC_VCB_2005",
+      "Đơn vị": "Thanh Niên",
+      "Tiêu đề": "Vietcombank tăng lãi suất lên kịch trần",
+      "Ngày": "2005-09-20",
+      "Loại nguồn": "Báo chí lưu trữ",
+      "Độ tin cậy": "B",
+      "Dữ liệu sử dụng": "VCB TP.HCM 3/6/9/12 tháng.",
+      "URL": "https://thanhnien.vn/vietcombank-tang-lai-suat-len-kich-tran-185140942.htm"
+    },
+    {
+      "Mã nguồn": "SRC_ACB_2006",
+      "Đơn vị": "Dân Trí / báo chí lưu trữ",
+      "Tiêu đề": "ACB tăng lãi suất tiền gửi VNĐ toàn hệ thống",
+      "Ngày": "2006-07-07",
+      "Loại nguồn": "Báo chí lưu trữ",
+      "Độ tin cậy": "B",
+      "Dữ liệu sử dụng": "ACB 2/3/6/12 tháng.",
+      "URL": "https://dantri.com.vn/kinh-doanh/acb-tang-lai-suat-tien-gui-vnd-toan-he-thong-1152296416.htm"
+    },
+    {
+      "Mã nguồn": "SRC_TCB_2007",
+      "Đơn vị": "VnEconomy",
+      "Tiêu đề": "Lãi suất năm 2007 chính thức khởi tranh",
+      "Ngày": "2007-01-18",
+      "Loại nguồn": "Báo chí lưu trữ",
+      "Độ tin cậy": "B",
+      "Dữ liệu sử dụng": "Techcombank tiết kiệm điện tử 12 tháng, phân tầng số tiền.",
+      "URL": "https://vneconomy.vn/lai-suat-nam-2007-chinh-thuc-khoi-tranh.htm"
+    },
+    {
+      "Mã nguồn": "SRC_2008_MARKET",
+      "Đơn vị": "Thanh Niên",
+      "Tiêu đề": "Hầu hết các ngân hàng niêm yết mức lãi suất mới",
+      "Ngày": "2008-05-19",
+      "Loại nguồn": "Báo chí lưu trữ",
+      "Độ tin cậy": "B",
+      "Dữ liệu sử dụng": "VCB và BIDV tháng 5/2008.",
+      "URL": "https://thanhnien.vn/hau-het-cac-ngan-hang-niem-yet-muc-lai-suat-moi-185194651.htm"
+    },
+    {
+      "Mã nguồn": "SRC_BIDV_2008",
+      "Đơn vị": "CafeF",
+      "Tiêu đề": "BIDV giảm lãi suất lần cuối cùng trong năm 2008",
+      "Ngày": "2008-12-04",
+      "Loại nguồn": "Báo chí lưu trữ",
+      "Độ tin cậy": "B",
+      "Dữ liệu sử dụng": "BIDV hiệu lực 08/12/2008.",
+      "URL": "https://cafef.vn/tai-chinh-ngan-hang/bidv-giam-lai-suat-lan-cuoi-cung-trong-nam-2008-20081204054038506.chn"
+    },
+    {
+      "Mã nguồn": "SRC_TCB_2008",
+      "Đơn vị": "VnEconomy",
+      "Tiêu đề": "Techcombank tăng lãi suất tiết kiệm VND",
+      "Ngày": "2008-02-12",
+      "Loại nguồn": "Báo chí lưu trữ",
+      "Độ tin cậy": "B",
+      "Dữ liệu sử dụng": "Techcombank tiết kiệm thường 12 tháng.",
+      "URL": "https://vneconomy.vn/techcombank-tang-lai-suat-tiet-kiem-vnd.htm"
+    },
+    {
+      "Mã nguồn": "SRC_2009",
+      "Đơn vị": "Thanh Niên",
+      "Tiêu đề": "Lãi suất tiết kiệm VND giảm còn 7%/năm",
+      "Ngày": "2009-02-01",
+      "Loại nguồn": "Báo chí lưu trữ",
+      "Độ tin cậy": "B",
+      "Dữ liệu sử dụng": "ACB, VPBank, Techcombank đầu 2009.",
+      "URL": "https://thanhnien.vn/lai-suat-tiet-kiem-vnd-giam-con-7nam-185350793.htm"
+    },
+    {
+      "Mã nguồn": "SRC_2009_AGR",
+      "Đơn vị": "Thanh Niên",
+      "Tiêu đề": "Lãi suất tiết kiệm biến động",
+      "Ngày": "2009-02-23",
+      "Loại nguồn": "Báo chí lưu trữ",
+      "Độ tin cậy": "B",
+      "Dữ liệu sử dụng": "Agribank và VPBank đầu 2009.",
+      "URL": "https://thanhnien.vn/lai-suat-tiet-kiem-bien-dong-185350290.htm"
+    },
+    {
+      "Mã nguồn": "SRC_STB_2010",
+      "Đơn vị": "CafeF",
+      "Tiêu đề": "Ngân hàng giảm lãi suất huy động ngắn hạn",
+      "Ngày": "2010-03-01",
+      "Loại nguồn": "Báo chí lưu trữ",
+      "Độ tin cậy": "B",
+      "Dữ liệu sử dụng": "Sacombank hiệu lực 25/02/2010.",
+      "URL": "https://cafef.vn/tai-chinh-ngan-hang/ngan-hang-giam-lai-suat-huy-dong-ngan-han-20100301104950201.chn"
+    },
+    {
+      "Mã nguồn": "SRC_2010_MARKET",
+      "Đơn vị": "VnExpress",
+      "Tiêu đề": "Ngân hàng cổ phần mở màn đợt giảm lãi suất huy động",
+      "Ngày": "2010-10-15",
+      "Loại nguồn": "Báo chí lưu trữ",
+      "Độ tin cậy": "B",
+      "Dữ liệu sử dụng": "ACB/Techcombank tháng 10/2010.",
+      "URL": "https://vnexpress.net/ngan-hang-co-phan-mo-man-dot-giam-lai-suat-huy-dong-2708190.html"
+    },
+    {
+      "Mã nguồn": "SRC_2011",
+      "Đơn vị": "VnExpress",
+      "Tiêu đề": "Sóng ngầm lãi suất tiền đồng",
+      "Ngày": "2011-03-18",
+      "Loại nguồn": "Báo chí lưu trữ",
+      "Độ tin cậy": "B",
+      "Dữ liệu sử dụng": "Mặt bằng 14%/năm, có nhắc VietinBank.",
+      "URL": "https://vnexpress.net/song-ngam-lai-suat-tien-dong-2711116.html"
+    },
+    {
+      "Mã nguồn": "SRC_2012_VCB",
+      "Đơn vị": "VnEconomy",
+      "Tiêu đề": "Lãi suất Vietcombank vừa giảm, vừa tăng",
+      "Ngày": "2012-02-18",
+      "Loại nguồn": "Báo chí lưu trữ",
+      "Độ tin cậy": "B",
+      "Dữ liệu sử dụng": "VCB 1-60 tháng cùng mức 14%/năm tại thời điểm bài.",
+      "URL": "https://vneconomy.vn/lai-suat-vietcombank-vua-giam-vua-tang.htm"
+    },
+    {
+      "Mã nguồn": "SRC_2012_BIG",
+      "Đơn vị": "VnExpress",
+      "Tiêu đề": "'Ông lớn' ngân hàng cũng nâng lãi suất huy động kỳ hạn dài",
+      "Ngày": "2012-08-03",
+      "Loại nguồn": "Báo chí lưu trữ",
+      "Độ tin cậy": "B",
+      "Dữ liệu sử dụng": "VCB/BIDV/VietinBank kỳ hạn dài.",
+      "URL": "https://vnexpress.net/ong-lon-ngan-hang-cung-nang-lai-suat-huy-dong-ky-han-dai-2721596.html"
+    },
+    {
+      "Mã nguồn": "SRC_2013",
+      "Đơn vị": "VnExpress",
+      "Tiêu đề": "Thêm 2 'ông lớn' ngân hàng giảm lãi suất tiết kiệm",
+      "Ngày": "2013-05-08",
+      "Loại nguồn": "Báo chí lưu trữ",
+      "Độ tin cậy": "B",
+      "Dữ liệu sử dụng": "BIDV và dữ liệu thị trường tháng 5/2013.",
+      "URL": "https://vnexpress.net/them-2-ong-lon-ngan-hang-giam-lai-suat-tiet-kiem-2745754.html"
+    },
+    {
+      "Mã nguồn": "SRC_2014_VCB",
+      "Đơn vị": "Báo Chính phủ",
+      "Tiêu đề": "Vietcombank giảm lãi suất tiết kiệm xuống sát 5%/năm",
+      "Ngày": "2014-06-10",
+      "Loại nguồn": "Báo chí/chính phủ",
+      "Độ tin cậy": "A/B",
+      "Dữ liệu sử dụng": "VCB 1/3/6/12 tháng; Techcombank đối chiếu cùng bài.",
+      "URL": "https://baochinhphu.vn/vietcombank-giam-lai-suat-tiet-kiem-xuong-sat-5-nam-102165317.htm"
+    },
+    {
+      "Mã nguồn": "SRC_2014_MARKET",
+      "Đơn vị": "Znews",
+      "Tiêu đề": "Gửi tiền ngân hàng nào lãi cao nhất?",
+      "Ngày": "2014-09-12",
+      "Loại nguồn": "Báo chí lưu trữ",
+      "Độ tin cậy": "B",
+      "Dữ liệu sử dụng": "Techcombank và một số ngân hàng tháng 9/2014.",
+      "URL": "https://znews.vn/gui-tien-ngan-hang-nao-lai-cao-nhat-post456233.html"
+    },
+    {
+      "Mã nguồn": "SRC_2015_VTB",
+      "Đơn vị": "VietnamPlus",
+      "Tiêu đề": "VietinBank tăng lãi suất huy động các kỳ hạn dưới 12 tháng",
+      "Ngày": "2015-11-05",
+      "Loại nguồn": "Báo chí",
+      "Độ tin cậy": "B",
+      "Dữ liệu sử dụng": "VietinBank chi tiết theo khoảng kỳ hạn.",
+      "URL": "https://www.vietnamplus.vn/vietinbank-tang-lai-suat-huy-dong-cac-ky-han-duoi-12-thang-post353495.vnp"
+    },
+    {
+      "Mã nguồn": "SRC_2016",
+      "Đơn vị": "VietnamNet / Infonet",
+      "Tiêu đề": "Lãi suất tiết kiệm cao nhất tháng 9 năm 2016",
+      "Ngày": "2016-09-05",
+      "Loại nguồn": "Báo chí",
+      "Độ tin cậy": "B",
+      "Dữ liệu sử dụng": "Bảng so sánh nhiều ngân hàng 1/2/3/6/9/12/24 tháng.",
+      "URL": "https://infonet.vietnamnet.vn/lai-suat-tiet-kiem-cao-nhat-thang-9-nam-2016-ngan-hang-nao-tra-lai-cao-nhat-192786.html"
+    },
+    {
+      "Mã nguồn": "SRC_2018",
+      "Đơn vị": "VietnamBiz",
+      "Tiêu đề": "So sánh lãi suất ngân hàng các 'ông lớn' mới nhất tháng 12/2018",
+      "Ngày": "2018-12-03",
+      "Loại nguồn": "Báo chí",
+      "Độ tin cậy": "B",
+      "Dữ liệu sử dụng": "Big4 chi tiết theo kỳ hạn.",
+      "URL": "https://vietnambiz.vn/so-sanh-lai-suat-ngan-hang-cac-ong-lon-moi-nhat-thang-122018-112416.htm"
+    },
+    {
+      "Mã nguồn": "SRC_2019",
+      "Đơn vị": "VietnamBiz",
+      "Tiêu đề": "So sánh lãi suất 4 ngân hàng lớn tháng 12/2019",
+      "Ngày": "2019-12-03",
+      "Loại nguồn": "Báo chí",
+      "Độ tin cậy": "B",
+      "Dữ liệu sử dụng": "Big4 chi tiết theo kỳ hạn.",
+      "URL": "https://vietnambiz.vn/so-sanh-lai-suat-4-ngan-hang-lon-vietcombank-vietinbank-bidv-agribank-thang-12-2019-20191203165258916.htm"
+    },
+    {
+      "Mã nguồn": "SRC_2020",
+      "Đơn vị": "VietnamBiz",
+      "Tiêu đề": "So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2020",
+      "Ngày": "2020-12-01",
+      "Loại nguồn": "Báo chí",
+      "Độ tin cậy": "B",
+      "Dữ liệu sử dụng": "Big4 chi tiết theo kỳ hạn.",
+      "URL": "https://vietnambiz.vn/so-sanh-lai-suat-4-ong-lon-ngan-hang-thang-12-2020-20201201171856448.htm"
+    },
+    {
+      "Mã nguồn": "SRC_2021_12M",
+      "Đơn vị": "VietnamBiz",
+      "Tiêu đề": "So sánh lãi suất ngân hàng kỳ hạn 1 năm mới nhất tháng 12/2021",
+      "Ngày": "2021-12-13",
+      "Loại nguồn": "Báo chí",
+      "Độ tin cậy": "B",
+      "Dữ liệu sử dụng": "So sánh lãi suất 12 tháng nhiều ngân hàng; có phân tầng tiền gửi.",
+      "URL": "https://vietnambiz.vn/so-sanh-lai-suat-ngan-hang-ky-han-1-nam-moi-nhat-thang-12-2021-20211213170602901.htm"
+    },
+    {
+      "Mã nguồn": "SRC_2022",
+      "Đơn vị": "VietnamBiz",
+      "Tiêu đề": "So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2022",
+      "Ngày": "2022-12-07",
+      "Loại nguồn": "Báo chí",
+      "Độ tin cậy": "B",
+      "Dữ liệu sử dụng": "Big4 chi tiết theo kỳ hạn.",
+      "URL": "https://vietnambiz.vn/so-sanh-lai-suat-4-ong-lon-ngan-hang-duy-tri-on-dinh-trong-thang-122022-202212716221567.htm"
+    },
+    {
+      "Mã nguồn": "SRC_VCB_HIST",
+      "Đơn vị": "Dữ Liệu Kinh Tế",
+      "Tiêu đề": "Lãi suất huy động Vietcombank",
+      "Ngày": "2026-07-14",
+      "Loại nguồn": "Chuỗi lịch sử Web + Wayback",
+      "Độ tin cậy": "B+",
+      "Dữ liệu sử dụng": "VCB: chuỗi điểm thay đổi từ 19/03/2008 đến 11/07/2026.",
+      "URL": "https://dulieukinhte.com/du-lieu/lai-suat-huy-dong-vietcombank-376"
+    },
+    {
+      "Mã nguồn": "SRC_BIDV_HIST",
+      "Đơn vị": "Dữ Liệu Kinh Tế",
+      "Tiêu đề": "Lãi suất huy động BIDV",
+      "Ngày": "2026-07-21",
+      "Loại nguồn": "Chuỗi lịch sử Web + Wayback",
+      "Độ tin cậy": "B+",
+      "Dữ liệu sử dụng": "BIDV: nguồn bidv.com.vn + Wayback, chỉ lưu điểm thay đổi.",
+      "URL": "https://dulieukinhte.com/du-lieu/lai-suat-huy-dong-bidv-378"
+    },
+    {
+      "Mã nguồn": "SRC_MB_HIST",
+      "Đơn vị": "Dữ Liệu Kinh Tế",
+      "Tiêu đề": "Lãi suất huy động MB Bank",
+      "Ngày": "2026-07-14",
+      "Loại nguồn": "Chuỗi lịch sử Web + Wayback",
+      "Độ tin cậy": "B+",
+      "Dữ liệu sử dụng": "MB: lãi trả sau KHCN, chỉ lưu điểm thay đổi.",
+      "URL": "https://dulieukinhte.com/du-lieu/lai-suat-huy-dong-mb-377"
+    },
+    {
+      "Mã nguồn": "SRC_VCB_CURRENT",
+      "Đơn vị": "Vietcombank",
+      "Tiêu đề": "Bảng lãi suất tiền gửi KHCN",
+      "Ngày": "2026-09-14",
+      "Loại nguồn": "Ngân hàng chính thức",
+      "Độ tin cậy": "A",
+      "Dữ liệu sử dụng": "Lãi suất tiền gửi VND KHCN đang hiển thị trên website.",
+      "URL": "https://www.vietcombank.com.vn/KHCN/Cong-cu-tien-ich/KHCN---Lai-suat?devicechannel=default"
+    },
+    {
+      "Mã nguồn": "SRC_TCB_COMPARE",
+      "Đơn vị": "Techcombank",
+      "Tiêu đề": "Lãi suất gửi tiết kiệm của 30+ ngân hàng hôm nay 12/09/2026",
+      "Ngày": "2026-09-12",
+      "Loại nguồn": "Ngân hàng chính thức - bảng so sánh thị trường",
+      "Độ tin cậy": "B+",
+      "Dữ liệu sử dụng": "So sánh tại quầy/online; Techcombank ghi rõ dữ liệu tham khảo thị trường và điều kiện riêng.",
+      "URL": "https://techcombank.com/thong-tin/blog/lai-suat-tiet-kiem?lead=DGMKT"
+    },
+    {
+      "Mã nguồn": "SRC_TCB_STANDARD",
+      "Đơn vị": "Techcombank",
+      "Tiêu đề": "Cách tính lãi suất gửi tiết kiệm ngân hàng chính xác 2026",
+      "Ngày": "2026-09-10",
+      "Loại nguồn": "Ngân hàng chính thức",
+      "Độ tin cậy": "A",
+      "Dữ liệu sử dụng": "Ví dụ bảng lãi suất Techcombank áp dụng khách hàng thường, tiền gửi dưới 1 tỷ.",
+      "URL": "https://techcombank.com/thong-tin/blog/cach-tinh-lai-suat-tien-gui-tiet-kiem"
+    },
+    {
+      "Mã nguồn": "SRC_VPB_CURRENT",
+      "Đơn vị": "VPBank",
+      "Tiêu đề": "Lãi suất gửi tiết kiệm ngân hàng nào cao nhất hiện nay 06/2026",
+      "Ngày": "2026-06-01",
+      "Loại nguồn": "Ngân hàng chính thức",
+      "Độ tin cậy": "A",
+      "Dữ liệu sử dụng": "Biểu tại quầy hiệu lực 10/04/2026 theo mức tiền.",
+      "URL": "https://www.vpbank.com.vn/bi-kip-va-chia-se/retail-story-and-tips/savings-category/lai-suat-tiet-kiem-ngan-hang-nao-cao-nhat-hien-nay"
+    },
+    {
+      "Mã nguồn": "SRC_TPB_2026",
+      "Đơn vị": "TPBank",
+      "Tiêu đề": "Biểu lãi suất huy động tiền gửi KHCN áp dụng từ 19/03/2026",
+      "Ngày": "2026-03-19",
+      "Loại nguồn": "Ngân hàng chính thức - PDF",
+      "Độ tin cậy": "A",
+      "Dữ liệu sử dụng": "Tiết kiệm điện tử TPBank; nhiều kỳ hạn.",
+      "URL": "https://tpb.vn/wps/wcm/connect/f4d6d685-2412-45e3-b6fa-303d98a3dbbb/BieuLaiSuat_up%20web_19.03.2026.pdf?MOD=AJPERES"
+    },
+    {
+      "Mã nguồn": "SRC_ACB_CURRENT",
+      "Đơn vị": "ACB",
+      "Tiêu đề": "Lãi suất tiền gửi tiết kiệm",
+      "Ngày": "2026-09-14",
+      "Loại nguồn": "Ngân hàng chính thức",
+      "Độ tin cậy": "A",
+      "Dữ liệu sử dụng": "Tiết kiệm truyền thống VND, lãi cuối kỳ; có thưởng bậc thang.",
+      "URL": "https://acb.com.vn/lai-suat-tien-gui"
+    },
+    {
+      "Mã nguồn": "SRC_STB_CURRENT",
+      "Đơn vị": "Sacombank",
+      "Tiêu đề": "Lãi suất huy động - Khách hàng cá nhân, hiệu lực 26/08/2026",
+      "Ngày": "2026-08-26",
+      "Loại nguồn": "Ngân hàng chính thức - PDF",
+      "Độ tin cậy": "A",
+      "Dữ liệu sử dụng": "Tại quầy; 3 bậc tiền gửi và lãi cuối kỳ.",
+      "URL": "https://www.sacombank.com.vn/content/dam/sacombank/files/cong-cu/lai-suat/tien-gui/khcn/SACOMBANK_LAISUATNIEMYETTAIQUAY_KHCN_VIE.pdf"
+    },
+    {
+      "Mã nguồn": "SRC_MB_CURRENT",
+      "Đơn vị": "MB",
+      "Tiêu đề": "So sánh gửi tiết kiệm online và tại quầy",
+      "Ngày": "2026-09-10",
+      "Loại nguồn": "Ngân hàng chính thức",
+      "Độ tin cậy": "A",
+      "Dữ liệu sử dụng": "Bảng MB tháng 9/2026 theo bài hướng dẫn chính thức.",
+      "URL": "https://www.mbbank.com.vn/chi-tiet/tin-mb/so-sanh-gui-tiet-kiem-online-va-tai-quay/7734"
+    },
+    {
+      "Mã nguồn": "SRC_VTB_CURRENT",
+      "Đơn vị": "VietnamBiz (dẫn biểu VietinBank)",
+      "Tiêu đề": "Lãi suất ngân hàng VietinBank tháng 9/2026",
+      "Ngày": "2026-09-07",
+      "Loại nguồn": "Báo chí cập nhật biểu ngân hàng",
+      "Độ tin cậy": "B",
+      "Dữ liệu sử dụng": "Chi tiết 1-36 tháng.",
+      "URL": "https://vietnambiz.vn/lai-suat-ngan-hang-vietinbank.html"
+    },
+    {
+      "Mã nguồn": "SRC_AGR_CURRENT",
+      "Đơn vị": "Nguồn tổng hợp cập nhật biểu Agribank",
+      "Tiêu đề": "Lãi suất Agribank tháng 9/2026",
+      "Ngày": "2026-09-01",
+      "Loại nguồn": "Nguồn thứ cấp",
+      "Độ tin cậy": "C",
+      "Dữ liệu sử dụng": "Chi tiết theo kỳ hạn; đối chiếu với bảng so sánh Techcombank.",
+      "URL": "https://topi.vn/lai-suat-ngan-hang-agribank.html"
+    },
+    {
+      "Mã nguồn": "SRC_BIDV_CURRENT",
+      "Đơn vị": "VAM / đối chiếu chuỗi BIDV",
+      "Tiêu đề": "Lãi suất ngân hàng BIDV",
+      "Ngày": "2026-09-01",
+      "Loại nguồn": "Nguồn thứ cấp",
+      "Độ tin cậy": "C",
+      "Dữ liệu sử dụng": "Chi tiết kỳ hạn, đối chiếu Dữ Liệu Kinh Tế và Techcombank.",
+      "URL": "https://vam.com.vn/lai-suat-ngan-hang-bidv.html"
+    }
+  ],
+  "snapshots": [
+    {
+      "date": "2002-02-21",
+      "effectiveFrom": "2002-02-21",
+      "effectiveTo": "2008-05-18",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Sở Giao dịch II; trả lãi cuối kỳ",
+      "confidence": "B",
+      "source": "xlsx-import: Ngân hàng Đầu tư và Phát triển tăng lãi suất tiền gửi tiết kiệm VNĐ",
+      "sourceUrl": "https://tuoitre.vn/nld/thoi-su-trong-nuoc/ngan-hang-dau-tu-va-phat-trien-tang-lai-suat-tien-gui-tiet-kiem-vnd-82334.htm",
+      "sourceName": "Ngân hàng Đầu tư và Phát triển tăng lãi suất tiền gửi tiết kiệm VNĐ",
+      "sourceIssuer": "Người Lao Động / Tuổi Trẻ archive",
+      "note": "Nguồn gốc công bố %/tháng; quy đổi đơn giản x12 sang %/năm.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 3,
+          "annualRate": 6.6
+        }
+      ]
+    },
+    {
+      "date": "2002-02-21",
+      "effectiveFrom": "2002-02-21",
+      "effectiveTo": "2008-05-18",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Sở Giao dịch II; trả lãi cuối kỳ",
+      "confidence": "B",
+      "source": "xlsx-import: Ngân hàng Đầu tư và Phát triển tăng lãi suất tiền gửi tiết kiệm VNĐ",
+      "sourceUrl": "https://tuoitre.vn/nld/thoi-su-trong-nuoc/ngan-hang-dau-tu-va-phat-trien-tang-lai-suat-tien-gui-tiet-kiem-vnd-82334.htm",
+      "sourceName": "Ngân hàng Đầu tư và Phát triển tăng lãi suất tiền gửi tiết kiệm VNĐ",
+      "sourceIssuer": "Người Lao Động / Tuổi Trẻ archive",
+      "note": "Nguồn gốc công bố %/tháng; quy đổi đơn giản x12 sang %/năm.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 6,
+          "annualRate": 6.84
+        }
+      ]
+    },
+    {
+      "date": "2002-02-21",
+      "effectiveFrom": "2002-02-21",
+      "effectiveTo": "2008-05-18",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Sở Giao dịch II; trả lãi cuối kỳ",
+      "confidence": "B",
+      "source": "xlsx-import: Ngân hàng Đầu tư và Phát triển tăng lãi suất tiền gửi tiết kiệm VNĐ",
+      "sourceUrl": "https://tuoitre.vn/nld/thoi-su-trong-nuoc/ngan-hang-dau-tu-va-phat-trien-tang-lai-suat-tien-gui-tiet-kiem-vnd-82334.htm",
+      "sourceName": "Ngân hàng Đầu tư và Phát triển tăng lãi suất tiền gửi tiết kiệm VNĐ",
+      "sourceIssuer": "Người Lao Động / Tuổi Trẻ archive",
+      "note": "Nguồn gốc công bố %/tháng; quy đổi đơn giản x12 sang %/năm.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 9,
+          "annualRate": 6.96
+        }
+      ]
+    },
+    {
+      "date": "2002-02-21",
+      "effectiveFrom": "2002-02-21",
+      "effectiveTo": "2008-05-18",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Sở Giao dịch II; trả lãi cuối kỳ",
+      "confidence": "B",
+      "source": "xlsx-import: Ngân hàng Đầu tư và Phát triển tăng lãi suất tiền gửi tiết kiệm VNĐ",
+      "sourceUrl": "https://tuoitre.vn/nld/thoi-su-trong-nuoc/ngan-hang-dau-tu-va-phat-trien-tang-lai-suat-tien-gui-tiet-kiem-vnd-82334.htm",
+      "sourceName": "Ngân hàng Đầu tư và Phát triển tăng lãi suất tiền gửi tiết kiệm VNĐ",
+      "sourceIssuer": "Người Lao Động / Tuổi Trẻ archive",
+      "note": "Nguồn gốc công bố %/tháng; quy đổi đơn giản x12 sang %/năm.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 12,
+          "annualRate": 7.44
+        }
+      ]
+    },
+    {
+      "date": "2008-05-19",
+      "effectiveFrom": "2008-05-19",
+      "effectiveTo": "2008-12-07",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: Hầu hết các ngân hàng niêm yết mức lãi suất mới",
+      "sourceUrl": "https://thanhnien.vn/hau-het-cac-ngan-hang-niem-yet-muc-lai-suat-moi-185194651.htm",
+      "sourceName": "Hầu hết các ngân hàng niêm yết mức lãi suất mới",
+      "sourceIssuer": "Thanh Niên",
+      "note": "BIDV công bố theo dải: 1-<6 tháng 13,3%; 6-12 tháng 13,5%.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 1,
+          "annualRate": 13.3
+        }
+      ]
+    },
+    {
+      "date": "2008-05-19",
+      "effectiveFrom": "2008-05-19",
+      "effectiveTo": "2013-05-07",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: Hầu hết các ngân hàng niêm yết mức lãi suất mới",
+      "sourceUrl": "https://thanhnien.vn/hau-het-cac-ngan-hang-niem-yet-muc-lai-suat-moi-185194651.htm",
+      "sourceName": "Hầu hết các ngân hàng niêm yết mức lãi suất mới",
+      "sourceIssuer": "Thanh Niên",
+      "note": "BIDV công bố theo dải: 1-<6 tháng 13,3%; 6-12 tháng 13,5%.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 2,
+          "annualRate": 13.3
+        }
+      ]
+    },
+    {
+      "date": "2008-05-19",
+      "effectiveFrom": "2008-05-19",
+      "effectiveTo": "2008-12-07",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: Hầu hết các ngân hàng niêm yết mức lãi suất mới",
+      "sourceUrl": "https://thanhnien.vn/hau-het-cac-ngan-hang-niem-yet-muc-lai-suat-moi-185194651.htm",
+      "sourceName": "Hầu hết các ngân hàng niêm yết mức lãi suất mới",
+      "sourceIssuer": "Thanh Niên",
+      "note": "BIDV công bố theo dải: 1-<6 tháng 13,3%; 6-12 tháng 13,5%.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 3,
+          "annualRate": 13.3
+        }
+      ]
+    },
+    {
+      "date": "2008-05-19",
+      "effectiveFrom": "2008-05-19",
+      "effectiveTo": "2013-05-07",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: Hầu hết các ngân hàng niêm yết mức lãi suất mới",
+      "sourceUrl": "https://thanhnien.vn/hau-het-cac-ngan-hang-niem-yet-muc-lai-suat-moi-185194651.htm",
+      "sourceName": "Hầu hết các ngân hàng niêm yết mức lãi suất mới",
+      "sourceIssuer": "Thanh Niên",
+      "note": "BIDV công bố theo dải: 1-<6 tháng 13,3%; 6-12 tháng 13,5%.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 4,
+          "annualRate": 13.3
+        }
+      ]
+    },
+    {
+      "date": "2008-05-19",
+      "effectiveFrom": "2008-05-19",
+      "effectiveTo": "2008-12-07",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: Hầu hết các ngân hàng niêm yết mức lãi suất mới",
+      "sourceUrl": "https://thanhnien.vn/hau-het-cac-ngan-hang-niem-yet-muc-lai-suat-moi-185194651.htm",
+      "sourceName": "Hầu hết các ngân hàng niêm yết mức lãi suất mới",
+      "sourceIssuer": "Thanh Niên",
+      "note": "BIDV công bố theo dải: 1-<6 tháng 13,3%; 6-12 tháng 13,5%.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 6,
+          "annualRate": 13.5
+        }
+      ]
+    },
+    {
+      "date": "2008-05-19",
+      "effectiveFrom": "2008-05-19",
+      "effectiveTo": "2008-12-07",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: Hầu hết các ngân hàng niêm yết mức lãi suất mới",
+      "sourceUrl": "https://thanhnien.vn/hau-het-cac-ngan-hang-niem-yet-muc-lai-suat-moi-185194651.htm",
+      "sourceName": "Hầu hết các ngân hàng niêm yết mức lãi suất mới",
+      "sourceIssuer": "Thanh Niên",
+      "note": "BIDV công bố theo dải: 1-<6 tháng 13,3%; 6-12 tháng 13,5%.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 9,
+          "annualRate": 13.5
+        }
+      ]
+    },
+    {
+      "date": "2008-05-19",
+      "effectiveFrom": "2008-05-19",
+      "effectiveTo": "2008-12-07",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: Hầu hết các ngân hàng niêm yết mức lãi suất mới",
+      "sourceUrl": "https://thanhnien.vn/hau-het-cac-ngan-hang-niem-yet-muc-lai-suat-moi-185194651.htm",
+      "sourceName": "Hầu hết các ngân hàng niêm yết mức lãi suất mới",
+      "sourceIssuer": "Thanh Niên",
+      "note": "BIDV công bố theo dải: 1-<6 tháng 13,3%; 6-12 tháng 13,5%.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 12,
+          "annualRate": 13.5
+        }
+      ]
+    },
+    {
+      "date": "2008-12-08",
+      "effectiveFrom": "2008-12-08",
+      "effectiveTo": "2013-05-07",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: BIDV giảm lãi suất lần cuối cùng trong năm 2008",
+      "sourceUrl": "https://cafef.vn/tai-chinh-ngan-hang/bidv-giam-lai-suat-lan-cuoi-cung-trong-nam-2008-20081204054038506.chn",
+      "sourceName": "BIDV giảm lãi suất lần cuối cùng trong năm 2008",
+      "sourceIssuer": "CafeF",
+      "note": "Nguồn ghi >12 tháng 9,0%; áp dụng làm mốc cho 18/24/36.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 1,
+          "annualRate": 7.0
+        }
+      ]
+    },
+    {
+      "date": "2008-12-08",
+      "effectiveFrom": "2008-12-08",
+      "effectiveTo": "2013-05-07",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: BIDV giảm lãi suất lần cuối cùng trong năm 2008",
+      "sourceUrl": "https://cafef.vn/tai-chinh-ngan-hang/bidv-giam-lai-suat-lan-cuoi-cung-trong-nam-2008-20081204054038506.chn",
+      "sourceName": "BIDV giảm lãi suất lần cuối cùng trong năm 2008",
+      "sourceIssuer": "CafeF",
+      "note": "Nguồn ghi >12 tháng 9,0%; áp dụng làm mốc cho 18/24/36.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 3,
+          "annualRate": 8.0
+        }
+      ]
+    },
+    {
+      "date": "2008-12-08",
+      "effectiveFrom": "2008-12-08",
+      "effectiveTo": "2013-05-07",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: BIDV giảm lãi suất lần cuối cùng trong năm 2008",
+      "sourceUrl": "https://cafef.vn/tai-chinh-ngan-hang/bidv-giam-lai-suat-lan-cuoi-cung-trong-nam-2008-20081204054038506.chn",
+      "sourceName": "BIDV giảm lãi suất lần cuối cùng trong năm 2008",
+      "sourceIssuer": "CafeF",
+      "note": "Nguồn ghi >12 tháng 9,0%; áp dụng làm mốc cho 18/24/36.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 6,
+          "annualRate": 8.5
+        }
+      ]
+    },
+    {
+      "date": "2008-12-08",
+      "effectiveFrom": "2008-12-08",
+      "effectiveTo": "2013-05-07",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: BIDV giảm lãi suất lần cuối cùng trong năm 2008",
+      "sourceUrl": "https://cafef.vn/tai-chinh-ngan-hang/bidv-giam-lai-suat-lan-cuoi-cung-trong-nam-2008-20081204054038506.chn",
+      "sourceName": "BIDV giảm lãi suất lần cuối cùng trong năm 2008",
+      "sourceIssuer": "CafeF",
+      "note": "Nguồn ghi >12 tháng 9,0%; áp dụng làm mốc cho 18/24/36.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 9,
+          "annualRate": 9.0
+        }
+      ]
+    },
+    {
+      "date": "2008-12-08",
+      "effectiveFrom": "2008-12-08",
+      "effectiveTo": "2013-05-07",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: BIDV giảm lãi suất lần cuối cùng trong năm 2008",
+      "sourceUrl": "https://cafef.vn/tai-chinh-ngan-hang/bidv-giam-lai-suat-lan-cuoi-cung-trong-nam-2008-20081204054038506.chn",
+      "sourceName": "BIDV giảm lãi suất lần cuối cùng trong năm 2008",
+      "sourceIssuer": "CafeF",
+      "note": "Nguồn ghi >12 tháng 9,0%; áp dụng làm mốc cho 18/24/36.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 12,
+          "annualRate": 10.5
+        }
+      ]
+    },
+    {
+      "date": "2008-12-08",
+      "effectiveFrom": "2008-12-08",
+      "effectiveTo": "2013-05-07",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: BIDV giảm lãi suất lần cuối cùng trong năm 2008",
+      "sourceUrl": "https://cafef.vn/tai-chinh-ngan-hang/bidv-giam-lai-suat-lan-cuoi-cung-trong-nam-2008-20081204054038506.chn",
+      "sourceName": "BIDV giảm lãi suất lần cuối cùng trong năm 2008",
+      "sourceIssuer": "CafeF",
+      "note": "Nguồn ghi >12 tháng 9,0%; áp dụng làm mốc cho 18/24/36.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 18,
+          "annualRate": 9.0
+        }
+      ]
+    },
+    {
+      "date": "2008-12-08",
+      "effectiveFrom": "2008-12-08",
+      "effectiveTo": "2012-08-02",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: BIDV giảm lãi suất lần cuối cùng trong năm 2008",
+      "sourceUrl": "https://cafef.vn/tai-chinh-ngan-hang/bidv-giam-lai-suat-lan-cuoi-cung-trong-nam-2008-20081204054038506.chn",
+      "sourceName": "BIDV giảm lãi suất lần cuối cùng trong năm 2008",
+      "sourceIssuer": "CafeF",
+      "note": "Nguồn ghi >12 tháng 9,0%; áp dụng làm mốc cho 18/24/36.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 24,
+          "annualRate": 9.0
+        }
+      ]
+    },
+    {
+      "date": "2008-12-08",
+      "effectiveFrom": "2008-12-08",
+      "effectiveTo": "2012-08-02",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: BIDV giảm lãi suất lần cuối cùng trong năm 2008",
+      "sourceUrl": "https://cafef.vn/tai-chinh-ngan-hang/bidv-giam-lai-suat-lan-cuoi-cung-trong-nam-2008-20081204054038506.chn",
+      "sourceName": "BIDV giảm lãi suất lần cuối cùng trong năm 2008",
+      "sourceIssuer": "CafeF",
+      "note": "Nguồn ghi >12 tháng 9,0%; áp dụng làm mốc cho 18/24/36.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 36,
+          "annualRate": 9.0
+        }
+      ]
+    },
+    {
+      "date": "2012-08-03",
+      "effectiveFrom": "2012-08-03",
+      "effectiveTo": "2013-05-07",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: 'Ông lớn' ngân hàng cũng nâng lãi suất huy động kỳ hạn dài",
+      "sourceUrl": "https://vnexpress.net/ong-lon-ngan-hang-cung-nang-lai-suat-huy-dong-ky-han-dai-2721596.html",
+      "sourceName": "'Ông lớn' ngân hàng cũng nâng lãi suất huy động kỳ hạn dài",
+      "sourceIssuer": "VnExpress",
+      "note": "Nguồn nêu kỳ hạn dài từ 24 tháng.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 24,
+          "annualRate": 10.0
+        }
+      ]
+    },
+    {
+      "date": "2012-08-03",
+      "effectiveFrom": "2012-08-03",
+      "effectiveTo": "2013-05-07",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: 'Ông lớn' ngân hàng cũng nâng lãi suất huy động kỳ hạn dài",
+      "sourceUrl": "https://vnexpress.net/ong-lon-ngan-hang-cung-nang-lai-suat-huy-dong-ky-han-dai-2721596.html",
+      "sourceName": "'Ông lớn' ngân hàng cũng nâng lãi suất huy động kỳ hạn dài",
+      "sourceIssuer": "VnExpress",
+      "note": "Nguồn nêu kỳ hạn dài từ 24 tháng.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 36,
+          "annualRate": 10.0
+        }
+      ]
+    },
+    {
+      "date": "2013-05-08",
+      "effectiveFrom": "2013-05-08",
+      "effectiveTo": "2016-09-04",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: Thêm 2 'ông lớn' ngân hàng giảm lãi suất tiết kiệm",
+      "sourceUrl": "https://vnexpress.net/them-2-ong-lon-ngan-hang-giam-lai-suat-tiet-kiem-2745754.html",
+      "sourceName": "Thêm 2 'ông lớn' ngân hàng giảm lãi suất tiết kiệm",
+      "sourceIssuer": "VnExpress",
+      "note": "Nguồn nêu 3-11 tháng 7%, từ 12 tháng 8%.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 1,
+          "annualRate": 6.0
+        }
+      ]
+    },
+    {
+      "date": "2013-05-08",
+      "effectiveFrom": "2013-05-08",
+      "effectiveTo": "2016-09-04",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: Thêm 2 'ông lớn' ngân hàng giảm lãi suất tiết kiệm",
+      "sourceUrl": "https://vnexpress.net/them-2-ong-lon-ngan-hang-giam-lai-suat-tiet-kiem-2745754.html",
+      "sourceName": "Thêm 2 'ông lớn' ngân hàng giảm lãi suất tiết kiệm",
+      "sourceIssuer": "VnExpress",
+      "note": "Nguồn nêu 3-11 tháng 7%, từ 12 tháng 8%.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 2,
+          "annualRate": 6.5
+        }
+      ]
+    },
+    {
+      "date": "2013-05-08",
+      "effectiveFrom": "2013-05-08",
+      "effectiveTo": "2016-09-04",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: Thêm 2 'ông lớn' ngân hàng giảm lãi suất tiết kiệm",
+      "sourceUrl": "https://vnexpress.net/them-2-ong-lon-ngan-hang-giam-lai-suat-tiet-kiem-2745754.html",
+      "sourceName": "Thêm 2 'ông lớn' ngân hàng giảm lãi suất tiết kiệm",
+      "sourceIssuer": "VnExpress",
+      "note": "Nguồn nêu 3-11 tháng 7%, từ 12 tháng 8%.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 3,
+          "annualRate": 7.0
+        }
+      ]
+    },
+    {
+      "date": "2013-05-08",
+      "effectiveFrom": "2013-05-08",
+      "effectiveTo": "2018-12-02",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: Thêm 2 'ông lớn' ngân hàng giảm lãi suất tiết kiệm",
+      "sourceUrl": "https://vnexpress.net/them-2-ong-lon-ngan-hang-giam-lai-suat-tiet-kiem-2745754.html",
+      "sourceName": "Thêm 2 'ông lớn' ngân hàng giảm lãi suất tiết kiệm",
+      "sourceIssuer": "VnExpress",
+      "note": "Nguồn nêu 3-11 tháng 7%, từ 12 tháng 8%.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 4,
+          "annualRate": 7.0
+        }
+      ]
+    },
+    {
+      "date": "2013-05-08",
+      "effectiveFrom": "2013-05-08",
+      "effectiveTo": "2016-09-04",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: Thêm 2 'ông lớn' ngân hàng giảm lãi suất tiết kiệm",
+      "sourceUrl": "https://vnexpress.net/them-2-ong-lon-ngan-hang-giam-lai-suat-tiet-kiem-2745754.html",
+      "sourceName": "Thêm 2 'ông lớn' ngân hàng giảm lãi suất tiết kiệm",
+      "sourceIssuer": "VnExpress",
+      "note": "Nguồn nêu 3-11 tháng 7%, từ 12 tháng 8%.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 6,
+          "annualRate": 7.0
+        }
+      ]
+    },
+    {
+      "date": "2013-05-08",
+      "effectiveFrom": "2013-05-08",
+      "effectiveTo": "2016-09-04",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: Thêm 2 'ông lớn' ngân hàng giảm lãi suất tiết kiệm",
+      "sourceUrl": "https://vnexpress.net/them-2-ong-lon-ngan-hang-giam-lai-suat-tiet-kiem-2745754.html",
+      "sourceName": "Thêm 2 'ông lớn' ngân hàng giảm lãi suất tiết kiệm",
+      "sourceIssuer": "VnExpress",
+      "note": "Nguồn nêu 3-11 tháng 7%, từ 12 tháng 8%.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 9,
+          "annualRate": 7.0
+        }
+      ]
+    },
+    {
+      "date": "2013-05-08",
+      "effectiveFrom": "2013-05-08",
+      "effectiveTo": "2016-09-04",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: Thêm 2 'ông lớn' ngân hàng giảm lãi suất tiết kiệm",
+      "sourceUrl": "https://vnexpress.net/them-2-ong-lon-ngan-hang-giam-lai-suat-tiet-kiem-2745754.html",
+      "sourceName": "Thêm 2 'ông lớn' ngân hàng giảm lãi suất tiết kiệm",
+      "sourceIssuer": "VnExpress",
+      "note": "Nguồn nêu 3-11 tháng 7%, từ 12 tháng 8%.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 12,
+          "annualRate": 8.0
+        }
+      ]
+    },
+    {
+      "date": "2013-05-08",
+      "effectiveFrom": "2013-05-08",
+      "effectiveTo": "2018-12-02",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: Thêm 2 'ông lớn' ngân hàng giảm lãi suất tiết kiệm",
+      "sourceUrl": "https://vnexpress.net/them-2-ong-lon-ngan-hang-giam-lai-suat-tiet-kiem-2745754.html",
+      "sourceName": "Thêm 2 'ông lớn' ngân hàng giảm lãi suất tiết kiệm",
+      "sourceIssuer": "VnExpress",
+      "note": "Nguồn nêu 3-11 tháng 7%, từ 12 tháng 8%.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 18,
+          "annualRate": 8.0
+        }
+      ]
+    },
+    {
+      "date": "2013-05-08",
+      "effectiveFrom": "2013-05-08",
+      "effectiveTo": "2016-09-04",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: Thêm 2 'ông lớn' ngân hàng giảm lãi suất tiết kiệm",
+      "sourceUrl": "https://vnexpress.net/them-2-ong-lon-ngan-hang-giam-lai-suat-tiet-kiem-2745754.html",
+      "sourceName": "Thêm 2 'ông lớn' ngân hàng giảm lãi suất tiết kiệm",
+      "sourceIssuer": "VnExpress",
+      "note": "Nguồn nêu 3-11 tháng 7%, từ 12 tháng 8%.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 24,
+          "annualRate": 8.0
+        }
+      ]
+    },
+    {
+      "date": "2013-05-08",
+      "effectiveFrom": "2013-05-08",
+      "effectiveTo": "2018-12-02",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: Thêm 2 'ông lớn' ngân hàng giảm lãi suất tiết kiệm",
+      "sourceUrl": "https://vnexpress.net/them-2-ong-lon-ngan-hang-giam-lai-suat-tiet-kiem-2745754.html",
+      "sourceName": "Thêm 2 'ông lớn' ngân hàng giảm lãi suất tiết kiệm",
+      "sourceIssuer": "VnExpress",
+      "note": "Nguồn nêu 3-11 tháng 7%, từ 12 tháng 8%.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 36,
+          "annualRate": 8.0
+        }
+      ]
+    },
+    {
+      "date": "2016-09-05",
+      "effectiveFrom": "2016-09-05",
+      "effectiveTo": "2018-12-02",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Theo bảng so sánh",
+      "confidence": "B",
+      "source": "xlsx-import: Lãi suất tiết kiệm cao nhất tháng 9 năm 2016",
+      "sourceUrl": "https://infonet.vietnamnet.vn/lai-suat-tiet-kiem-cao-nhat-thang-9-nam-2016-ngan-hang-nao-tra-lai-cao-nhat-192786.html",
+      "sourceName": "Lãi suất tiết kiệm cao nhất tháng 9 năm 2016",
+      "sourceIssuer": "VietnamNet / Infonet",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 1,
+          "annualRate": 4.8
+        }
+      ]
+    },
+    {
+      "date": "2016-09-05",
+      "effectiveFrom": "2016-09-05",
+      "effectiveTo": "2018-12-02",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Theo bảng so sánh",
+      "confidence": "B",
+      "source": "xlsx-import: Lãi suất tiết kiệm cao nhất tháng 9 năm 2016",
+      "sourceUrl": "https://infonet.vietnamnet.vn/lai-suat-tiet-kiem-cao-nhat-thang-9-nam-2016-ngan-hang-nao-tra-lai-cao-nhat-192786.html",
+      "sourceName": "Lãi suất tiết kiệm cao nhất tháng 9 năm 2016",
+      "sourceIssuer": "VietnamNet / Infonet",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 2,
+          "annualRate": 5.0
+        }
+      ]
+    },
+    {
+      "date": "2016-09-05",
+      "effectiveFrom": "2016-09-05",
+      "effectiveTo": "2018-12-02",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Theo bảng so sánh",
+      "confidence": "B",
+      "source": "xlsx-import: Lãi suất tiết kiệm cao nhất tháng 9 năm 2016",
+      "sourceUrl": "https://infonet.vietnamnet.vn/lai-suat-tiet-kiem-cao-nhat-thang-9-nam-2016-ngan-hang-nao-tra-lai-cao-nhat-192786.html",
+      "sourceName": "Lãi suất tiết kiệm cao nhất tháng 9 năm 2016",
+      "sourceIssuer": "VietnamNet / Infonet",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 3,
+          "annualRate": 5.5
+        }
+      ]
+    },
+    {
+      "date": "2016-09-05",
+      "effectiveFrom": "2016-09-05",
+      "effectiveTo": "2018-12-02",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Theo bảng so sánh",
+      "confidence": "B",
+      "source": "xlsx-import: Lãi suất tiết kiệm cao nhất tháng 9 năm 2016",
+      "sourceUrl": "https://infonet.vietnamnet.vn/lai-suat-tiet-kiem-cao-nhat-thang-9-nam-2016-ngan-hang-nao-tra-lai-cao-nhat-192786.html",
+      "sourceName": "Lãi suất tiết kiệm cao nhất tháng 9 năm 2016",
+      "sourceIssuer": "VietnamNet / Infonet",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 6,
+          "annualRate": 5.8
+        }
+      ]
+    },
+    {
+      "date": "2016-09-05",
+      "effectiveFrom": "2016-09-05",
+      "effectiveTo": "2018-12-02",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Theo bảng so sánh",
+      "confidence": "B",
+      "source": "xlsx-import: Lãi suất tiết kiệm cao nhất tháng 9 năm 2016",
+      "sourceUrl": "https://infonet.vietnamnet.vn/lai-suat-tiet-kiem-cao-nhat-thang-9-nam-2016-ngan-hang-nao-tra-lai-cao-nhat-192786.html",
+      "sourceName": "Lãi suất tiết kiệm cao nhất tháng 9 năm 2016",
+      "sourceIssuer": "VietnamNet / Infonet",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 9,
+          "annualRate": 5.8
+        }
+      ]
+    },
+    {
+      "date": "2016-09-05",
+      "effectiveFrom": "2016-09-05",
+      "effectiveTo": "2018-12-02",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Theo bảng so sánh",
+      "confidence": "B",
+      "source": "xlsx-import: Lãi suất tiết kiệm cao nhất tháng 9 năm 2016",
+      "sourceUrl": "https://infonet.vietnamnet.vn/lai-suat-tiet-kiem-cao-nhat-thang-9-nam-2016-ngan-hang-nao-tra-lai-cao-nhat-192786.html",
+      "sourceName": "Lãi suất tiết kiệm cao nhất tháng 9 năm 2016",
+      "sourceIssuer": "VietnamNet / Infonet",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 12,
+          "annualRate": 6.9
+        }
+      ]
+    },
+    {
+      "date": "2016-09-05",
+      "effectiveFrom": "2016-09-05",
+      "effectiveTo": "2018-12-02",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Theo bảng so sánh",
+      "confidence": "B",
+      "source": "xlsx-import: Lãi suất tiết kiệm cao nhất tháng 9 năm 2016",
+      "sourceUrl": "https://infonet.vietnamnet.vn/lai-suat-tiet-kiem-cao-nhat-thang-9-nam-2016-ngan-hang-nao-tra-lai-cao-nhat-192786.html",
+      "sourceName": "Lãi suất tiết kiệm cao nhất tháng 9 năm 2016",
+      "sourceIssuer": "VietnamNet / Infonet",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 24,
+          "annualRate": 7.0
+        }
+      ]
+    },
+    {
+      "date": "2018-12-03",
+      "effectiveFrom": "2018-12-03",
+      "effectiveTo": "2019-12-02",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất ngân hàng các 'ông lớn' mới nhất tháng 12/2018",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-ngan-hang-cac-ong-lon-moi-nhat-thang-122018-112416.htm",
+      "sourceName": "So sánh lãi suất ngân hàng các 'ông lớn' mới nhất tháng 12/2018",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 1,
+          "annualRate": 4.5
+        }
+      ]
+    },
+    {
+      "date": "2018-12-03",
+      "effectiveFrom": "2018-12-03",
+      "effectiveTo": "2019-12-02",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất ngân hàng các 'ông lớn' mới nhất tháng 12/2018",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-ngan-hang-cac-ong-lon-moi-nhat-thang-122018-112416.htm",
+      "sourceName": "So sánh lãi suất ngân hàng các 'ông lớn' mới nhất tháng 12/2018",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 2,
+          "annualRate": 4.5
+        }
+      ]
+    },
+    {
+      "date": "2018-12-03",
+      "effectiveFrom": "2018-12-03",
+      "effectiveTo": "2019-12-02",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất ngân hàng các 'ông lớn' mới nhất tháng 12/2018",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-ngan-hang-cac-ong-lon-moi-nhat-thang-122018-112416.htm",
+      "sourceName": "So sánh lãi suất ngân hàng các 'ông lớn' mới nhất tháng 12/2018",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 3,
+          "annualRate": 5.0
+        }
+      ]
+    },
+    {
+      "date": "2018-12-03",
+      "effectiveFrom": "2018-12-03",
+      "effectiveTo": "2019-12-02",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất ngân hàng các 'ông lớn' mới nhất tháng 12/2018",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-ngan-hang-cac-ong-lon-moi-nhat-thang-122018-112416.htm",
+      "sourceName": "So sánh lãi suất ngân hàng các 'ông lớn' mới nhất tháng 12/2018",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 4,
+          "annualRate": 5.0
+        }
+      ]
+    },
+    {
+      "date": "2018-12-03",
+      "effectiveFrom": "2018-12-03",
+      "effectiveTo": "2019-12-02",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất ngân hàng các 'ông lớn' mới nhất tháng 12/2018",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-ngan-hang-cac-ong-lon-moi-nhat-thang-122018-112416.htm",
+      "sourceName": "So sánh lãi suất ngân hàng các 'ông lớn' mới nhất tháng 12/2018",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 6,
+          "annualRate": 5.5
+        }
+      ]
+    },
+    {
+      "date": "2018-12-03",
+      "effectiveFrom": "2018-12-03",
+      "effectiveTo": "2019-12-02",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất ngân hàng các 'ông lớn' mới nhất tháng 12/2018",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-ngan-hang-cac-ong-lon-moi-nhat-thang-122018-112416.htm",
+      "sourceName": "So sánh lãi suất ngân hàng các 'ông lớn' mới nhất tháng 12/2018",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 9,
+          "annualRate": 5.5
+        }
+      ]
+    },
+    {
+      "date": "2018-12-03",
+      "effectiveFrom": "2018-12-03",
+      "effectiveTo": "2019-12-02",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất ngân hàng các 'ông lớn' mới nhất tháng 12/2018",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-ngan-hang-cac-ong-lon-moi-nhat-thang-122018-112416.htm",
+      "sourceName": "So sánh lãi suất ngân hàng các 'ông lớn' mới nhất tháng 12/2018",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 12,
+          "annualRate": 6.9
+        }
+      ]
+    },
+    {
+      "date": "2018-12-03",
+      "effectiveFrom": "2018-12-03",
+      "effectiveTo": "2019-12-02",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất ngân hàng các 'ông lớn' mới nhất tháng 12/2018",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-ngan-hang-cac-ong-lon-moi-nhat-thang-122018-112416.htm",
+      "sourceName": "So sánh lãi suất ngân hàng các 'ông lớn' mới nhất tháng 12/2018",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 18,
+          "annualRate": 6.8
+        }
+      ]
+    },
+    {
+      "date": "2018-12-03",
+      "effectiveFrom": "2018-12-03",
+      "effectiveTo": "2019-12-02",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất ngân hàng các 'ông lớn' mới nhất tháng 12/2018",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-ngan-hang-cac-ong-lon-moi-nhat-thang-122018-112416.htm",
+      "sourceName": "So sánh lãi suất ngân hàng các 'ông lớn' mới nhất tháng 12/2018",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 24,
+          "annualRate": 6.9
+        }
+      ]
+    },
+    {
+      "date": "2018-12-03",
+      "effectiveFrom": "2018-12-03",
+      "effectiveTo": "2019-12-02",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất ngân hàng các 'ông lớn' mới nhất tháng 12/2018",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-ngan-hang-cac-ong-lon-moi-nhat-thang-122018-112416.htm",
+      "sourceName": "So sánh lãi suất ngân hàng các 'ông lớn' mới nhất tháng 12/2018",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 36,
+          "annualRate": 6.9
+        }
+      ]
+    },
+    {
+      "date": "2019-12-03",
+      "effectiveFrom": "2019-12-03",
+      "effectiveTo": "2020-11-30",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất 4 ngân hàng lớn tháng 12/2019",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-4-ngan-hang-lon-vietcombank-vietinbank-bidv-agribank-thang-12-2019-20191203165258916.htm",
+      "sourceName": "So sánh lãi suất 4 ngân hàng lớn tháng 12/2019",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 1,
+          "annualRate": 4.3
+        }
+      ]
+    },
+    {
+      "date": "2019-12-03",
+      "effectiveFrom": "2019-12-03",
+      "effectiveTo": "2020-11-30",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất 4 ngân hàng lớn tháng 12/2019",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-4-ngan-hang-lon-vietcombank-vietinbank-bidv-agribank-thang-12-2019-20191203165258916.htm",
+      "sourceName": "So sánh lãi suất 4 ngân hàng lớn tháng 12/2019",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 2,
+          "annualRate": 4.3
+        }
+      ]
+    },
+    {
+      "date": "2019-12-03",
+      "effectiveFrom": "2019-12-03",
+      "effectiveTo": "2020-11-30",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất 4 ngân hàng lớn tháng 12/2019",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-4-ngan-hang-lon-vietcombank-vietinbank-bidv-agribank-thang-12-2019-20191203165258916.htm",
+      "sourceName": "So sánh lãi suất 4 ngân hàng lớn tháng 12/2019",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 3,
+          "annualRate": 4.8
+        }
+      ]
+    },
+    {
+      "date": "2019-12-03",
+      "effectiveFrom": "2019-12-03",
+      "effectiveTo": "2022-12-06",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất 4 ngân hàng lớn tháng 12/2019",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-4-ngan-hang-lon-vietcombank-vietinbank-bidv-agribank-thang-12-2019-20191203165258916.htm",
+      "sourceName": "So sánh lãi suất 4 ngân hàng lớn tháng 12/2019",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 4,
+          "annualRate": 4.8
+        }
+      ]
+    },
+    {
+      "date": "2019-12-03",
+      "effectiveFrom": "2019-12-03",
+      "effectiveTo": "2020-11-30",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất 4 ngân hàng lớn tháng 12/2019",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-4-ngan-hang-lon-vietcombank-vietinbank-bidv-agribank-thang-12-2019-20191203165258916.htm",
+      "sourceName": "So sánh lãi suất 4 ngân hàng lớn tháng 12/2019",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 6,
+          "annualRate": 5.3
+        }
+      ]
+    },
+    {
+      "date": "2019-12-03",
+      "effectiveFrom": "2019-12-03",
+      "effectiveTo": "2020-11-30",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất 4 ngân hàng lớn tháng 12/2019",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-4-ngan-hang-lon-vietcombank-vietinbank-bidv-agribank-thang-12-2019-20191203165258916.htm",
+      "sourceName": "So sánh lãi suất 4 ngân hàng lớn tháng 12/2019",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 9,
+          "annualRate": 5.3
+        }
+      ]
+    },
+    {
+      "date": "2019-12-03",
+      "effectiveFrom": "2019-12-03",
+      "effectiveTo": "2020-11-30",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất 4 ngân hàng lớn tháng 12/2019",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-4-ngan-hang-lon-vietcombank-vietinbank-bidv-agribank-thang-12-2019-20191203165258916.htm",
+      "sourceName": "So sánh lãi suất 4 ngân hàng lớn tháng 12/2019",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 12,
+          "annualRate": 6.8
+        }
+      ]
+    },
+    {
+      "date": "2019-12-03",
+      "effectiveFrom": "2019-12-03",
+      "effectiveTo": "2020-11-30",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất 4 ngân hàng lớn tháng 12/2019",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-4-ngan-hang-lon-vietcombank-vietinbank-bidv-agribank-thang-12-2019-20191203165258916.htm",
+      "sourceName": "So sánh lãi suất 4 ngân hàng lớn tháng 12/2019",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 18,
+          "annualRate": 6.8
+        }
+      ]
+    },
+    {
+      "date": "2019-12-03",
+      "effectiveFrom": "2019-12-03",
+      "effectiveTo": "2020-11-30",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất 4 ngân hàng lớn tháng 12/2019",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-4-ngan-hang-lon-vietcombank-vietinbank-bidv-agribank-thang-12-2019-20191203165258916.htm",
+      "sourceName": "So sánh lãi suất 4 ngân hàng lớn tháng 12/2019",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 24,
+          "annualRate": 6.8
+        }
+      ]
+    },
+    {
+      "date": "2019-12-03",
+      "effectiveFrom": "2019-12-03",
+      "effectiveTo": "2020-11-30",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất 4 ngân hàng lớn tháng 12/2019",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-4-ngan-hang-lon-vietcombank-vietinbank-bidv-agribank-thang-12-2019-20191203165258916.htm",
+      "sourceName": "So sánh lãi suất 4 ngân hàng lớn tháng 12/2019",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 36,
+          "annualRate": 6.8
+        }
+      ]
+    },
+    {
+      "date": "2020-12-01",
+      "effectiveFrom": "2020-12-01",
+      "effectiveTo": "2022-12-06",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2020",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-4-ong-lon-ngan-hang-thang-12-2020-20201201171856448.htm",
+      "sourceName": "So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2020",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 1,
+          "annualRate": 3.1
+        }
+      ]
+    },
+    {
+      "date": "2020-12-01",
+      "effectiveFrom": "2020-12-01",
+      "effectiveTo": "2022-12-06",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2020",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-4-ong-lon-ngan-hang-thang-12-2020-20201201171856448.htm",
+      "sourceName": "So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2020",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 2,
+          "annualRate": 3.1
+        }
+      ]
+    },
+    {
+      "date": "2020-12-01",
+      "effectiveFrom": "2020-12-01",
+      "effectiveTo": "2022-12-06",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2020",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-4-ong-lon-ngan-hang-thang-12-2020-20201201171856448.htm",
+      "sourceName": "So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2020",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 3,
+          "annualRate": 3.4
+        }
+      ]
+    },
+    {
+      "date": "2020-12-01",
+      "effectiveFrom": "2020-12-01",
+      "effectiveTo": "2022-12-06",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2020",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-4-ong-lon-ngan-hang-thang-12-2020-20201201171856448.htm",
+      "sourceName": "So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2020",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 6,
+          "annualRate": 4.0
+        }
+      ]
+    },
+    {
+      "date": "2020-12-01",
+      "effectiveFrom": "2020-12-01",
+      "effectiveTo": "2022-12-06",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2020",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-4-ong-lon-ngan-hang-thang-12-2020-20201201171856448.htm",
+      "sourceName": "So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2020",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 9,
+          "annualRate": 4.0
+        }
+      ]
+    },
+    {
+      "date": "2020-12-01",
+      "effectiveFrom": "2020-12-01",
+      "effectiveTo": "2021-12-12",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2020",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-4-ong-lon-ngan-hang-thang-12-2020-20201201171856448.htm",
+      "sourceName": "So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2020",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 12,
+          "annualRate": 5.6
+        }
+      ]
+    },
+    {
+      "date": "2020-12-01",
+      "effectiveFrom": "2020-12-01",
+      "effectiveTo": "2022-12-06",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2020",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-4-ong-lon-ngan-hang-thang-12-2020-20201201171856448.htm",
+      "sourceName": "So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2020",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 18,
+          "annualRate": 5.6
+        }
+      ]
+    },
+    {
+      "date": "2020-12-01",
+      "effectiveFrom": "2020-12-01",
+      "effectiveTo": "2022-12-06",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2020",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-4-ong-lon-ngan-hang-thang-12-2020-20201201171856448.htm",
+      "sourceName": "So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2020",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 24,
+          "annualRate": 5.6
+        }
+      ]
+    },
+    {
+      "date": "2020-12-01",
+      "effectiveFrom": "2020-12-01",
+      "effectiveTo": "2022-12-06",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2020",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-4-ong-lon-ngan-hang-thang-12-2020-20201201171856448.htm",
+      "sourceName": "So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2020",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 36,
+          "annualRate": 5.6
+        }
+      ]
+    },
+    {
+      "date": "2021-12-13",
+      "effectiveFrom": "2021-12-13",
+      "effectiveTo": "2022-12-06",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Bậc thấp/tiêu chuẩn trong bài; nhiều ngân hàng có bậc theo số tiền.",
+      "confidence": "B-",
+      "source": "xlsx-import: So sánh lãi suất ngân hàng kỳ hạn 1 năm mới nhất tháng 12/2021",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-ngan-hang-ky-han-1-nam-moi-nhat-thang-12-2021-20211213170602901.htm",
+      "sourceName": "So sánh lãi suất ngân hàng kỳ hạn 1 năm mới nhất tháng 12/2021",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 12,
+          "annualRate": 5.5
+        }
+      ]
+    },
+    {
+      "date": "2022-12-07",
+      "effectiveFrom": "2022-12-07",
+      "effectiveTo": "2024-08-31",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2022",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-4-ong-lon-ngan-hang-duy-tri-on-dinh-trong-thang-122022-202212716221567.htm",
+      "sourceName": "So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2022",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 1,
+          "annualRate": 4.9
+        }
+      ]
+    },
+    {
+      "date": "2022-12-07",
+      "effectiveFrom": "2022-12-07",
+      "effectiveTo": "2026-04-12",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2022",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-4-ong-lon-ngan-hang-duy-tri-on-dinh-trong-thang-122022-202212716221567.htm",
+      "sourceName": "So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2022",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 2,
+          "annualRate": 4.9
+        }
+      ]
+    },
+    {
+      "date": "2022-12-07",
+      "effectiveFrom": "2022-12-07",
+      "effectiveTo": "2026-04-12",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2022",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-4-ong-lon-ngan-hang-duy-tri-on-dinh-trong-thang-122022-202212716221567.htm",
+      "sourceName": "So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2022",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 3,
+          "annualRate": 5.4
+        }
+      ]
+    },
+    {
+      "date": "2022-12-07",
+      "effectiveFrom": "2022-12-07",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2022",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-4-ong-lon-ngan-hang-duy-tri-on-dinh-trong-thang-122022-202212716221567.htm",
+      "sourceName": "So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2022",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 4,
+          "annualRate": 5.4
+        }
+      ]
+    },
+    {
+      "date": "2022-12-07",
+      "effectiveFrom": "2022-12-07",
+      "effectiveTo": "2026-04-12",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2022",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-4-ong-lon-ngan-hang-duy-tri-on-dinh-trong-thang-122022-202212716221567.htm",
+      "sourceName": "So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2022",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 6,
+          "annualRate": 6.0
+        }
+      ]
+    },
+    {
+      "date": "2022-12-07",
+      "effectiveFrom": "2022-12-07",
+      "effectiveTo": "2026-04-12",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2022",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-4-ong-lon-ngan-hang-duy-tri-on-dinh-trong-thang-122022-202212716221567.htm",
+      "sourceName": "So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2022",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 9,
+          "annualRate": 6.1
+        }
+      ]
+    },
+    {
+      "date": "2022-12-07",
+      "effectiveFrom": "2022-12-07",
+      "effectiveTo": "2023-08-22",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2022",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-4-ong-lon-ngan-hang-duy-tri-on-dinh-trong-thang-122022-202212716221567.htm",
+      "sourceName": "So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2022",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 12,
+          "annualRate": 7.4
+        }
+      ]
+    },
+    {
+      "date": "2022-12-07",
+      "effectiveFrom": "2022-12-07",
+      "effectiveTo": "2026-04-12",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2022",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-4-ong-lon-ngan-hang-duy-tri-on-dinh-trong-thang-122022-202212716221567.htm",
+      "sourceName": "So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2022",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 18,
+          "annualRate": 7.4
+        }
+      ]
+    },
+    {
+      "date": "2022-12-07",
+      "effectiveFrom": "2022-12-07",
+      "effectiveTo": "2023-08-22",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2022",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-4-ong-lon-ngan-hang-duy-tri-on-dinh-trong-thang-122022-202212716221567.htm",
+      "sourceName": "So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2022",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 24,
+          "annualRate": 7.4
+        }
+      ]
+    },
+    {
+      "date": "2022-12-07",
+      "effectiveFrom": "2022-12-07",
+      "effectiveTo": "2026-04-12",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B",
+      "source": "xlsx-import: So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2022",
+      "sourceUrl": "https://vietnambiz.vn/so-sanh-lai-suat-4-ong-lon-ngan-hang-duy-tri-on-dinh-trong-thang-122022-202212716221567.htm",
+      "sourceName": "So sánh lãi suất 4 'ông lớn' ngân hàng tháng 12/2022",
+      "sourceIssuer": "VietnamBiz",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 36,
+          "annualRate": 7.4
+        }
+      ]
+    },
+    {
+      "date": "2023-08-23",
+      "effectiveFrom": "2023-08-23",
+      "effectiveTo": "2024-08-31",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B+",
+      "source": "xlsx-import: Lãi suất huy động BIDV",
+      "sourceUrl": "https://dulieukinhte.com/du-lieu/lai-suat-huy-dong-bidv-378",
+      "sourceName": "Lãi suất huy động BIDV",
+      "sourceIssuer": "Dữ Liệu Kinh Tế",
+      "note": "Các kỳ hạn khác không đưa vào mốc này nếu chưa trích xuất được chắc chắn.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 12,
+          "annualRate": 5.8
+        }
+      ]
+    },
+    {
+      "date": "2023-08-23",
+      "effectiveFrom": "2023-08-23",
+      "effectiveTo": "2026-04-12",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B+",
+      "source": "xlsx-import: Lãi suất huy động BIDV",
+      "sourceUrl": "https://dulieukinhte.com/du-lieu/lai-suat-huy-dong-bidv-378",
+      "sourceName": "Lãi suất huy động BIDV",
+      "sourceIssuer": "Dữ Liệu Kinh Tế",
+      "note": "Các kỳ hạn khác không đưa vào mốc này nếu chưa trích xuất được chắc chắn.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 24,
+          "annualRate": 5.8
+        }
+      ]
+    },
+    {
+      "date": "2024-09-01",
+      "effectiveFrom": "2024-09-01",
+      "effectiveTo": "2025-12-14",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B+",
+      "source": "xlsx-import: Lãi suất huy động BIDV",
+      "sourceUrl": "https://dulieukinhte.com/du-lieu/lai-suat-huy-dong-bidv-378",
+      "sourceName": "Lãi suất huy động BIDV",
+      "sourceIssuer": "Dữ Liệu Kinh Tế",
+      "note": "Điểm thay đổi; chuỗi chỉ lưu giá trị thay đổi, không nội suy.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 1,
+          "annualRate": 2.0
+        }
+      ]
+    },
+    {
+      "date": "2024-09-01",
+      "effectiveFrom": "2024-09-01",
+      "effectiveTo": "2026-04-12",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B+",
+      "source": "xlsx-import: Lãi suất huy động BIDV",
+      "sourceUrl": "https://dulieukinhte.com/du-lieu/lai-suat-huy-dong-bidv-378",
+      "sourceName": "Lãi suất huy động BIDV",
+      "sourceIssuer": "Dữ Liệu Kinh Tế",
+      "note": "Điểm thay đổi; chuỗi chỉ lưu giá trị thay đổi, không nội suy.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 12,
+          "annualRate": 4.7
+        }
+      ]
+    },
+    {
+      "date": "2025-12-15",
+      "effectiveFrom": "2025-12-15",
+      "effectiveTo": "2026-04-12",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B+",
+      "source": "xlsx-import: Lãi suất huy động BIDV",
+      "sourceUrl": "https://dulieukinhte.com/du-lieu/lai-suat-huy-dong-bidv-378",
+      "sourceName": "Lãi suất huy động BIDV",
+      "sourceIssuer": "Dữ Liệu Kinh Tế",
+      "note": "Điểm thay đổi; không suy diễn các kỳ không xuất hiện.",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 1,
+          "annualRate": 2.6
+        }
+      ]
+    },
+    {
+      "date": "2026-04-13",
+      "effectiveFrom": "2026-04-13",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B+",
+      "source": "xlsx-import: Lãi suất huy động BIDV",
+      "sourceUrl": "https://dulieukinhte.com/du-lieu/lai-suat-huy-dong-bidv-378",
+      "sourceName": "Lãi suất huy động BIDV",
+      "sourceIssuer": "Dữ Liệu Kinh Tế",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 1,
+          "annualRate": 2.1
+        }
+      ]
+    },
+    {
+      "date": "2026-04-13",
+      "effectiveFrom": "2026-04-13",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B+",
+      "source": "xlsx-import: Lãi suất huy động BIDV",
+      "sourceUrl": "https://dulieukinhte.com/du-lieu/lai-suat-huy-dong-bidv-378",
+      "sourceName": "Lãi suất huy động BIDV",
+      "sourceIssuer": "Dữ Liệu Kinh Tế",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 2,
+          "annualRate": 2.1
+        }
+      ]
+    },
+    {
+      "date": "2026-04-13",
+      "effectiveFrom": "2026-04-13",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B+",
+      "source": "xlsx-import: Lãi suất huy động BIDV",
+      "sourceUrl": "https://dulieukinhte.com/du-lieu/lai-suat-huy-dong-bidv-378",
+      "sourceName": "Lãi suất huy động BIDV",
+      "sourceIssuer": "Dữ Liệu Kinh Tế",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 3,
+          "annualRate": 2.4
+        }
+      ]
+    },
+    {
+      "date": "2026-04-13",
+      "effectiveFrom": "2026-04-13",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B+",
+      "source": "xlsx-import: Lãi suất huy động BIDV",
+      "sourceUrl": "https://dulieukinhte.com/du-lieu/lai-suat-huy-dong-bidv-378",
+      "sourceName": "Lãi suất huy động BIDV",
+      "sourceIssuer": "Dữ Liệu Kinh Tế",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 6,
+          "annualRate": 3.5
+        }
+      ]
+    },
+    {
+      "date": "2026-04-13",
+      "effectiveFrom": "2026-04-13",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B+",
+      "source": "xlsx-import: Lãi suất huy động BIDV",
+      "sourceUrl": "https://dulieukinhte.com/du-lieu/lai-suat-huy-dong-bidv-378",
+      "sourceName": "Lãi suất huy động BIDV",
+      "sourceIssuer": "Dữ Liệu Kinh Tế",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 9,
+          "annualRate": 3.5
+        }
+      ]
+    },
+    {
+      "date": "2026-04-13",
+      "effectiveFrom": "2026-04-13",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B+",
+      "source": "xlsx-import: Lãi suất huy động BIDV",
+      "sourceUrl": "https://dulieukinhte.com/du-lieu/lai-suat-huy-dong-bidv-378",
+      "sourceName": "Lãi suất huy động BIDV",
+      "sourceIssuer": "Dữ Liệu Kinh Tế",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 12,
+          "annualRate": 5.9
+        }
+      ]
+    },
+    {
+      "date": "2026-04-13",
+      "effectiveFrom": "2026-04-13",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B+",
+      "source": "xlsx-import: Lãi suất huy động BIDV",
+      "sourceUrl": "https://dulieukinhte.com/du-lieu/lai-suat-huy-dong-bidv-378",
+      "sourceName": "Lãi suất huy động BIDV",
+      "sourceIssuer": "Dữ Liệu Kinh Tế",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 18,
+          "annualRate": 5.9
+        }
+      ]
+    },
+    {
+      "date": "2026-04-13",
+      "effectiveFrom": "2026-04-13",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B+",
+      "source": "xlsx-import: Lãi suất huy động BIDV",
+      "sourceUrl": "https://dulieukinhte.com/du-lieu/lai-suat-huy-dong-bidv-378",
+      "sourceName": "Lãi suất huy động BIDV",
+      "sourceIssuer": "Dữ Liệu Kinh Tế",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 24,
+          "annualRate": 6.0
+        }
+      ]
+    },
+    {
+      "date": "2026-04-13",
+      "effectiveFrom": "2026-04-13",
+      "channel": "Tại quầy",
+      "product": "Tiết kiệm VND KHCN - lãi cuối kỳ",
+      "condition": "Tiêu chuẩn",
+      "confidence": "B+",
+      "source": "xlsx-import: Lãi suất huy động BIDV",
+      "sourceUrl": "https://dulieukinhte.com/du-lieu/lai-suat-huy-dong-bidv-378",
+      "sourceName": "Lãi suất huy động BIDV",
+      "sourceIssuer": "Dữ Liệu Kinh Tế",
+      "needsReview": true,
+      "terms": [
+        {
+          "months": 36,
+          "annualRate": 6.0
+        }
+      ]
+    }
+  ]
+}

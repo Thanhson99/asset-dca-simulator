@@ -1,0 +1,205 @@
+{
+  "products": [
+    {
+      "id": "MOMO_TUI_THAN_TAI",
+      "type": "wallet_yield",
+      "provider": "MOMO",
+      "name": "MoMo Túi Thần Tài",
+      "dataPath": "data/rates/momo/tui-than-tai.json"
+    },
+    {
+      "id": "VCB_COUNTER_SAVING",
+      "type": "bank_saving",
+      "provider": "VCB",
+      "name": "Vietcombank tiết kiệm VND",
+      "terms": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        9,
+        12,
+        18,
+        24,
+        36,
+        48,
+        60
+      ],
+      "dataPath": "data/rates/banks/VCB/history.json"
+    },
+    {
+      "id": "BIDV_COUNTER_SAVING",
+      "type": "bank_saving",
+      "provider": "BIDV",
+      "name": "BIDV tiết kiệm VND",
+      "terms": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        9,
+        12,
+        18,
+        24,
+        36
+      ],
+      "dataPath": "data/rates/banks/BIDV/history.json"
+    },
+    {
+      "id": "CTG_COUNTER_SAVING",
+      "type": "bank_saving",
+      "provider": "CTG",
+      "name": "VietinBank tiết kiệm VND",
+      "terms": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        9,
+        12,
+        18,
+        24,
+        36,
+        48
+      ],
+      "dataPath": "data/rates/banks/CTG/history.json"
+    },
+    {
+      "id": "AGRIBANK_COUNTER_SAVING",
+      "type": "bank_saving",
+      "provider": "AGRIBANK",
+      "name": "Agribank tiết kiệm VND",
+      "terms": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        9,
+        12,
+        18,
+        24
+      ],
+      "dataPath": "data/rates/banks/AGRIBANK/history.json"
+    },
+    {
+      "id": "TCB_COUNTER_SAVING",
+      "type": "bank_saving",
+      "provider": "TCB",
+      "name": "Techcombank tiết kiệm VND",
+      "terms": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        9,
+        12,
+        18,
+        24,
+        36
+      ],
+      "dataPath": "data/rates/banks/TCB/history.json"
+    },
+    {
+      "id": "MBB_COUNTER_SAVING",
+      "type": "bank_saving",
+      "provider": "MBB",
+      "name": "MB tiết kiệm VND",
+      "terms": [
+        1,
+        2,
+        3,
+        6,
+        12,
+        18,
+        24,
+        36,
+        48,
+        60
+      ],
+      "dataPath": "data/rates/banks/MBB/history.json"
+    },
+    {
+      "id": "VPB_COUNTER_SAVING",
+      "type": "bank_saving",
+      "provider": "VPB",
+      "name": "VPBank tiết kiệm VND",
+      "terms": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        9,
+        12,
+        18,
+        24,
+        36
+      ],
+      "dataPath": "data/rates/banks/VPB/history.json"
+    },
+    {
+      "id": "ACB_COUNTER_SAVING",
+      "type": "bank_saving",
+      "provider": "ACB",
+      "name": "ACB tiết kiệm VND",
+      "terms": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        9,
+        12,
+        13,
+        15,
+        18,
+        24,
+        36
+      ],
+      "dataPath": "data/rates/banks/ACB/history.json"
+    },
+    {
+      "id": "STB_COUNTER_SAVING",
+      "type": "bank_saving",
+      "provider": "STB",
+      "name": "Sacombank tiết kiệm VND",
+      "terms": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        9,
+        12,
+        15,
+        18,
+        24,
+        36
+      ],
+      "dataPath": "data/rates/banks/STB/history.json"
+    },
+    {
+      "id": "TPB_COUNTER_SAVING",
+      "type": "bank_saving",
+      "provider": "TPB",
+      "name": "TPBank tiết kiệm VND",
+      "terms": [
+        1,
+        2,
+        3,
+        6,
+        9,
+        12,
+        18,
+        24,
+        36
+      ],
+      "dataPath": "data/rates/banks/TPB/history.json"
+    }
+  ]
+}

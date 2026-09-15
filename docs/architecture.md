@@ -21,6 +21,20 @@ The hosted app lives at the repository root:
 - `assets/scripts/`
 
 Browser code loads yearly JSON files from `data/stocks/{SYMBOL}/{YEAR}.json`, runs DCA simulations client-side, and renders the chart on Canvas.
+The yield tab also loads dated rate histories from `data/rates/` and runs bank
+deposit or daily wallet-yield simulations entirely in the browser.
+
+Frontend JavaScript is split by responsibility:
+
+- `assets/scripts/main.js`: app bootstrap only
+- `assets/scripts/app/`: cross-tab UI state such as active-tab persistence
+- `assets/scripts/features/stocks/`: stock DCA tab orchestration, labels, and summaries
+- `assets/scripts/features/yield/`: bank/MoMo yield tab orchestration
+- `assets/scripts/shared/`: small reusable date, number, and HTML helpers
+- `assets/scripts/data/`: static JSON loaders
+- `assets/scripts/simulation/`: pure simulation engines
+- `assets/scripts/charts/`: canvas renderers
+- `assets/scripts/ui/`: reusable UI controls
 
 ### `collector/`
 
@@ -36,6 +50,9 @@ Canonical JSON database committed to the repository:
 - `data/stocks/download-queue.json`: resumable 500-symbol download queue
 - `data/stocks/index.json`: runnable symbols shown by the frontend
 - `data/stocks/{SYMBOL}/{YEAR}.json`: daily stock data
+- `data/rates/index.json`: bank and wallet-yield product manifest
+- `data/rates/banks/{BANK}/history.json`: dated bank deposit snapshots imported from the curated workbook
+- `data/rates/momo/tui-than-tai.json`: MoMo Túi Thần Tài dated snapshots
 
 ## Data Flow
 

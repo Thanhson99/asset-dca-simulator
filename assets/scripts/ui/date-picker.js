@@ -16,6 +16,7 @@ const MONTH_LABELS = [
 const WEEKDAY_LABELS = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"];
 const MIN_DATE_ISO = "2000-01-01";
 const TODAY_ISO = toIsoDate(new Date());
+const DATE_PICKER_STATES = new WeakMap();
 
 /**
  * Replace a native date input with a small static-friendly calendar picker.
@@ -33,6 +34,7 @@ export function enhanceDateInput(input) {
     visibleMonth: initialIso ? monthStart(initialIso) : monthStart(TODAY_ISO),
     popover: document.createElement("div"),
   };
+  DATE_PICKER_STATES.set(input, state);
 
   if (state.selectedIso) {
     input.dataset.iso = state.selectedIso;
@@ -73,6 +75,23 @@ export function enhanceDateInput(input) {
 }
 
 /**
+ * Programmatically set an enhanced date input.
+ *
+ * @param {HTMLInputElement} input
+ * @param {string} iso
+ */
+export function setDateInput(input, iso) {
+  const state = DATE_PICKER_STATES.get(input);
+  input.dataset.iso = iso;
+  input.value = formatDisplayDate(iso);
+
+  if (state) {
+    state.selectedIso = iso;
+    state.visibleMonth = monthStart(iso);
+  }
+}
+
+/**
  * Clear the picker state when another UI action resets the input.
  *
  * @param {object} state
@@ -99,6 +118,7 @@ export function readDateInput(input) {
  * @param {object} state
  */
 function showPicker(state) {
+  state.visibleMonth = clampVisibleMonth(state, state.visibleMonth);
   renderPicker(state);
   positionPicker(state);
   state.popover.hidden = false;
@@ -113,25 +133,27 @@ function renderPicker(state) {
   const year = state.visibleMonth.getFullYear();
   const month = state.visibleMonth.getMonth();
   const days = createMonthCells(year, month);
+  const minDate = inputMinDate(state);
+  const maxDate = inputMaxDate(state);
 
   state.popover.innerHTML = `
     <div class="date-picker__header">
-      <button type="button" data-action="prev" aria-label="Tháng trước" ${isMinOrPastMonth(state.visibleMonth) ? "disabled" : ""}>‹</button>
+      <button type="button" data-action="prev" aria-label="Tháng trước" ${isMinOrPastMonth(state, state.visibleMonth) ? "disabled" : ""}>‹</button>
       <div class="date-picker__jump">
         <select aria-label="Chọn tháng">
-          ${createMonthOptions(month, year)}
+          ${createMonthOptions(month, year, minDate, maxDate)}
         </select>
         <select aria-label="Chọn năm">
-          ${createYearOptions(year)}
+          ${createYearOptions(year, minDate, maxDate)}
         </select>
       </div>
-      <button type="button" data-action="next" aria-label="Tháng sau" ${isCurrentOrFutureMonth(state.visibleMonth) ? "disabled" : ""}>›</button>
+      <button type="button" data-action="next" aria-label="Tháng sau" ${isCurrentOrFutureMonth(state, state.visibleMonth) ? "disabled" : ""}>›</button>
     </div>
     <div class="date-picker__weekdays">
       ${WEEKDAY_LABELS.map((label) => `<span>${label}</span>`).join("")}
     </div>
     <div class="date-picker__days">
-      ${days.map((day) => createDayButton(day, state.selectedIso, month)).join("")}
+      ${days.map((day) => createDayButton(day, state.selectedIso, month, minDate, maxDate)).join("")}
     </div>
   `;
 
@@ -197,7 +219,7 @@ function positionPicker(state) {
  * @param {number} offset
  */
 function moveMonth(state, offset) {
-  state.visibleMonth = clampVisibleMonth(new Date(state.visibleMonth.getFullYear(), state.visibleMonth.getMonth() + offset, 1));
+  state.visibleMonth = clampVisibleMonth(state, new Date(state.visibleMonth.getFullYear(), state.visibleMonth.getMonth() + offset, 1));
   renderPicker(state);
 }
 
@@ -209,7 +231,7 @@ function moveMonth(state, offset) {
  * @param {number} year
  */
 function setVisibleMonth(state, month, year) {
-  state.visibleMonth = clampVisibleMonth(new Date(year, month, 1));
+  state.visibleMonth = clampVisibleMonth(state, new Date(year, month, 1));
   renderPicker(state);
 }
 
@@ -220,7 +242,7 @@ function setVisibleMonth(state, month, year) {
  * @param {string} iso
  */
 function selectDate(state, iso) {
-  if (iso < MIN_DATE_ISO || iso > TODAY_ISO) {
+  if (iso < inputMinDate(state) || iso > inputMaxDate(state)) {
     return;
   }
 
@@ -259,12 +281,14 @@ function createMonthCells(year, month) {
  * @param {object} day
  * @param {string} selectedIso
  * @param {number} visibleMonth
+ * @param {string} minIso
+ * @param {string} maxIso
  * @returns {string}
  */
-function createDayButton(day, selectedIso, visibleMonth) {
+function createDayButton(day, selectedIso, visibleMonth, minIso, maxIso) {
   const outsideClass = day.date.getMonth() === visibleMonth ? "" : " is-outside";
   const selectedClass = selectedIso && day.iso === selectedIso ? " is-selected" : "";
-  const disabled = day.iso < MIN_DATE_ISO || day.iso > TODAY_ISO ? " disabled" : "";
+  const disabled = day.iso < minIso || day.iso > maxIso ? " disabled" : "";
 
   return `<button class="date-picker__day${outsideClass}${selectedClass}" type="button" data-date="${day.iso}"${disabled}>${day.date.getDate()}</button>`;
 }
@@ -312,12 +336,13 @@ function validIso(year, month, day) {
  * Create a practical year dropdown.
  *
  * @param {number} selectedYear
+ * @param {string} minIso
+ * @param {string} maxIso
  * @returns {string}
  */
-function createYearOptions(selectedYear) {
-  const currentYear = new Date().getFullYear();
-  const startYear = 2000;
-  const endYear = currentYear;
+function createYearOptions(selectedYear, minIso, maxIso) {
+  const startYear = Number(minIso.slice(0, 4));
+  const endYear = Number(maxIso.slice(0, 4));
   const options = [];
 
   for (let year = endYear; year >= startYear; year -= 1) {
@@ -332,14 +357,16 @@ function createYearOptions(selectedYear) {
  *
  * @param {number} selectedMonth
  * @param {number} selectedYear
+ * @param {string} minIso
+ * @param {string} maxIso
  * @returns {string}
  */
-function createMonthOptions(selectedMonth, selectedYear) {
-  const today = new Date(`${TODAY_ISO}T00:00:00`);
-  const minDate = new Date(`${MIN_DATE_ISO}T00:00:00`);
+function createMonthOptions(selectedMonth, selectedYear, minIso, maxIso) {
+  const maxDate = new Date(`${maxIso}T00:00:00`);
+  const minDate = new Date(`${minIso}T00:00:00`);
   return MONTH_LABELS.map((label, index) => {
     const disabled =
-      (selectedYear === today.getFullYear() && index > today.getMonth()) ||
+      (selectedYear === maxDate.getFullYear() && index > maxDate.getMonth()) ||
       (selectedYear === minDate.getFullYear() && index < minDate.getMonth())
         ? " disabled"
         : "";
@@ -350,12 +377,13 @@ function createMonthOptions(selectedMonth, selectedYear) {
 /**
  * Keep the visible calendar from moving beyond the current month.
  *
+ * @param {object} state
  * @param {Date} month
  * @returns {Date}
  */
-function clampVisibleMonth(month) {
-  const maxMonth = monthStart(TODAY_ISO);
-  const minMonth = monthStart(MIN_DATE_ISO);
+function clampVisibleMonth(state, month) {
+  const maxMonth = monthStart(inputMaxDate(state));
+  const minMonth = monthStart(inputMinDate(state));
   if (month < minMonth) {
     return minMonth;
   }
@@ -370,21 +398,31 @@ function clampVisibleMonth(month) {
 /**
  * Check whether a calendar month is the current month or later.
  *
+ * @param {object} state
  * @param {Date} month
  * @returns {boolean}
  */
-function isCurrentOrFutureMonth(month) {
-  return month >= monthStart(TODAY_ISO);
+function isCurrentOrFutureMonth(state, month) {
+  return month >= monthStart(inputMaxDate(state));
 }
 
 /**
  * Check whether a calendar month is the minimum allowed month or earlier.
  *
+ * @param {object} state
  * @param {Date} month
  * @returns {boolean}
  */
-function isMinOrPastMonth(month) {
-  return month <= monthStart(MIN_DATE_ISO);
+function isMinOrPastMonth(state, month) {
+  return month <= monthStart(inputMinDate(state));
+}
+
+function inputMinDate(state) {
+  return state.input.dataset.minDate || MIN_DATE_ISO;
+}
+
+function inputMaxDate(state) {
+  return state.input.dataset.maxDate || TODAY_ISO;
 }
 
 /**

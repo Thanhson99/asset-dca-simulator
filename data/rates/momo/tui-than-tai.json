@@ -1,0 +1,274 @@
+{
+  "version": 1,
+  "productId": "MOMO_TUI_THAN_TAI",
+  "type": "wallet_yield",
+  "provider": "MOMO",
+  "issuer": "Finsight",
+  "platform": "MoMo",
+  "name": "MoMo Túi Thần Tài",
+  "currency": "VND",
+  "generatedAt": "2026-09-15T00:00:00.000Z",
+  "launch": {
+    "date": "2020-10",
+    "precision": "approximate_month",
+    "confidence": "medium"
+  },
+  "interestCalculation": {
+    "type": "daily_compounding",
+    "dailyRateFormula": "annual_rate_pct / 365",
+    "monthlyRateIsEstimate": true,
+    "recommendedSimulation": "calculate_daily"
+  },
+  "current": {
+    "asOf": "2026-09-15",
+    "annualRate": 4,
+    "monthlySimplePct": 0.33333333,
+    "dailySimplePct": 0.0109589
+  },
+  "ratePeriods": [
+    {
+      "start": "2020-10",
+      "end": "2021-06-09",
+      "annualRate": 4.5,
+      "monthlySimplePct": 0.375,
+      "dailySimplePct": 0.01232877,
+      "rateType": "base",
+      "confidence": "medium",
+      "note": "Mức cơ bản ghi nhận ở giai đoạn đầu; dữ liệu archive không đủ để xác định chính xác ngày bắt đầu."
+    },
+    {
+      "start": "2021-06-10",
+      "end": "2022-06-30",
+      "annualRate": 6,
+      "monthlySimplePct": 0.5,
+      "dailySimplePct": 0.01643836,
+      "rateType": "promotional_public_rate",
+      "confidence": "high",
+      "note": "Giai đoạn MoMo quảng bá mức sinh lời đến 6%/năm."
+    },
+    {
+      "start": "2022-07",
+      "end": "2022-07",
+      "annualRate": 4.5,
+      "monthlySimplePct": 0.375,
+      "dailySimplePct": 0.01232877,
+      "rateType": "base",
+      "confidence": "low",
+      "note": "Tài liệu trước đó nói sau 30/06/2022 sẽ quay về 4.5%; chưa xác định được ngày chuyển sang 5%."
+    },
+    {
+      "start": "2022-08",
+      "end": "2022-11",
+      "annualRate": 5,
+      "monthlySimplePct": 0.41666667,
+      "dailySimplePct": 0.01369863,
+      "rateType": "base",
+      "confidence": "high",
+      "note": "Đã ghi nhận mức 5%/năm từ tháng 08/2022."
+    },
+    {
+      "start": "2022-12",
+      "end": "2023-07-17",
+      "annualRate": 6.1,
+      "monthlySimplePct": 0.50833333,
+      "dailySimplePct": 0.01671233,
+      "rateType": "base",
+      "confidence": "medium",
+      "note": "6.1% đã được ghi nhận cuối 2022 và được công bố rộng rãi đầu 2023."
+    },
+    {
+      "start": "2023-07-18",
+      "end": "2024-03-04",
+      "annualRate": 5,
+      "monthlySimplePct": 0.41666667,
+      "dailySimplePct": 0.01369863,
+      "rateType": "base",
+      "confidence": "medium_high",
+      "note": "Có nguồn ghi nhận MoMo giảm từ 6.1% xuống 5% từ 18/07/2023."
+    },
+    {
+      "start": "2024-03-05",
+      "end": null,
+      "annualRate": 4,
+      "monthlySimplePct": 0.33333333,
+      "dailySimplePct": 0.0109589,
+      "rateType": "base",
+      "confidence": "high",
+      "note": "Mức hiện hành; trang sản phẩm chính thức MoMo hiện công bố 4%/năm."
+    }
+  ],
+  "promotions": [
+    {
+      "campaign": "Mcredit - new MoMo user",
+      "registrationStart": "2021-07-12",
+      "registrationEnd": "2021-08-31",
+      "promoAnnualRate": 8,
+      "dailySimplePct": 0.02191781,
+      "durationDays": 90,
+      "type": "special_rate",
+      "eligibility": "Khách hàng lần đầu cài MoMo thuộc chương trình",
+      "confidence": "high"
+    },
+    {
+      "campaign": "TUITHANTAI",
+      "registrationStart": "2021-09-23",
+      "registrationEnd": "2021-12-31",
+      "promoAnnualRate": 8,
+      "dailySimplePct": 0.02191781,
+      "durationDays": 90,
+      "type": "special_rate",
+      "eligibility": "Khách hàng đủ điều kiện và nhập mã TUITHANTAI",
+      "confidence": "high"
+    },
+    {
+      "campaign": "Mở Túi Thần Tài - Nhân đôi tiền lời",
+      "registrationStart": "2022-09-13T10:00:00+07:00",
+      "registrationEnd": "2022-09-29T23:59:59+07:00",
+      "type": "profit_multiplier",
+      "multiplier": 2,
+      "maxRewardDays": 30,
+      "campaignRewardEnd": "2022-11-01",
+      "headlineAnnualRate": 5,
+      "confidence": "high",
+      "note": "Lưu dạng multiplier thay vì tự quy đổi thành 10%/năm vì chương trình trả phần thưởng x2 tiền lời."
+    },
+    {
+      "campaign": "MoMo Bon Bon - Ngày hội Móc Kéo",
+      "start": "2023-07-03",
+      "end": "2023-07-05",
+      "eventTime": "15:00-18:00",
+      "type": "profit_multiplier",
+      "maxMultiplier": 10,
+      "confidence": "high",
+      "note": "Khuyến mãi nhận đến x10 tiền lời Túi Thần Tài; không phải thay đổi lãi suất cơ bản."
+    }
+  ],
+  "snapshots": [
+    {
+      "effectiveFrom": "2020-10-01",
+      "effectiveTo": "2021-06-09",
+      "rateType": "base",
+      "annualRate": 4.5,
+      "monthlySimplePct": 0.375,
+      "dailySimplePct": 0.01232877,
+      "taxRate": 5,
+      "source": "user-provided-dataset",
+      "sourceUrl": "",
+      "confidence": "medium",
+      "needsReview": true,
+      "note": "Mức cơ bản ghi nhận ở giai đoạn đầu; dữ liệu archive không đủ để xác định chính xác ngày bắt đầu."
+    },
+    {
+      "effectiveFrom": "2021-06-10",
+      "effectiveTo": "2022-06-30",
+      "rateType": "promotional_public_rate",
+      "annualRate": 6,
+      "monthlySimplePct": 0.5,
+      "dailySimplePct": 0.01643836,
+      "taxRate": 5,
+      "source": "user-provided-dataset",
+      "sourceUrl": "",
+      "confidence": "high",
+      "needsReview": false,
+      "note": "Giai đoạn MoMo quảng bá mức sinh lời đến 6%/năm."
+    },
+    {
+      "effectiveFrom": "2021-07-12",
+      "effectiveTo": "2021-08-31",
+      "rateType": "promotion",
+      "annualRate": 8,
+      "promoDurationDays": 90,
+      "eligibleFor": "new_user_or_campaign_user",
+      "taxRate": 5,
+      "source": "user-provided-dataset",
+      "sourceUrl": "https://www.nguoiduatin.vn/chuong-trinh-tui-than-tai-momo-ruoc-loc-may-mcredit-204520571.amp",
+      "confidence": "high",
+      "needsReview": false,
+      "note": "Promo Mcredit/new MoMo user; áp dụng theo điều kiện chương trình."
+    },
+    {
+      "effectiveFrom": "2021-09-23",
+      "effectiveTo": "2021-12-31",
+      "rateType": "promotion",
+      "annualRate": 8,
+      "promoDurationDays": 90,
+      "eligibleFor": "campaign_user_with_code_TUITHANTAI",
+      "taxRate": 5,
+      "source": "user-provided-dataset",
+      "sourceUrl": "https://vnba.org.vn/vi/tai-momo--nhap-ma-tuithantai--nhan-dac-quyen-tien-loi-8--nam-va-qua-thanh-toan-khoan-vay-2041.htm",
+      "confidence": "high",
+      "needsReview": false,
+      "note": "Promo với mã TUITHANTAI; áp dụng theo điều kiện chương trình."
+    },
+    {
+      "effectiveFrom": "2022-07-01",
+      "effectiveTo": "2022-07-31",
+      "rateType": "base",
+      "annualRate": 4.5,
+      "monthlySimplePct": 0.375,
+      "dailySimplePct": 0.01232877,
+      "taxRate": 5,
+      "source": "user-provided-dataset",
+      "sourceUrl": "",
+      "confidence": "low",
+      "needsReview": true,
+      "note": "Tài liệu trước đó nói sau 30/06/2022 sẽ quay về 4.5%; chưa xác định được ngày chuyển sang 5%."
+    },
+    {
+      "effectiveFrom": "2022-08-01",
+      "effectiveTo": "2022-11-30",
+      "rateType": "base",
+      "annualRate": 5,
+      "monthlySimplePct": 0.41666667,
+      "dailySimplePct": 0.01369863,
+      "taxRate": 5,
+      "source": "user-provided-dataset",
+      "sourceUrl": "",
+      "confidence": "high",
+      "needsReview": false,
+      "note": "Đã ghi nhận mức 5%/năm từ tháng 08/2022."
+    },
+    {
+      "effectiveFrom": "2022-12-01",
+      "effectiveTo": "2023-07-17",
+      "rateType": "base",
+      "annualRate": 6.1,
+      "monthlySimplePct": 0.50833333,
+      "dailySimplePct": 0.01671233,
+      "taxRate": 5,
+      "source": "user-provided-dataset",
+      "sourceUrl": "",
+      "confidence": "medium",
+      "needsReview": true,
+      "note": "6.1% đã được ghi nhận cuối 2022 và được công bố rộng rãi đầu 2023."
+    },
+    {
+      "effectiveFrom": "2023-07-18",
+      "effectiveTo": "2024-03-04",
+      "rateType": "base",
+      "annualRate": 5,
+      "monthlySimplePct": 0.41666667,
+      "dailySimplePct": 0.01369863,
+      "taxRate": 5,
+      "source": "user-provided-dataset",
+      "sourceUrl": "",
+      "confidence": "medium_high",
+      "needsReview": true,
+      "note": "Có nguồn ghi nhận MoMo giảm từ 6.1% xuống 5% từ 18/07/2023."
+    },
+    {
+      "effectiveFrom": "2024-03-05",
+      "effectiveTo": null,
+      "rateType": "base",
+      "annualRate": 4,
+      "monthlySimplePct": 0.33333333,
+      "dailySimplePct": 0.0109589,
+      "taxRate": 5,
+      "source": "official-page",
+      "sourceUrl": "https://www.momo.vn/tui-than-tai",
+      "confidence": "high",
+      "needsReview": false,
+      "note": "Mức hiện hành; trang sản phẩm chính thức MoMo hiện công bố 4%/năm."
+    }
+  ]
+}

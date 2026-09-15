@@ -21,6 +21,16 @@
     </header>
 
     <main class="page-shell">
+      <nav class="product-tabs" aria-label="Chọn mô phỏng">
+        <button class="product-tab is-active" type="button" data-tab-target="stocks" aria-controls="stocks-tab" aria-selected="true">
+          Cổ phiếu
+        </button>
+        <button class="product-tab" type="button" data-tab-target="yield" aria-controls="yield-tab" aria-selected="false">
+          Lãi suất
+        </button>
+      </nav>
+
+      <div id="stocks-tab" class="tab-panel is-active" data-tab-panel="stocks">
       <section class="control-panel" aria-label="Bộ lọc biểu đồ">
         <label>
           <span>Mã</span>
@@ -238,6 +248,95 @@
           <canvas id="price-chart" width="1200" height="460" aria-label="Biểu đồ giá cổ phiếu và giá trị đầu tư"></canvas>
         </div>
       </section>
+      </div>
+
+      <div id="yield-tab" class="tab-panel" data-tab-panel="yield" hidden>
+        <section class="yield-control-panel" aria-label="Bộ lọc lãi suất">
+          <label>
+            <span>Sản phẩm</span>
+            <select id="yield-product-input">
+              <option value="bank_saving">Ngân hàng</option>
+              <option value="wallet_yield">MoMo Túi Thần Tài</option>
+            </select>
+          </label>
+          <label>
+            <span>Nhà cung cấp</span>
+            <select id="yield-provider-input"></select>
+          </label>
+          <label id="yield-term-field">
+            <span>Kỳ hạn gửi</span>
+            <select id="yield-term-input"></select>
+            <small class="field-help">Lãi suất ngân hàng là %/năm theo kỳ hạn.</small>
+          </label>
+          <label>
+            <span>Từ ngày</span>
+            <input id="yield-from-input" class="date-input" type="text" value="" placeholder="dd/mm/yyyy" autocomplete="off" />
+          </label>
+          <label>
+            <span>Đến ngày</span>
+            <input id="yield-to-input" class="date-input" type="text" value="" placeholder="dd/mm/yyyy" autocomplete="off" />
+          </label>
+          <label>
+            <span>Số tiền ban đầu</span>
+            <div class="money-input">
+              <input id="yield-initial-input" type="text" value="10.000.000" inputmode="numeric" autocomplete="off" />
+              <span>VNĐ</span>
+            </div>
+          </label>
+          <label>
+            <span>Góp thêm/tháng</span>
+            <div class="money-input">
+              <input id="yield-monthly-input" type="text" value="1.000.000" inputmode="numeric" autocomplete="off" />
+              <span>VNĐ</span>
+            </div>
+          </label>
+          <label>
+            <span>Quy tắc</span>
+            <select id="yield-compounding-input">
+              <option value="compound">Tái tục gốc+lãi</option>
+              <option value="simple">Tái tục gốc, rút lãi</option>
+            </select>
+          </label>
+          <label class="toggle-control yield-tax-control">
+            <input id="yield-tax-input" type="checkbox" checked />
+            <span>Trừ thuế/phí</span>
+          </label>
+          <label>
+            <span>Ghi đè lãi suất (%/năm)</span>
+            <input id="yield-manual-rate-input" type="number" min="0" max="20" step="0.01" placeholder="Bỏ trống: dùng data theo kỳ hạn" />
+            <small class="field-help">Chỉ nhập khi muốn thử lãi suất khác data.</small>
+          </label>
+          <div id="yield-rate-preview" class="yield-rate-preview" aria-live="polite">
+            <div class="yield-rate-card">
+              <span>Lãi suất data</span>
+              <strong>Đang tải</strong>
+              <small></small>
+            </div>
+          </div>
+          <div class="control-actions">
+            <button id="yield-play-button" type="button">Tính lãi</button>
+          </div>
+          <p id="yield-control-error" class="control-error" hidden></p>
+        </section>
+
+        <section id="yield-data-panel" class="yield-data-panel" aria-label="Nguồn dữ liệu lãi suất"></section>
+        <section id="yield-summary" class="simulation-summary" aria-label="Tổng kết lãi suất"></section>
+
+        <section class="chart-section">
+          <div class="section-heading">
+            <div>
+              <p class="eyebrow">Yield simulator</p>
+              <h2 id="yield-chart-title">Chọn sản phẩm để tính lãi</h2>
+            </div>
+            <span id="yield-chart-status" class="source-label">Chưa tính</span>
+          </div>
+
+          <div class="chart-frame yield-chart-frame">
+            <div id="yield-chart-tooltip" class="chart-tooltip" hidden></div>
+            <canvas id="yield-chart" width="1200" height="420" aria-label="Biểu đồ tăng trưởng lãi suất"></canvas>
+          </div>
+        </section>
+      </div>
     </main>
 
     <footer class="site-footer">
